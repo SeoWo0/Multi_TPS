@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapType: 0
   gameMode: 0
-  maxPlayerCount: 0
-  timeLimit: 0
+  maxPlayerCount: 4
+  timeLimit: 60

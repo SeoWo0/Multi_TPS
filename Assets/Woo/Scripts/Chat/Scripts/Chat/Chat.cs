@@ -21,11 +21,13 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
     private string userName;
     private string currentChannelName;
 
-    public Animator animator;
+    
 
+    public Animator animator;
     public InputField inputField;
     public Text outputText;
     public GameObject showText;
+    public Text nickNameText;
 
     private void Start()
     {
@@ -45,6 +47,12 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
         chatClient.Service();
 
         IsActiveChat();
+        NickNameShow();
+    }
+
+    private void NickNameShow()
+    {
+        nickNameText.text = "My NickName : " + userName;
     }
 
     public void IsActiveChat()
@@ -54,7 +62,7 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
             if (Input.GetKeyDown(KeyCode.T))
             {
                 inputField.enabled = true;
-                //inputField.ActivateInputField();
+                inputField.ActivateInputField();
                 animator.SetTrigger("isTrigger");
                 animator.SetBool("isActive", true);
             }
@@ -65,7 +73,7 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
         {
             AddLine(inputField.text);
             animator.SetBool("isActive", false);
-            //inputField.DeactivateInputField();
+            inputField.DeactivateInputField();
             inputField.enabled = false;
         }
     }
@@ -95,6 +103,7 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
         Text _text = Instantiate(outputText);
         _text.text = lineString;
         _text.transform.SetParent(showText.transform);
+        _text.transform.SetPositionAndRotation(showText.transform.position, Quaternion.identity);
         _text.transform.localScale = Vector3.one;
         chatQueue.Enqueue(_text);
     }
@@ -124,7 +133,7 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
 
     public void OnDisconnected()
     {
-        AddLine("서버에 연결이 끊어졌습니다.");
+        AddLine("서버와 연결이 끊어졌습니다.");
     }
 
     public void OnChatStateChange(ChatState state)
@@ -151,6 +160,8 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
     public void OnSubscribed(string[] channels, bool[] results)
     {
         AddLine(string.Format("채널 입장 ({0})", string.Join(",", channels)));
+
+        AddLine("T키를 눌러 채팅을 시작하십시오.");
     }
 
     public void OnUnsubscribed(string[] channels)

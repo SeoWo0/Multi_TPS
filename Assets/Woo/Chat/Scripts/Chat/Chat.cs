@@ -35,12 +35,17 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
 
         chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, "1.0", new AuthenticationValues(userName));
 
-        AddLine(string.Format("연결시도", userName));
+        AddLine(string.Format("연결시도 중" , userName));
     }
 
     private void Update()
     {
         chatClient.Service();
+
+        if (Input.GetKeyDown(KeyCode.T) && inputField.isFocused == false)
+        {
+            inputField.ActivateInputField();
+        }
 
         if (Input.GetButtonDown("Submit"))
         {

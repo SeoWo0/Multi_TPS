@@ -21,6 +21,8 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
     private string userName;
     private string currentChannelName;
 
+    public Animator animator;
+
     public InputField inputField;
     public Text outputText;
     public GameObject showText;
@@ -42,14 +44,29 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
     {
         chatClient.Service();
 
-        if (Input.GetKeyDown(KeyCode.T) && inputField.isFocused == false)
+        IsActiveChat();
+    }
+
+    public void IsActiveChat()
+    {
+        if (!animator.GetBool("isActive"))
         {
-            inputField.ActivateInputField();
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                inputField.enabled = true;
+                //inputField.ActivateInputField();
+                animator.SetTrigger("isTrigger");
+                animator.SetBool("isActive", true);
+            }
+            return;
         }
 
         if (Input.GetButtonDown("Submit"))
         {
             AddLine(inputField.text);
+            animator.SetBool("isActive", false);
+            //inputField.DeactivateInputField();
+            inputField.enabled = false;
         }
     }
 

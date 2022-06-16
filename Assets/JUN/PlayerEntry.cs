@@ -23,69 +23,69 @@ public class PlayerEntry : MonoBehaviour
     private int ownerId;
     private bool isPlayerReady;
 
-    //public void Start()
-    //{
-    //    if (PhotonNetwork.LocalPlayer.ActorNumber != ownerId)
-    //    {
-    //        playerReadyButton.gameObject.SetActive(false);
-    //        playerChagneChar.gameObject.SetActive(false);
-    //    }
-    //}
+    public void Start()
+    {
+        if (PhotonNetwork.LocalPlayer.ActorNumber != ownerId)
+        {
+            playerReadyButton.gameObject.SetActive(false);
+            playerChagneChar.gameObject.SetActive(false);
+        }
+    }
 
-    //public void OnReadyButtonClicked()
-    //{
-    //    isPlayerReady = !isPlayerReady;
-    //    SetPlayerReady(isPlayerReady);
+    public void OnReadyButtonClicked()
+    {
+        isPlayerReady = !isPlayerReady;
+        SetPlayerReady(isPlayerReady);
 
-    //    //프로퍼티
-    //    Hashtable props = new Hashtable() { { GameData.PLAYER_READY, isPlayerReady } };
-    //    PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        //프로퍼티
+        Hashtable props = new Hashtable() { { GameData.PLAYER_READY, isPlayerReady } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
-    //    //캐릭터 프로퍼티
-    //    props = new Hashtable() { { GameData.PLAYER_CHAR, playerIndex } };
-    //    PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        //캐릭터 프로퍼티
+        props = new Hashtable() { { GameData.PLAYER_CHAR, playerIndex } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
-    //    Debug.Log(playerIndex);
+        Debug.Log(playerIndex);
 
-    //    if (PhotonNetwork.IsMasterClient)
-    //    {
-    //        LobbyManager.instance.LocalPlayerPropertiesUpdated();
-    //    }
-    //}
-    //public void OnChageCharButton()
-    //{
-    //    if (playerIndex == 2)
-    //        playerIndex = 0;
-    //    ChangeModel(playerIndex);
-    //    playerIndex++;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            LobbyManager.instance.LocalPlayerPropertiesUpdated();
+        }
+    }
+    public void OnChageCharButton()
+    {
+        if (playerIndex == 2)
+            playerIndex = 0;
+        ChangeModel(playerIndex);
+        playerIndex++;
 
-    //    Hashtable props = new Hashtable() { { GameData.PLAYER_CHAR, playerIndex } };
-    //    PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-    //}
-    //public void Initialize(int playerId, string playerName)
-    //{
-    //    ownerId = playerId;
-    //    playerNameText.text = playerName;
-    //}
+        Hashtable props = new Hashtable() { { GameData.PLAYER_CHAR, playerIndex } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+    }
+    public void Initialize(int playerId, string playerName)
+    {
+        ownerId = playerId;
+        playerNameText.text = playerName;
+    }
 
-    //public void SetPlayerReady(bool playerReady)
-    //{
-    //    playerReadyImage.color = playerReady ? Color.green : Color.red;
-    //}
+    public void SetPlayerReady(bool playerReady)
+    {
+        playerReadyImage.color = playerReady ? Color.green : Color.red;
+    }
 
-    ////캐릭터 변경
-    //public void ChangeModel(int playerModel)
-    //{
-    //    switch (playerModel)
-    //    {
-    //        case 0:
-    //            player1.SetActive(true);
-    //            player2.SetActive(false);
-    //            break;
-    //        case 1:
-    //            player1.SetActive(false);
-    //            player2.SetActive(true);
-    //            break;
-    //    }
-    //}
+    //캐릭터 변경
+    public void ChangeModel(int playerModel)
+    {
+        switch (playerModel)
+        {
+            case 0:
+                player1.SetActive(true);
+                player2.SetActive(false);
+                break;
+            case 1:
+                player1.SetActive(false);
+                player2.SetActive(true);
+                break;
+        }
+    }
 }

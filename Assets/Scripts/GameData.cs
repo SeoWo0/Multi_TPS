@@ -9,6 +9,8 @@ public class GameData : MonoBehaviour
     public const string PLAYER_READY = "Ready";
     public const string PLAYER_LOAD = "Load";
 
+    public const string PLAYER_CHAR = "Character";
+
     public const string ROOM_SET_MAP = "MapSetting";
     public const string ROOM_SET_MODE = "ModeSetting";
     public const string ROOM_SET_TIME_LIMIT = "TimeLimitSetting";

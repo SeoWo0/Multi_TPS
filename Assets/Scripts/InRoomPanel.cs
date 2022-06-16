@@ -28,14 +28,15 @@ public class InRoomPanel : MonoBehaviour
         foreach (Player p in PhotonNetwork.PlayerList)
         {
             GameObject entry = Instantiate(playerEntryPrefab);
+            entry.transform.SetPositionAndRotation(playerListContent.transform.position, Quaternion.identity);
             entry.transform.SetParent(playerListContent.transform);
             entry.transform.localScale = Vector3.one;
-            //entry.GetComponent<PlayerEntry>().Initialize(p.ActorNumber, p.NickName);
+            entry.GetComponent<PlayerEntry>().Initialize(p.ActorNumber, p.NickName);
 
             object isPlayerReady;
             if (p.CustomProperties.TryGetValue(GameData.PLAYER_READY, out isPlayerReady))
             {
-                //entry.GetComponent<PlayerEntry>().SetPlayerReady((bool)isPlayerReady);
+                entry.GetComponent<PlayerEntry>().SetPlayerReady((bool)isPlayerReady);
             }
             
             // RoomSettingPanel
@@ -125,7 +126,7 @@ public class InRoomPanel : MonoBehaviour
         GameObject entry = Instantiate(playerEntryPrefab);
         entry.transform.SetParent(playerListContent.transform);
         entry.transform.localScale = Vector3.one;
-        //entry.GetComponent<PlayerEntry>().Initialize(newPlayer.ActorNumber, newPlayer.NickName);
+        entry.GetComponent<PlayerEntry>().Initialize(newPlayer.ActorNumber, newPlayer.NickName);
 
         playerListEntries.Add(newPlayer.ActorNumber, entry);
         
@@ -177,7 +178,7 @@ public class InRoomPanel : MonoBehaviour
             object isPlayerReady;
             if (changedProps.TryGetValue(GameData.PLAYER_READY, out isPlayerReady))
             {
-                //entry.GetComponent<PlayerEntry>().SetPlayerReady((bool)isPlayerReady);
+                entry.GetComponent<PlayerEntry>().SetPlayerReady((bool)isPlayerReady);
             }
             
             // RoomSettingPanel

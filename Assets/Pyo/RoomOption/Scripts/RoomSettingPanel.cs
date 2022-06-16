@@ -82,6 +82,7 @@ public class RoomSettingPanel : MonoBehaviour
 
     public void CheckMasterClient()
     {
+        Debug.Log(PhotonNetwork.IsMasterClient);
         if (!PhotonNetwork.IsMasterClient)
         {
             foreach (Button _button in selectButtons)
@@ -94,6 +95,7 @@ public class RoomSettingPanel : MonoBehaviour
 
         foreach (Button _button in selectButtons)
         {
+            Debug.Log(_button.name);
             _button.gameObject.SetActive(true);
         }
     }
@@ -165,18 +167,21 @@ public class RoomSettingPanel : MonoBehaviour
 
     public void SetMapType(int index)
     {
+        if (m_mapTypeArray.Length == 0) return;
         mapSelectText.text = m_mapTypeArray[index];
         m_mapSelectIndex = index;
     }
     
     public void SetGameMode(int index)
     {
+        if (m_gameModeArray.Length == 0) return;
         gameModeText.text = m_gameModeArray[index];
         m_gameModeIndex = index;
     }
     
     public void SetTimeLimit(int index)
     {
+        if (m_timeLimitArray.Length == 0) return;
         timeLimitText.text = m_timeLimitArray[index];
         m_timeLimitIndex = index;
     }

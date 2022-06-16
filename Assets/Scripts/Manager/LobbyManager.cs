@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 
 public class LobbyManager : MonoBehaviourPunCallbacks
@@ -15,7 +16,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public InConnectPanel       inConnectPanel;
     public CreateRoomPanel      createRoomPanel;
     public LobbyPanel           lobbyPanel;
-    // public InRoomPanel          inRoomPanel;
+    public InRoomPanel          inRoomPanel;
     public InfoPanel            infoPanel;
     
     private void Awake() {
@@ -33,7 +34,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         loginPanel.gameObject.SetActive(panel == PANEL.Login);
         inConnectPanel.gameObject.SetActive(panel == PANEL.Connect);
         lobbyPanel.gameObject.SetActive(panel == PANEL.Lobby);
-        // inRoomPanel.gameObject.SetActive(panel == PANEL.Room);
+        inRoomPanel.gameObject.SetActive(panel == PANEL.Room);
         createRoomPanel.gameObject.SetActive(panel == PANEL.CreateRoom);
     }
 
@@ -93,30 +94,30 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         SetActivePanel(PANEL.Connect);
     }
 
-    // public override void OnPlayerEnteredRoom(Player newPlayer)
-    // {
-    //     inRoomPanel.OnPlayerEnteredRoom(newPlayer);
-    // }
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        inRoomPanel.OnPlayerEnteredRoom(newPlayer);
+    }
 
-    // public override void OnPlayerLeftRoom(Player otherPlayer)
-    // {
-    //     inRoomPanel.OnPlayerLeftRoom(otherPlayer);
-    // }
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        inRoomPanel.OnPlayerLeftRoom(otherPlayer);
+    }
 
-    // public override void OnMasterClientSwitched(Player newMasterClient)
-    // {
-    //     inRoomPanel.OnMasterClientSwitched(newMasterClient);
-    // }
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        inRoomPanel.OnMasterClientSwitched(newMasterClient);
+    }
 
-    // public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
-    // {
-    //     inRoomPanel.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
-    // }
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        inRoomPanel.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+    }
 
-    // public void LocalPlayerPropertiesUpdated()
-    // {
-    //     inRoomPanel.LocalPlayerPropertiesUpdated();
-    // }
+    public void LocalPlayerPropertiesUpdated()
+    {
+        inRoomPanel.LocalPlayerPropertiesUpdated();
+    }
 
     #endregion PHOTON CALLBACKS 
 }

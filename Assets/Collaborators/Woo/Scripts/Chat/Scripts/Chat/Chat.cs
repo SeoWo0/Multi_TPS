@@ -29,6 +29,8 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
     public GameObject showText;
     //public Text nickNameText;
 
+    private bool m_buttonDown;
+
     private void Start()
     {
         Application.runInBackground = true;
@@ -48,6 +50,7 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
     {
         chatClient.Service();
 
+        //if (!PhotonNetwork.LocalPlayer.IsLocal) return;
         IsActiveChat();
         //NickNameShow();
     }
@@ -59,6 +62,8 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
 
     public void IsActiveChat()
     {
+        m_buttonDown = Input.GetButtonDown("Submit");
+
         if (!animator.GetBool("isActive"))
         {
             if (Input.GetKeyDown(KeyCode.T))
@@ -71,7 +76,7 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
             return;
         }
 
-        if (Input.GetButtonDown("Submit"))
+        if (m_buttonDown)
         {
             AddLine($"{userName} : {inputField.text}");
             animator.SetBool("isActive", false);
@@ -88,7 +93,7 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
 
     public void AddLine(string lineString)
     {
-        if (chatClient.CanChatInChannel(currentChannelName))
+        if (chatClient.CanChatInChannel(currentChannelName) && m_buttonDown)
         {
             Input_OnEndEdit(lineString);
         }
@@ -150,7 +155,7 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
             if (messages[i].ToString() == "") continue;
             if (chatClient.UserId == senders[i]) continue;
 
-            AddLine(string.Format("{0} : {1}", senders[i], messages[i].ToString()));
+            AddLine(string.Format("{0}", messages[i].ToString()));
         }
     }
 

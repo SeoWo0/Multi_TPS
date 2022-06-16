@@ -68,7 +68,7 @@ public class RoomSettingPanel : MonoBehaviour
         gameModeText.text = m_gameModeArray[0];
 
         m_timeLimitArray = new string[4] { "30", "60", "90", "120" };
-        timeLimitText.text = m_timeLimitArray[0] + "초";
+        timeLimitText.text = m_timeLimitArray[0];
 
         // Hashtable _prop = new Hashtable() { { GameData.ROOM_SET_MAP, m_mapSelectIndex } };
         // PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
@@ -82,7 +82,7 @@ public class RoomSettingPanel : MonoBehaviour
 
     public void CheckMasterClient()
     {
-        Debug.Log(PhotonNetwork.IsMasterClient);
+        //Debug.Log(PhotonNetwork.IsMasterClient);
         if (!PhotonNetwork.IsMasterClient)
         {
             foreach (Button _button in selectButtons)
@@ -95,8 +95,8 @@ public class RoomSettingPanel : MonoBehaviour
 
         foreach (Button _button in selectButtons)
         {
-            Debug.Log(_button.name);
             _button.gameObject.SetActive(true);
+            //Debug.Log(_button.gameObject.activeSelf);
         }
     }
 

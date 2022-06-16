@@ -124,6 +124,7 @@ public class InRoomPanel : MonoBehaviour
     public void OnPlayerEnteredRoom(Player newPlayer)
     {
         GameObject entry = Instantiate(playerEntryPrefab);
+        entry.transform.SetPositionAndRotation(playerListContent.transform.position, Quaternion.identity);
         entry.transform.SetParent(playerListContent.transform);
         entry.transform.localScale = Vector3.one;
         entry.GetComponent<PlayerEntry>().Initialize(newPlayer.ActorNumber, newPlayer.NickName);

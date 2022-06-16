@@ -94,3 +94,5 @@ Assets/Plugins/Network/Photon/
 
 # Asset 파일 이그노어 목록
 Assets/Plugins/Photon/
+Assets/Pyo/Plugins/Network/Photon/
+Assets/Pyo/UI/Sprite/Icons/

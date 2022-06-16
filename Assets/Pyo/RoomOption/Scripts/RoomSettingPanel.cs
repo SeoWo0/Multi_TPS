@@ -70,14 +70,14 @@ public class RoomSettingPanel : MonoBehaviour
         m_timeLimitArray = new string[4] { "30", "60", "90", "120" };
         timeLimitText.text = m_timeLimitArray[0] + "초";
 
-        Hashtable _prop = new Hashtable() { { GameData.ROOM_SET_MAP, m_mapSelectIndex } };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
-
-        _prop = new Hashtable() { { GameData.ROOM_SET_MODE, m_gameModeIndex } };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
-
-        _prop = new Hashtable() { { GameData.ROOM_SET_TIMELIMIT, m_timeLimitIndex } };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+        // Hashtable _prop = new Hashtable() { { GameData.ROOM_SET_MAP, m_mapSelectIndex } };
+        // PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+        //
+        // _prop = new Hashtable() { { GameData.ROOM_SET_MODE, m_gameModeIndex } };
+        // PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+        //
+        // _prop = new Hashtable() { { GameData.ROOM_SET_TIME_LIMIT, m_timeLimitIndex } };
+        // PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
     }
 
     public void CheckMasterClient()
@@ -118,7 +118,7 @@ public class RoomSettingPanel : MonoBehaviour
     {
         m_timeLimitIndex = OnSelectButtonClicked(timeLimitText, m_timeLimitArray, m_timeLimitIndex, isNext);
 
-        Hashtable _prop = new Hashtable() { { GameData.ROOM_SET_TIMELIMIT, m_timeLimitIndex } };
+        Hashtable _prop = new Hashtable() { { GameData.ROOM_SET_TIME_LIMIT, m_timeLimitIndex } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
     }
 
@@ -163,8 +163,21 @@ public class RoomSettingPanel : MonoBehaviour
         return currentIndex;
     }
 
-    public void SetRoomSettings()
+    public void SetMapType(int index)
     {
-
+        mapSelectText.text = m_mapTypeArray[index];
+        m_mapSelectIndex = index;
+    }
+    
+    public void SetGameMode(int index)
+    {
+        gameModeText.text = m_gameModeArray[index];
+        m_gameModeIndex = index;
+    }
+    
+    public void SetTimeLimit(int index)
+    {
+        timeLimitText.text = m_timeLimitArray[index];
+        m_timeLimitIndex = index;
     }
 }

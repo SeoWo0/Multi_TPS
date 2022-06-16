@@ -11,7 +11,7 @@ public class GameData : MonoBehaviour
 
     public const string ROOM_SET_MAP = "MapSetting";
     public const string ROOM_SET_MODE = "ModeSetting";
-    public const string ROOM_SET_TIMELIMIT = "TimeLimitSetting";
+    public const string ROOM_SET_TIME_LIMIT = "TimeLimitSetting";
     
     public static Color GetColor(int playerNumber)
     {

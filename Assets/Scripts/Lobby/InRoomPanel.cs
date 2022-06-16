@@ -37,6 +37,20 @@ public class InRoomPanel : MonoBehaviour
             {
                 entry.GetComponent<PlayerEntry>().SetPlayerReady((bool)isPlayerReady);
             }
+            
+            // RoomSettingPanel
+            if (p.CustomProperties.TryGetValue(GameData.ROOM_SET_MAP, out var _isPassedToNext))
+            {
+                roomSettingPanel.SetMapType((int)_isPassedToNext);
+            }
+            if (p.CustomProperties.TryGetValue(GameData.ROOM_SET_MODE, out _isPassedToNext))
+            {
+                roomSettingPanel.SetGameMode((int)_isPassedToNext);
+            }
+            if (p.CustomProperties.TryGetValue(GameData.ROOM_SET_TIME_LIMIT, out _isPassedToNext))
+            {
+                roomSettingPanel.SetTimeLimit((int)_isPassedToNext);
+            }
 
             playerListEntries.Add(p.ActorNumber, entry);
         }
@@ -114,6 +128,20 @@ public class InRoomPanel : MonoBehaviour
         entry.GetComponent<PlayerEntry>().Initialize(newPlayer.ActorNumber, newPlayer.NickName);
 
         playerListEntries.Add(newPlayer.ActorNumber, entry);
+        
+        // RoomSettingPanel
+        if (newPlayer.CustomProperties.TryGetValue(GameData.ROOM_SET_MAP, out var _isPassedToNext))
+        {
+            roomSettingPanel.SetMapType((int)_isPassedToNext);
+        }
+        if (newPlayer.CustomProperties.TryGetValue(GameData.ROOM_SET_MODE, out _isPassedToNext))
+        {
+            roomSettingPanel.SetGameMode((int)_isPassedToNext);
+        }
+        if (newPlayer.CustomProperties.TryGetValue(GameData.ROOM_SET_TIME_LIMIT, out _isPassedToNext))
+        {
+            roomSettingPanel.SetTimeLimit((int)_isPassedToNext);
+        }
 
         startGameButton.gameObject.SetActive(CheckPlayersReady());
     }
@@ -131,6 +159,7 @@ public class InRoomPanel : MonoBehaviour
         if (PhotonNetwork.LocalPlayer.ActorNumber == newMasterClient.ActorNumber)
         {
             startGameButton.gameObject.SetActive(CheckPlayersReady());
+            // RoomSettingPanel
             roomSettingPanel.CheckMasterClient();
         }
     }
@@ -150,19 +179,19 @@ public class InRoomPanel : MonoBehaviour
             {
                 entry.GetComponent<PlayerEntry>().SetPlayerReady((bool)isPlayerReady);
             }
-
-            object _isPassedToNext;
-            if (changedProps.TryGetValue(GameData.ROOM_SET_MAP, out _isPassedToNext))
+            
+            // RoomSettingPanel
+            if (changedProps.TryGetValue(GameData.ROOM_SET_MAP, out var _isPassedToNext))
             {
-                roomSettingPanel.OnSelectMap((int)_isPassedToNext);
+                roomSettingPanel.SetMapType((int)_isPassedToNext);
             }
             if (changedProps.TryGetValue(GameData.ROOM_SET_MODE, out _isPassedToNext))
             {
-                roomSettingPanel.OnSelectGameMode((bool)_isPassedToNext);
+                roomSettingPanel.SetGameMode((int)_isPassedToNext);
             }
-            if (changedProps.TryGetValue(GameData.ROOM_SET_TIMELIMIT, out _isPassedToNext))
+            if (changedProps.TryGetValue(GameData.ROOM_SET_TIME_LIMIT, out _isPassedToNext))
             {
-                roomSettingPanel.OnSelectTimeLimit((bool)_isPassedToNext);
+                roomSettingPanel.SetTimeLimit((int)_isPassedToNext);
             }
         }
 

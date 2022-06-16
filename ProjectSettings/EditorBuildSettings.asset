@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LobbyScene.unity
     guid: 983676a9c52f5f34984df382270079a0
+  - enabled: 1
+    path: Assets/Collaborators/Pyo/TestScenes/Crossline.unity
+    guid: 5a31f693dd1068b4895cd72f51f9c6ed
   m_configObjects: {}

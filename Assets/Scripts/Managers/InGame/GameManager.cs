@@ -1,27 +1,21 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Photon.Pun.UtilityScripts;
+using Managers;
 
-public class GameManager : MonoBehaviourPunCallbacks
+public class GameManager : Singleton<GameManager>
 {
-    public static GameManager Instance { get; private set; }
-
-    public Text infoText;
-    public Transform[] spawnPos;
+    public TextMeshProUGUI infoText;
+    //public Transform[] spawnPos;
 
     public GameObject playerPrefab;
 
     #region UNITY
-
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     private void Start()
     {
@@ -75,11 +69,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         PrintInfo("Start Game!");
 
         // 캐릭터 생성
-        int _playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
-        PhotonNetwork.Instantiate("PlayerModel", spawnPos[_playerNumber].position, spawnPos[_playerNumber].rotation, 0);
+        // int _playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
+        // PhotonNetwork.Instantiate("PlayerModel", spawnPos[_playerNumber].position, spawnPos[_playerNumber].rotation, 0);
 
         yield return new WaitForSeconds(1f);
-        infoText.gameObject.SetActive(false);
+        infoText.transform.root.gameObject.SetActive(false);
     }
 
     private bool CheckAllPlayersLoadLevel()

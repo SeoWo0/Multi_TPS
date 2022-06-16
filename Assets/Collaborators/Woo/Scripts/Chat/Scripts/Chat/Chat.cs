@@ -27,7 +27,7 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
     public InputField inputField;
     public Text outputText;
     public GameObject showText;
-    public Text nickNameText;
+    //public Text nickNameText;
 
     private void Start()
     {
@@ -39,6 +39,8 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
 
         chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, "1.0", new AuthenticationValues(userName));
 
+        userName = PhotonNetwork.LocalPlayer.NickName;
+
         AddLine(string.Format("연결시도 중" , userName));
     }
 
@@ -47,13 +49,13 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
         chatClient.Service();
 
         IsActiveChat();
-        NickNameShow();
+        //NickNameShow();
     }
 
-    private void NickNameShow()
-    {
-        nickNameText.text = "My NickName : " + userName;
-    }
+    //private void NickNameShow()
+    //{
+    //    nickNameText.text = "My NickName : " + userName;
+    //}
 
     public void IsActiveChat()
     {
@@ -71,7 +73,7 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
 
         if (Input.GetButtonDown("Submit"))
         {
-            AddLine(inputField.text);
+            AddLine($"{userName} : {inputField.text}");
             animator.SetBool("isActive", false);
             inputField.DeactivateInputField();
             inputField.enabled = false;
@@ -186,7 +188,7 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
 
     public void Input_OnEndEdit(string text)
     {
-        chatClient.PublishMessage(currentChannelName, inputField.text);
+        chatClient.PublishMessage(currentChannelName, $"{userName} : {inputField.text}");
 
         inputField.text = "";
     }

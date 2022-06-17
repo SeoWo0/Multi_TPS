@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     [SerializeField]
-    private InputManager inputManager;
+    private PlayerInput playerInput;
 
     [Header("OBJ Setting")]
     [SerializeField]
@@ -73,8 +73,8 @@ public class CameraMovement : MonoBehaviour
 
     public void UpdateRotate()
     {
-        eulerAngleY += inputManager.mouseX * rotYCamAxisSpeed * Time.deltaTime;   // 마우스 좌/우 이동으로 카메라 y축 회전
-        eulerAngleX -= inputManager.mouseY * rotXCamAxisSpeed * Time.deltaTime;   // 마우스 위/아래 이동으로 카메라 x축 회전
+        eulerAngleY += playerInput.mouseX * rotYCamAxisSpeed * Time.deltaTime;   // 마우스 좌/우 이동으로 카메라 y축 회전
+        eulerAngleX -= playerInput.mouseY * rotXCamAxisSpeed * Time.deltaTime;   // 마우스 위/아래 이동으로 카메라 x축 회전
         
         // 카메라 x축 회전의 경우 회전 범위를 설정
         eulerAngleX = Mathf.Clamp(eulerAngleX, limitMinX, limitMaxX);

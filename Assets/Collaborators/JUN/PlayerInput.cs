@@ -27,7 +27,11 @@ public class PlayerInput : MonoBehaviour
     private bool  m_Jump;
     private float m_vInput;
     private float m_hInput;
- 
+    
+    // 마우스 감지 입력
+    private float m_mouseX;
+    private float m_mouseY;
+
     public bool JumpInput
     {
         get
@@ -61,6 +65,21 @@ public class PlayerInput : MonoBehaviour
         }
     }
    
+    public float mouseX
+    {
+        get
+        {
+            return m_mouseX;
+        }
+    }
+
+    public float mouseY
+    {
+        get
+        {
+            return m_mouseY;
+        }
+    }
 
     private void Awake()
     {
@@ -84,9 +103,13 @@ public class PlayerInput : MonoBehaviour
 
         m_Jump = Input.GetKeyDown(m_command.playerJump);
 
+        //마우스 움직임 감지
+        m_mouseX = Input.GetAxis("Mouse X");
+        m_mouseY = Input.GetAxis("Mouse Y");
         //키 입력시 값 변환
         m_hInput = Input.GetAxis("Horizontal");
         m_vInput = Input.GetAxis("Vertical");
+
         
     }
 }

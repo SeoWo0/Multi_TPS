@@ -90,5 +90,8 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-Assets/Plugins/Network/Photon/
+# Asset 파일 이그노어 목록
+Assets/Pyo/UI/Sprite/Icons/
+Assets/Plugins
 Assets/Woo/Resources/
+

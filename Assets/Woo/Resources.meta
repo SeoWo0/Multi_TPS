@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 66eb53b31212d7b4a94612dd9c522852
+<<<<<<<< HEAD:Assets/Woo/Resources.meta
+guid: ce578e7e5243460439801c128bb73f3f
+========
+guid: ca77c079ee325b940904ffef34511136
+>>>>>>>> main:Assets/Collaborators.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

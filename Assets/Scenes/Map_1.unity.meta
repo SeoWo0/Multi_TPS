@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/Map_1.unity.meta
 guid: 52aa743e8bac7d140b9225e9cfcfca83
+========
+guid: 7b3c714acc2b17d42b3197ff42e1ef0c
+>>>>>>>> main:Assets/Scenes/Chat.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

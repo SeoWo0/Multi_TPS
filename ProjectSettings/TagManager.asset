@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - CameraDirection
+  - Item
   layers:
   - Default
   - TransparentFX

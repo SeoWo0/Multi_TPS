@@ -72,7 +72,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     private void OnTriggerEnter(Collider other)
     {
         
-        if (other.CompareTag("Item"))
+        if (other.gameObject.CompareTag("Item"))
         {
             // TODO : Item Use
             Destroy(other.gameObject);

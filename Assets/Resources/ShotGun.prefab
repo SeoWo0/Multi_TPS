@@ -84,6 +84,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: shotgun_3
       objectReference: {fileID: 0}
+    - target: {fileID: 1824798276992903475, guid: 01d77fd69396c614ea4a371d26316452,
+        type: 3}
+      propertyPath: m_TagString
+      value: Item
+      objectReference: {fileID: 0}
     - target: {fileID: 3389422188200123168, guid: 01d77fd69396c614ea4a371d26316452,
         type: 3}
       propertyPath: m_RootOrder

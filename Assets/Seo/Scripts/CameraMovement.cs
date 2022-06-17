@@ -12,6 +12,10 @@ public class CameraMovement : MonoBehaviour
     private Transform objectFollow;         // 카메라가 따라갈 대상
     [SerializeField]
     private Transform selectCamera;         // 따라오는 카메라
+    [SerializeField]
+    private GameObject playerObj;           // 플레이어 오브젝트
+    [SerializeField]
+    private GameObject handObj;             // 플레이어 핸드 (무기) 오브젝트
 
     [Header("Camera Setting")]
     [SerializeField]
@@ -75,6 +79,11 @@ public class CameraMovement : MonoBehaviour
         // 카메라 x축 회전의 경우 회전 범위를 설정
         eulerAngleX = Mathf.Clamp(eulerAngleX, limitMinX, limitMaxX);
         transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
+
+        playerObj.transform.rotation = Quaternion.Euler(0, eulerAngleY, 0);
+        handObj.transform.rotation = Quaternion.Euler(eulerAngleX, 0, 0);
+
+        
     }
     
     

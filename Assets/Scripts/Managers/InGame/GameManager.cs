@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
@@ -10,10 +11,17 @@ using Managers;
 
 public class GameManager : Singleton<GameManager>
 {
+    [Header("Start Info")]
     public TextMeshProUGUI infoText;
     //public Transform[] spawnPos;
 
     public GameObject playerPrefab;
+
+    [Header("Score Info")]
+    public Score playerScore;
+    public GameObject scorePanel;
+    public List<Score> managedScoreList;
+    private Score m_myScore;
 
     #region UNITY
 
@@ -22,6 +30,18 @@ public class GameManager : Singleton<GameManager>
         // 로딩이 완료되서 Start()가 호출되면 로딩이 완료됐다는 커스텀 프로퍼티 설정해줌
         Hashtable _props = new Hashtable() { { GameData.PLAYER_LOAD, true } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(_props);
+
+        foreach (Player _player in PhotonNetwork.PlayerList)
+        {
+            Score _obj = Instantiate(playerScore, Vector3.zero, Quaternion.identity);
+            _obj.transform.SetParent(scorePanel.transform);
+            _obj.transform.localScale = Vector3.one;
+            _obj.ownerNumber = _player.GetPlayerNumber();
+
+            m_myScore = _obj.ownerNumber == PhotonNetwork.LocalPlayer.GetPlayerNumber() ? _obj : null;
+
+            managedScoreList.Add(_obj);
+        }
     }
 
     #endregion UNITY
@@ -38,18 +58,32 @@ public class GameManager : Singleton<GameManager>
         PhotonNetwork.Disconnect();
     }
 
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        // 나간 플레이어 Score 없애줌
+        Destroy(m_myScore.gameObject);
+        managedScoreList.Remove(m_myScore);
+    }
+
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        if (!changedProps.ContainsKey(GameData.PLAYER_LOAD)) return;
-
-        if (CheckAllPlayersLoadLevel())
+        object _score;
+        if (changedProps.TryGetValue(GameData.PLAYER_SCORE, out _score))
         {
-            StartCoroutine(StartCountdown());
+            m_myScore.SetScore((int)_score);
         }
-        else
+
+        if (changedProps.ContainsKey(GameData.PLAYER_LOAD))
         {
-            // 나머지 플레이어 기다리기
-            PrintInfo($"Wait for Players - {CheckLoadedPlayersCount()} / {PhotonNetwork.PlayerList.Length}");
+            if (CheckAllPlayersLoadLevel())
+            {
+                StartCoroutine(StartCountdown());
+            }
+            else
+            {
+                // 나머지 플레이어 기다리기
+                PrintInfo($"Wait for Players - {CheckLoadedPlayersCount()} / {PhotonNetwork.PlayerList.Length}");
+            }
         }
     }
 
@@ -73,7 +107,7 @@ public class GameManager : Singleton<GameManager>
         // PhotonNetwork.Instantiate("PlayerModel", spawnPos[_playerNumber].position, spawnPos[_playerNumber].rotation, 0);
 
         yield return new WaitForSeconds(1f);
-        infoText.transform.root.gameObject.SetActive(false);
+        infoText.transform.parent.gameObject.SetActive(false);
     }
 
     private bool CheckAllPlayersLoadLevel()

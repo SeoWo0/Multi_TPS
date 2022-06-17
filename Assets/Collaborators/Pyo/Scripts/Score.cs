@@ -1,26 +1,62 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class Score : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
+    
+    [Header("Images")]
+    public Image ownerBorder;
+    public Image ownerIcon;
+    public Image scoreBoardBorder;
+
+    [Header("Color Info")] 
+    public Color ownerBorderColor;
+    public Color ownerIconColor;
+    
+    [Header("Score Info")]
     public int score;
     public int ownerNumber;
+    private WaitForSeconds m_waitSeconds;
 
-    public void UpdateScore(int score)
+    private void Start()
+    {
+        scoreBoardBorder.color = Color.white;
+        
+        //Debug.LogError($"LocalPlayerNumber : {PhotonNetwork.LocalPlayer.GetPlayerNumber()}");
+        //Debug.LogError($"owner : {ownerNumber}");
+        if (PhotonNetwork.LocalPlayer.GetPlayerNumber() != ownerNumber) return;
+
+        ownerBorder.color = ownerBorderColor;
+        ownerIcon.color = ownerIconColor;
+        scoreBoardBorder.color = ownerBorderColor;
+        
+        m_waitSeconds = new WaitForSeconds(ownerNumber + 0.5f);
+        
+        StartCoroutine(UpdateScore(0));
+    }
+
+    public IEnumerator UpdateScore(int score)
     {
         this.score += score;
-        this.score++;
 
-        SetScore(this.score);
+        while (true)
+        {
+            this.score++;
 
-        // Score 동기화
-        Hashtable _prop = new Hashtable() { { GameData.PLAYER_SCORE, this.score } };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+            SetScore(this.score);
+
+            // Score 동기화
+            Hashtable _prop = new Hashtable() { { GameData.PLAYER_SCORE, this.score } };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+            
+            yield return m_waitSeconds;
+        }
     }
 
     public void SetScore(int score)

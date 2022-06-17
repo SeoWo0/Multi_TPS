@@ -21,7 +21,6 @@ public class GameManager : Singleton<GameManager>
     public Score playerScore;
     public GameObject scorePanel;
     public List<Score> managedScoreList;
-    private Score m_myScore;
 
     #region UNITY
 
@@ -37,8 +36,6 @@ public class GameManager : Singleton<GameManager>
             _obj.transform.SetParent(scorePanel.transform);
             _obj.transform.localScale = Vector3.one;
             _obj.ownerNumber = _player.GetPlayerNumber();
-
-            m_myScore = _obj.ownerNumber == PhotonNetwork.LocalPlayer.GetPlayerNumber() ? _obj : null;
 
             managedScoreList.Add(_obj);
         }
@@ -61,16 +58,24 @@ public class GameManager : Singleton<GameManager>
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         // 나간 플레이어 Score 없애줌
-        Destroy(m_myScore.gameObject);
-        managedScoreList.Remove(m_myScore);
+        foreach (Score _score in managedScoreList)
+        {
+            if (_score.ownerNumber != otherPlayer.GetPlayerNumber()) continue;
+            
+            managedScoreList.Remove(_score);
+            Destroy(_score.gameObject);
+            break;
+        }
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        object _score;
-        if (changedProps.TryGetValue(GameData.PLAYER_SCORE, out _score))
+        object _scoreProp;
+        if (changedProps.TryGetValue(GameData.PLAYER_SCORE, out _scoreProp))
         {
-            m_myScore.SetScore((int)_score);
+            Score _score = managedScoreList.Find(score => score.ownerNumber == targetPlayer.GetPlayerNumber());
+            
+            _score.SetScore((int)_scoreProp);
         }
 
         if (changedProps.ContainsKey(GameData.PLAYER_LOAD))

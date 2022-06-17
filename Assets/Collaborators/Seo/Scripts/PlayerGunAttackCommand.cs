@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerGunAttackCommand : Command
-{    
+{   
     public override void Execute()          // 플레이어가 기본 총으로 공격하였을 때
     {
         PlayerGunAttack();

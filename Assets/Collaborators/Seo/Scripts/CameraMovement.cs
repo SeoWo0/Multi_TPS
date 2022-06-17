@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class CameraMovement : MonoBehaviour
+public class CameraMovement : MonoBehaviourPun
 {
     [SerializeField]
     private PlayerInput playerInput;
@@ -81,8 +83,7 @@ public class CameraMovement : MonoBehaviour
         transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
 
         playerObj.transform.rotation = Quaternion.Euler(0, eulerAngleY, 0);
-        handObj.transform.rotation = Quaternion.Euler(eulerAngleX, 0, 0);
-
+        handObj.transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
         
     }
     

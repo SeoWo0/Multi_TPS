@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Managers;
+using Photon.Pun;
 
-public class ItemSpawnManager : MonoBehaviour
+public class ItemSpawnManager : Singleton<ItemSpawnManager>
 {
     public GameObject[] item;
     public Transform[] itemZone;
 
-    [SerializeField]
     private List<int> itemList;
     private List<int> checkList;
 
@@ -17,22 +18,8 @@ public class ItemSpawnManager : MonoBehaviour
     private int ranZone = -1;
 
 
-    private static ItemSpawnManager instance = null;
-    public static ItemSpawnManager Instance
-    {
-        get
-        {
-            if (null == instance)
-                instance = new ItemSpawnManager();
-            return instance;
-        }
-    }
-
     private void Awake()
     {
-        if (null == instance)
-            instance = this;
-
         itemList = new List<int>();
         checkList = new List<int>();
 
@@ -62,8 +49,8 @@ public class ItemSpawnManager : MonoBehaviour
                 }
             }
 
-            GameObject instantItem = Instantiate(item[itemList[0]], itemZone[ranZone].position, item[itemList[0]].transform.rotation);
-            instantItem.GetComponent<Item>().index = ranZone;
+            GameObject instantItem = PhotonNetwork.Instantiate(item[itemList[0]].name, itemZone[ranZone].position, item[itemList[0]].transform.rotation);
+            instantItem.GetComponent<GetThing>().index = ranZone;
             checkList.Add(ranZone);
 
             itemList.RemoveAt(0);

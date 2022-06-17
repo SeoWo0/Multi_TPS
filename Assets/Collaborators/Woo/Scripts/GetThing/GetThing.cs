@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Item : MonoBehaviour
+public abstract class GetThing : MonoBehaviour
 {
-    public enum EItemType
+    public enum EGetType
     {
         Immediately,
         Has,
@@ -15,7 +15,7 @@ public abstract class Item : MonoBehaviour
     // 스폰된 지점 알기 위한 변수
     public int index;
 
-    public EItemType itemType;
+    public EGetType itemType;
 
     // public abstract void Use();
 }

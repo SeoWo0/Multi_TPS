@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shield : Item, IItemEffect
+public class Shield : GetThing, IGetThingEffect
 { 
     public void Use()
     {

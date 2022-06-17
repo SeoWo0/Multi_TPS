@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpeedUp : Item, IItemEffect
+public class SpeedUp : GetThing, IGetThingEffect
 {
     public void Use()
     {

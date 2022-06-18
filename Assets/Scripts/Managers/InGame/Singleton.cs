@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using System.Runtime.CompilerServices;
+using Photon.Pun;
 using UnityEngine;
 
 namespace Managers
@@ -25,11 +26,11 @@ namespace Managers
 
                 lock (LOCK)    //Thread Safe
                 {
-                    if (s_instance != null) return s_instance;
+                    s_instance = (T)FindObjectOfType(typeof(T));
                     
                     // 인스턴스 존재 여부 확인
-                    s_instance = (T)FindObjectOfType(typeof(T));
-
+                    if (s_instance != null) return s_instance;
+                    
                     // 아직 생성되지 않았다면 인스턴스 생성
                     // 새로운 게임오브젝트를 만들어서 싱글톤 Attach
                     var _singletonObject = new GameObject();

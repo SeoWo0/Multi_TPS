@@ -22,6 +22,9 @@ public class GameManager : Singleton<GameManager>
     public GameObject scorePanel;
     public List<Score> managedScoreList;
 
+    [Header("Timer")]
+    public Timer gameTimer;
+
     #region UNITY
 
     private void Start()
@@ -46,7 +49,7 @@ public class GameManager : Singleton<GameManager>
     #region PHOTON CALLBACK
     public override void OnDisconnected(DisconnectCause cause)
     {
-        Debug.Log($"Disconnected : {cause.ToString()}");
+        //Debug.Log($"Disconnected : {cause.ToString()}");
         SceneManager.LoadScene("LobbyScene");
     }
 
@@ -106,6 +109,8 @@ public class GameManager : Singleton<GameManager>
         }
 
         PrintInfo("Start Game!");
+        gameTimer.gameObject.SetActive(true);
+        gameTimer.SetTimerState(true);
 
         // 캐릭터 생성
         // int _playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();

@@ -2,14 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpeedUp : GetThing, IGetThingEffect
+public class SpeedUp : Item
 {
-    public void Use()
+    public override void Use()
     {
-        // TODO : 플레이어 이동속도 증가
+        gameObject.SetActive(false);
+        GameManager.Instance.player.MoveSpeed = 15f;
+
+        Invoke("RestoreBuff", 3f);
     }
 
-    /* public override Use()
-      {} */
+    private void RestoreBuff()
+    {
+        GameManager.Instance.player.MoveSpeed = 10f;
 
+        Destroy(gameObject);
+
+    }
 }

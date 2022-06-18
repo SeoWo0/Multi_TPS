@@ -17,7 +17,6 @@ public class ItemSpawnManager : Singleton<ItemSpawnManager>
 
     private int ranZone = -1;
 
-
     private void Awake()
     {
         itemList = new List<int>();
@@ -39,8 +38,8 @@ public class ItemSpawnManager : Singleton<ItemSpawnManager>
 
             while (isTrue)
             {
-                ranZone = Random.Range(0, itemRespawn);
                 isTrue = false;
+                ranZone = Random.Range(0, itemRespawn);
 
                 foreach (var item in checkList)
                 {
@@ -49,9 +48,9 @@ public class ItemSpawnManager : Singleton<ItemSpawnManager>
                 }
             }
 
-            // GameObject instantItem = PhotonNetwork.Instantiate(item[itemList[0]].name, itemZone[ranZone].position, item[itemList[0]].transform.rotation);
-            GameObject instantItem = Instantiate(item[itemList[0]], itemZone[ranZone].position, item[itemList[0]].transform.rotation);
-            instantItem.GetComponent<GetThing>().index = ranZone;
+            GameObject instantItem = PhotonNetwork.Instantiate(item[itemList[0]].name, itemZone[ranZone].position, item[itemList[0]].transform.rotation);
+            // GameObject instantItem = Instantiate(item[itemList[0]], itemZone[ranZone].position, item[itemList[0]].transform.rotation);
+            instantItem.GetComponent<Item>().index = ranZone;
             checkList.Add(ranZone);
 
             itemList.RemoveAt(0);
@@ -60,7 +59,7 @@ public class ItemSpawnManager : Singleton<ItemSpawnManager>
                 StartCoroutine(Check());
                 yield break;
             }
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(10f);
         }
     }
 
@@ -75,5 +74,10 @@ public class ItemSpawnManager : Singleton<ItemSpawnManager>
             }
             yield return null;
         }
+    }
+
+    public void CheckListRemove(int index)
+    {
+        checkList.Remove(index);
     }
 }

@@ -6,22 +6,18 @@ using Photon.Pun;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Photon.Pun.UtilityScripts;
+using Managers;
 
-public class GameManager : MonoBehaviourPunCallbacks
+public class GameManager : Singleton<GameManager>
 {
-    public static GameManager Instance { get; private set; }
-
     public Text infoText;
     public Transform[] spawnPos;
 
     public GameObject playerPrefab;
 
-    #region UNITY
+    public PlayerMove player;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+    #region UNITY
 
     private void Start()
     {

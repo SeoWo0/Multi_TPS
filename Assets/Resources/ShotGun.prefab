@@ -11,9 +11,11 @@ GameObject:
   - component: {fileID: 2748491072798074699}
   - component: {fileID: -2683117149348065518}
   - component: {fileID: -9105047726458571469}
+  - component: {fileID: -131550292411081099}
+  - component: {fileID: 3935586019836877225}
   m_Layer: 0
   m_Name: ShotGun
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,20 +60,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
-  itemType: 1
---- !u!135 &2747743348112768349
+  useType: 1
+  itemType: 0
+--- !u!114 &-131550292411081099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1956368986900801187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!135 &3935586019836877225
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3475976014688715502}
+  m_GameObject: {fileID: 1956368986900801187}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.4
-  m_Center: {x: 0.0008386597, y: 0.08331458, z: 0.8163575}
+  m_Radius: 0.7
+  m_Center: {x: 0, y: 0.1, z: 0.3}
 --- !u!1001 &2985844331499531229
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -161,12 +186,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01d77fd69396c614ea4a371d26316452, type: 3}
---- !u!1 &3475976014688715502 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1824798276992903475, guid: 01d77fd69396c614ea4a371d26316452,
-    type: 3}
-  m_PrefabInstance: {fileID: 2985844331499531229}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &461192472573931773 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3389422188200123168, guid: 01d77fd69396c614ea4a371d26316452,

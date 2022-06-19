@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PlayerMove : MonoBehaviourPun ,IDamagable
+public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 {
     Rigidbody rigid;
     Animator animator;
@@ -25,23 +25,31 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     {
         //todo: 죽었을때
     }
-    private void Awake()
+    private void Start()
     {
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         groundChecker = GetComponent<SphereGroundChecker>();
-        m_input = PlayerInput.instance;
+        m_input = GetComponent<PlayerInput>();
     }
 
 
     private void Update()
     {
+        if (!photonView.IsMine)
+            return;
+        
         Move();
-        Jump();
+        
+        //rpc 많이쓰면 안됨
+        photonView.RPC("Jump", RpcTarget.All);
+        
     }
 
     private void Move()
     {
+        
+
         //Vector3 m_Velocity= new Vector3(-m_input.HInput, 0, -m_input.VInput) * moveSpeed;
         Vector3 m_dir = transform.right * m_input.HInput + transform.forward * m_input.VInput;
         rigid.velocity = new Vector3(m_dir.x * moveSpeed, rigid.velocity.y, m_dir.z * moveSpeed);
@@ -56,8 +64,12 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
     }
 
+    [PunRPC]
     private void Jump()
     {
+        if (!photonView.IsMine)
+            return;
+
         animator.SetBool("Jump", !groundChecker.IsGrounded());
         if (!groundChecker.IsGrounded())
             return;
@@ -79,4 +91,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         }
     }
 
+    public void OnPhotonSerializeView(PhotonStream stream,PhotonMessageInfo info)
+    {
+
+    }
 }

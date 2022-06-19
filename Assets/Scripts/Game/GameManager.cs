@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Text infoText;
     public Transform[] spawnPos;
 
-    public GameObject playerPrefab;
+    //public GameObject playerPrefab;
 
     #region UNITY
 
@@ -75,14 +75,32 @@ public class GameManager : MonoBehaviourPunCallbacks
         PrintInfo("Start Game!");
 
         // 캐릭터 생성
-        int _playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
-        PhotonNetwork.Instantiate("PlayerModel", spawnPos[_playerNumber].position, spawnPos[_playerNumber].rotation, 0);
+        //int _playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
+        //PhotonNetwork.Instantiate("PlayerModel", spawnPos[_playerNumber].position, spawnPos[_playerNumber].rotation, 0);
 
-        yield return new WaitForSeconds(1f);
-        infoText.gameObject.SetActive(false);
+        //yield return new WaitForSeconds(1f);
+        //infoText.gameObject.SetActive(false);
+        PlayerSet();
     }
+    private void PlayerSet()
+    {
 
-    private bool CheckAllPlayersLoadLevel()
+        int playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
+
+        object playerIndex;
+        Player p = PhotonNetwork.LocalPlayer;
+        p.CustomProperties.TryGetValue(GameData.PLAYER_CHAR, out playerIndex);
+        switch ((int)playerIndex - 1)
+        {
+            case 0:
+                PhotonNetwork.Instantiate("MisakiPlayer", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);
+                break;
+            case 1:
+                PhotonNetwork.Instantiate("UnityChanPlayer", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);
+                break;
+        }
+    }
+        private bool CheckAllPlayersLoadLevel()
     {
         return CheckLoadedPlayersCount() == PhotonNetwork.PlayerList.Length;
     }
@@ -106,7 +124,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         return _count;
     }
 
-    private void PrintInfo(string info)
+    public void PrintInfo(string info)
     {
         Debug.Log(info);
         infoText.text = info;

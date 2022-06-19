@@ -5,6 +5,7 @@ using TMPro;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Managers;
 
 public class Score : MonoBehaviour
 {
@@ -41,6 +42,8 @@ public class Score : MonoBehaviour
         StartCoroutine(UpdateScore(0));
     }
 
+    // 테스트 버전 => 로컬 플레이어가 상대 플레이어를 죽였을 때 얻은 score만큼
+    // Update해주도록 해야함
     public IEnumerator UpdateScore(int score)
     {
         this.score += score;
@@ -51,6 +54,7 @@ public class Score : MonoBehaviour
 
             SetScore(this.score);
 
+            if (GameManager.Instance.isGameCompleted) yield break;
             // Score 동기화
             Hashtable _prop = new Hashtable() { { GameData.PLAYER_SCORE, this.score } };
             PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);

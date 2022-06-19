@@ -16,7 +16,8 @@ public class GameData : MonoBehaviour
     public const string ROOM_SET_TIME_LIMIT = "TimeLimitSetting";
 
     public const string PLAYER_SCORE = "Score";
-    
+    public const string GAME_IS_COMPLETE = "GameComplete";
+
     public static Color GetColor(int playerNumber)
     {
         switch(playerNumber)

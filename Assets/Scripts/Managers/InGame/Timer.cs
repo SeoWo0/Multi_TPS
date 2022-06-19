@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using UnityEngine;
+using UnityEngine.Events;
 using TMPro;
 using Photon.Pun;
-using Photon.Pun.UtilityScripts;
+using Photon.Realtime;
 
-public class Timer : MonoBehaviourPun, IPunObservable
+public class Timer : MonoBehaviour, IPunObservable
 {
     public enum ETimerType
     {
@@ -23,10 +23,16 @@ public class Timer : MonoBehaviourPun, IPunObservable
     public float seconds;
 
     public bool isDone;
+    private bool m_netTimerIsDone;
     private bool m_isRunning;
     
+    // Delegate && Events
     private delegate void EvaluatedTimer();
     private event EvaluatedTimer SelectedTimer;
+
+    private RaiseEventOptions m_raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+    private SendOptions m_sendOptions = new SendOptions {Reliability = true};
+    public const byte ON_TIMER_DONE_EVENT = 0;
 
     private void Awake()
     {
@@ -72,6 +78,7 @@ public class Timer : MonoBehaviourPun, IPunObservable
         if (minutes == 0 && seconds <= 0)
         {
             Stop();
+            PhotonNetwork.RaiseEvent(ON_TIMER_DONE_EVENT, null, m_raiseEventOptions, m_sendOptions);
             return;
         }
         

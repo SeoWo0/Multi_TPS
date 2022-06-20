@@ -5,7 +5,8 @@ using Photon.Pun;
 using Photon.Realtime;
 
 public class CameraMovement : MonoBehaviourPun
-{
+{   
+
     [SerializeField]
     private PlayerInput playerInput;
 
@@ -45,18 +46,27 @@ public class CameraMovement : MonoBehaviourPun
     private void Awake() {
         Cursor.visible      = false;                    // 마우스 커서 지우기
         Cursor.lockState    = CursorLockMode.Locked;    // 마우스 위치 Lock
+
+        
     }
 
-    private void Start() {      // 초기화 작업
+    private void Start() {          // 초기화 작업
         dirNormalized = selectCamera.localPosition.normalized;
         finalDistance = selectCamera.localPosition.magnitude;
+        if(!photonView.IsMine)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Update() {
+        
         UpdateRotate();
     }
 
     private void LateUpdate() {
+    
+        if(!photonView.IsMine) return;
         transform.position = Vector3.MoveTowards(transform.position, objectFollow.position, followSpeed);  
         finalDir = transform.TransformPoint(dirNormalized * maxDistance);  
 

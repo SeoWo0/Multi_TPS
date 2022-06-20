@@ -68,8 +68,10 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
     private void Update()
     {
+        if(!photonView.IsMine)
+            return;
         Move();
-        Jump();
+        photonView.RPC("Jump", RpcTarget.All);
 
         float colY = col.transform.position.y;
         colY += 0.5f;
@@ -91,7 +93,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         animator.SetFloat("yDir", m_input.VInput);
 
     }
-
+    
+    [PunRPC]
     private void Jump()
     {
         animator.SetBool("Jump", !groundChecker.IsGrounded());

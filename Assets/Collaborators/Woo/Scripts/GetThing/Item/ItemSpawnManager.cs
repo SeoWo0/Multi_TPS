@@ -48,8 +48,8 @@ public class ItemSpawnManager : Singleton<ItemSpawnManager>
                 }
             }
 
-            GameObject instantItem = PhotonNetwork.Instantiate(item[itemList[0]].name, itemZone[ranZone].position, item[itemList[0]].transform.rotation);
-            // GameObject instantItem = Instantiate(item[itemList[0]], itemZone[ranZone].position, item[itemList[0]].transform.rotation);
+            // GameObject instantItem = PhotonNetwork.Instantiate(item[itemList[0]].name, itemZone[ranZone].position, item[itemList[0]].transform.rotation);
+            GameObject instantItem = Instantiate(item[itemList[0]], itemZone[ranZone].position, item[itemList[0]].transform.rotation);
             instantItem.GetComponent<Item>().index = ranZone;
             checkList.Add(ranZone);
 

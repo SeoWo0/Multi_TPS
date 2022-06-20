@@ -10,6 +10,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     Animator animator;
     PlayerInput m_input;
     GroundChecker groundChecker;
+    Collider col;
 
     Item currentItem;
 
@@ -61,6 +62,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         animator = GetComponent<Animator>();
         groundChecker = GetComponent<SphereGroundChecker>();
         m_input = PlayerInput.instance;
+        col = GetComponent<Collider>();
     }
 
 
@@ -68,6 +70,10 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     {
         Move();
         Jump();
+
+        float colY = col.transform.position.y;
+        colY += 0.5f;
+        Debug.DrawRay(new Vector3(transform.position.x, colY, transform.position.z), transform.forward, new Color(255, 0, 0));
     }
 
     private void Move()

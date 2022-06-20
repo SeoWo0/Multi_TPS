@@ -233,5 +233,15 @@ namespace Managers
                 CompleteGameRound();
             }
         }
+
+        public void OnReturnToRoom()
+        {
+            SceneManager.LoadScene("LobbyScene");
+            
+            PhotonNetwork.CurrentRoom.IsOpen = true;
+            PhotonNetwork.CurrentRoom.IsVisible = true;
+            
+            LobbyManager.instance.SetActivePanel(LobbyManager.PANEL.Room);
+        }
     }
 }

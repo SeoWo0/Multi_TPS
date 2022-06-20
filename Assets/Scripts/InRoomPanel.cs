@@ -87,7 +87,7 @@ public class InRoomPanel : MonoBehaviour
         PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.CurrentRoom.IsVisible = false;
 
-        PhotonNetwork.LoadLevel("GameScene");
+        PhotonNetwork.LoadLevel("TestGameScene");
     }
 
     private bool CheckPlayersReady()
@@ -130,7 +130,9 @@ public class InRoomPanel : MonoBehaviour
         entry.GetComponent<PlayerEntry>().Initialize(newPlayer.ActorNumber, newPlayer.NickName);
 
         playerListEntries.Add(newPlayer.ActorNumber, entry);
+
         
+
         // RoomSettingPanel
         if (newPlayer.CustomProperties.TryGetValue(GameData.ROOM_SET_MAP, out var _isPassedToNext))
         {
@@ -181,7 +183,14 @@ public class InRoomPanel : MonoBehaviour
             {
                 entry.GetComponent<PlayerEntry>().SetPlayerReady((bool)isPlayerReady);
             }
-            
+
+            //CharacterSetting
+            object playerindex;
+            if (changedProps.TryGetValue(GameData.PLAYER_CHAR, out playerindex))
+            {
+                entry.GetComponent<PlayerEntry>().ChangeModel((int)playerindex - 1);
+            }
+
             // RoomSettingPanel
             if (changedProps.TryGetValue(GameData.ROOM_SET_MAP, out var _isPassedToNext))
             {

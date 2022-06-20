@@ -93,6 +93,17 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream,PhotonMessageInfo info)
     {
+        //서버에 데이터를 보내줌 -> 데이터 변경
+        if(stream.IsWriting)
+        {
+            stream.SendNext(moveSpeed);
+            stream.SendNext(m_Hp);
+        }
 
+        else
+        {
+            moveSpeed = (float)stream.ReceiveNext();
+            m_Hp = (int)stream.ReceiveNext();
+        }
     }
 }

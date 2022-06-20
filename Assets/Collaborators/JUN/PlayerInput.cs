@@ -114,7 +114,9 @@ public class PlayerInput : MonoBehaviour,IPunObservable
         //키 입력시 값 변환
         m_hInput = Input.GetAxis("Horizontal");
         m_vInput = Input.GetAxis("Vertical");
-        
+
+        m_mouseX = Input.GetAxis("Mouse X");
+        m_mouseY = Input.GetAxis("Mouse Y");
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

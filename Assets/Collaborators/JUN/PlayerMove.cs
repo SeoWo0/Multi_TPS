@@ -59,9 +59,9 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         groundChecker = GetComponent<SphereGroundChecker>();
-        m_input = PlayerInput.instance;
+        m_input = GetComponent<PlayerInput>();
         col = GetComponent<Collider>();
     }
 

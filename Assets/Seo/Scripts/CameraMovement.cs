@@ -32,8 +32,8 @@ public class CameraMovement : MonoBehaviour
     private float rotXCamAxisSpeed = 400;   // 카메라 x축 회전 속도
     [SerializeField]
     private float rotYCamAxisSpeed = 400;   // 카메라 y축 회전 속도
-    private float limitMinX = -80;          // 카메라 x축 회전 최소범위
-    private float limitMaxX = 50;           // 카메라 x축 회전 최대범위
+    private float limitMinX = -40;          // 카메라 x축 회전 최소범위
+    private float limitMaxX = 40;           // 카메라 x축 회전 최대범위
     private float eulerAngleY;
     private float eulerAngleX;
     private Vector3 dirNormalized;

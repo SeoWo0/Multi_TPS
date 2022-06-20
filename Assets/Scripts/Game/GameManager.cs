@@ -59,16 +59,16 @@ public class GameManager : Singleton<GameManager>
 
     private IEnumerator StartCountdown()
     {
-        PrintInfo("All Player Loaded!\nStart Count Down");
-        yield return new WaitForSeconds(1f);
+        //PrintInfo("All Player Loaded!\nStart Count Down");
+        //yield return new WaitForSeconds(1f);
 
-        for (int i = GameData.COUNTDOWN; i > 0; --i)
-        {
-            PrintInfo($"Count Down\n{i}");
-            yield return new WaitForSeconds(1f);
-        }
+        //for (int i = GameData.COUNTDOWN; i > 0; --i)
+        //{
+        //    PrintInfo($"Count Down\n{i}");
+        //    yield return new WaitForSeconds(1f);
+        //}
 
-        PrintInfo("Start Game!");
+        //PrintInfo("Start Game!");
 
         // 캐릭터 생성
         //int _playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
@@ -77,6 +77,7 @@ public class GameManager : Singleton<GameManager>
         //yield return new WaitForSeconds(1f);
         //infoText.gameObject.SetActive(false);
         PlayerSet();
+        yield break;
     }
     private void PlayerSet()
     {
@@ -89,11 +90,14 @@ public class GameManager : Singleton<GameManager>
         switch ((int)playerIndex - 1)
         {
             case 0:
-                PhotonNetwork.Instantiate("MisakiPlayer", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);
+                GameObject playerModel = PhotonNetwork.Instantiate("MisakiPlayer", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);
+                player = playerModel.GetComponent<PlayerMove>();
                 break;
             case 1:
-                PhotonNetwork.Instantiate("UnityChanPlayer", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);
+                GameObject playerModel2 =PhotonNetwork.Instantiate("Player", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);
+                player = playerModel2.GetComponent<PlayerMove>();
                 break;
+                
         }
     }
         private bool CheckAllPlayersLoadLevel()

@@ -46,8 +46,8 @@ public class WeaponSpawnManager : Singleton<WeaponSpawnManager>
                 }
             }
 
-            // GameObject instantWeapon = PhotonNetwork.Instantiate(weapon[weaponList[0]].name, weaponZone[ranZone].position, weapon[weaponList[0]].transform.rotation);
-            GameObject instantWeapon = Instantiate(weapon[weaponList[0]], weaponZone[ranZone].position, weapon[weaponList[0]].transform.rotation);
+            GameObject instantWeapon = PhotonNetwork.Instantiate(weapon[weaponList[0]].name, weaponZone[ranZone].position, weapon[weaponList[0]].transform.rotation);
+            //GameObject instantWeapon = Instantiate(weapon[weaponList[0]], weaponZone[ranZone].position, weapon[weaponList[0]].transform.rotation);
             instantWeapon.GetComponent<Item>().index = ranZone;
             checkList.Add(ranZone);
 

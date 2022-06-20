@@ -8,6 +8,7 @@ public class GameData : MonoBehaviour
 
     public const string PLAYER_READY = "Ready";
     public const string PLAYER_LOAD = "Load";
+    public const string PLAYER_START = "StartGame";
 
     public const string PLAYER_CHAR = "Character";
 

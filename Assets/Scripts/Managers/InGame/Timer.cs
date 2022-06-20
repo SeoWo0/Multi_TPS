@@ -48,6 +48,11 @@ public class Timer : MonoBehaviour, IPunObservable
                 throw new ArgumentOutOfRangeException();
         }
 
+        if (PhotonNetwork.MasterClient.CustomProperties.TryGetValue(GameData.ROOM_SET_TIME_LIMIT, out object _timeLimitIndex))
+        {
+            seconds = ((int)_timeLimitIndex + 1) * 30;
+        }
+
         minutes += (byte)(seconds / 60);
         seconds -= minutes * 60;
     }

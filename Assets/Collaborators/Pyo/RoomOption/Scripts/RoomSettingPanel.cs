@@ -70,14 +70,14 @@ public class RoomSettingPanel : MonoBehaviour
         m_timeLimitArray = new string[4] { "30", "60", "90", "120" };
         timeLimitText.text = m_timeLimitArray[0];
 
-        // Hashtable _prop = new Hashtable() { { GameData.ROOM_SET_MAP, m_mapSelectIndex } };
-        // PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
-        //
-        // _prop = new Hashtable() { { GameData.ROOM_SET_MODE, m_gameModeIndex } };
-        // PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
-        //
-        // _prop = new Hashtable() { { GameData.ROOM_SET_TIME_LIMIT, m_timeLimitIndex } };
-        // PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+        Hashtable _prop = new Hashtable() { { GameData.ROOM_SET_MAP, m_mapSelectIndex } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+
+        _prop = new Hashtable() { { GameData.ROOM_SET_MODE, m_gameModeIndex } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+
+        _prop = new Hashtable() { { GameData.ROOM_SET_TIME_LIMIT, m_timeLimitIndex } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
     }
 
     public void CheckMasterClient()

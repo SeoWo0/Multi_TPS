@@ -38,8 +38,12 @@ public class InRoomPanel : MonoBehaviour
             {
                 entry.GetComponent<PlayerEntry>().SetPlayerReady((bool)isPlayerReady);
             }
-            
+
+            playerListEntries.Add(p.ActorNumber, entry);
+
             // RoomSettingPanel
+            // 이미 Room에 들어와있는 상태라면 continue
+            if (PhotonNetwork.InRoom) continue;
             if (p.CustomProperties.TryGetValue(GameData.ROOM_SET_MAP, out var _isPassedToNext))
             {
                 roomSettingPanel.SetMapType((int)_isPassedToNext);
@@ -52,8 +56,6 @@ public class InRoomPanel : MonoBehaviour
             {
                 roomSettingPanel.SetTimeLimit((int)_isPassedToNext);
             }
-
-            playerListEntries.Add(p.ActorNumber, entry);
         }
 
         startGameButton.gameObject.SetActive(CheckPlayersReady());
@@ -88,6 +90,9 @@ public class InRoomPanel : MonoBehaviour
         PhotonNetwork.CurrentRoom.IsVisible = false;
 
         PhotonNetwork.LoadLevel(roomSettingPanel.mapSelectText.text);
+
+        Hashtable _prop = new Hashtable() { { GameData.PLAYER_START, true } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
     }
 
     private bool CheckPlayersReady()
@@ -180,6 +185,11 @@ public class InRoomPanel : MonoBehaviour
             if (changedProps.TryGetValue(GameData.PLAYER_READY, out isPlayerReady))
             {
                 entry.GetComponent<PlayerEntry>().SetPlayerReady((bool)isPlayerReady);
+            }
+
+            if (changedProps.TryGetValue(GameData.PLAYER_START, out object _isStarted))
+            {
+                PhotonNetwork.LoadLevel(roomSettingPanel.mapSelectText.text);
             }
             
             // RoomSettingPanel

@@ -23,8 +23,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         instance = this;
     }
 
-    private void Start() {
-        PhotonNetwork.AutomaticallySyncScene = true;
+    private void Start()
+    {
+        if (PhotonNetwork.InRoom)
+        {
+            SetActivePanel(PANEL.Room);
+        }
     }
 
     public enum PANEL {Login, Connect, Lobby, Room, CreateRoom}

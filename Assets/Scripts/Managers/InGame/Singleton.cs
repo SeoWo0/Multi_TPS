@@ -27,7 +27,7 @@ namespace Managers
                 lock (LOCK)    //Thread Safe
                 {
                     s_instance = (T)FindObjectOfType(typeof(T));
-                    
+
                     // 인스턴스 존재 여부 확인
                     if (s_instance != null) return s_instance;
                     
@@ -38,7 +38,7 @@ namespace Managers
                     _singletonObject.name = typeof(T).ToString() + " (Singleton)";
 
                     // Make instance persistent.
-                    DontDestroyOnLoad(_singletonObject);
+                    //DontDestroyOnLoad(_singletonObject);
                     
                     return s_instance;
                 }
@@ -50,9 +50,9 @@ namespace Managers
             s_shuttingDown = true;
         }
 
-        private void OnDestroy()
-        {
-            s_shuttingDown = true;
-        }
+        //private void OnDestroy()
+        //{
+        //    s_shuttingDown = true;
+        //}
     }
 }

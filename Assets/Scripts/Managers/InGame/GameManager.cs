@@ -236,12 +236,10 @@ namespace Managers
 
         public void OnReturnToRoom()
         {
-            SceneManager.LoadScene("LobbyScene");
+            PhotonNetwork.LoadLevel("LobbyScene");
             
             PhotonNetwork.CurrentRoom.IsOpen = true;
             PhotonNetwork.CurrentRoom.IsVisible = true;
-            
-            LobbyManager.instance.SetActivePanel(LobbyManager.PANEL.Room);
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Shield : Item
 {
+    [PunRPC]
     public override void Use()
     {
         // TODO : 플레이어 체력 1 증가
@@ -15,6 +17,6 @@ public class Shield : Item
         }
 
         // PhotonNetwork.Destroy();
-        Destroy(gameObject);
+        PhotonNetwork.Destroy(gameObject);
     }
 }

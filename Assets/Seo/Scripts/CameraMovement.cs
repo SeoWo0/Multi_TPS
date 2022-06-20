@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class CameraMovement : MonoBehaviour
+public class CameraMovement : MonoBehaviourPun
 {
     [SerializeField]
     private PlayerInput playerInput;
@@ -43,11 +44,14 @@ public class CameraMovement : MonoBehaviour
     private void Awake() {
         Cursor.visible      = false;                    // 마우스 커서 지우기
         Cursor.lockState    = CursorLockMode.Locked;    // 마우스 위치 Lock
+        selectCamera = Camera.main.transform;
     }
 
     private void Start() {      // 초기화 작업
         dirNormalized = selectCamera.localPosition.normalized;
         finalDistance = selectCamera.localPosition.magnitude;
+        if (photonView.IsMine)
+            selectCamera.SetParent(transform);
     }
 
     private void Update() {

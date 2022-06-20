@@ -16,8 +16,6 @@ public class SpeedUp : Item
     private void RestoreBuff()
     {
         GameManager.Instance.player.MoveSpeed = 10f;
-
-        Destroy(gameObject);
-
+        PhotonNetwork.Destroy(gameObject);
     }
 }

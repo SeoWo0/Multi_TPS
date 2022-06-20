@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PlayerMove : MonoBehaviourPun ,IDamagable
+public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
 {
     Rigidbody rigid;
     Animator animator;
@@ -65,11 +65,11 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         col = GetComponent<Collider>();
     }
 
-
     private void Update()
     {
+        if (!photonView.IsMine) return;
         Move();
-        Jump();
+        photonView.RPC("Jump", RpcTarget.All);
 
         float colY = col.transform.position.y;
         colY += 0.5f;
@@ -92,6 +92,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
     }
 
+    [PunRPC]
     private void Jump()
     {
         animator.SetBool("Jump", !groundChecker.IsGrounded());
@@ -133,4 +134,18 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
             }
         }
     }
+
+    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    //{
+    //    if(stream.IsWriting)
+    //    {
+    //        stream.SendNext(m_Hp);
+    //        stream.SendNext(moveSpeed);
+    //    }
+    //    else
+    //    {
+    //        m_Hp = (int)stream.ReceiveNext();
+    //        moveSpeed = (float)stream.ReceiveNext();
+    //    }
+    //}
 }

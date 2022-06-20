@@ -1,15 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Shoot : Item
 {
+
+    [PunRPC]
     public override void Use()
     {
         // TODO : 쏘기
         //Attack();
 
-        Destroy(gameObject);
+        PhotonNetwork.Destroy(gameObject);
     }
 
     public void Attack()

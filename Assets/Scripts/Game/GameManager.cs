@@ -6,22 +6,18 @@ using Photon.Pun;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Photon.Pun.UtilityScripts;
+using Managers;
 
-public class GameManager : MonoBehaviourPunCallbacks
+public class GameManager : Singleton<GameManager>
 {
-    public static GameManager Instance { get; private set; }
-
     public Text infoText;
     public Transform[] spawnPos;
 
-    public GameObject playerPrefab;
+    //public GameObject playerPrefab;
+
+    public PlayerMove player;
 
     #region UNITY
-
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     private void Start()
     {
@@ -63,26 +59,48 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private IEnumerator StartCountdown()
     {
-        PrintInfo("All Player Loaded!\nStart Count Down");
-        yield return new WaitForSeconds(1f);
+        //PrintInfo("All Player Loaded!\nStart Count Down");
+        //yield return new WaitForSeconds(1f);
 
-        for (int i = GameData.COUNTDOWN; i > 0; --i)
-        {
-            PrintInfo($"Count Down\n{i}");
-            yield return new WaitForSeconds(1f);
-        }
+        //for (int i = GameData.COUNTDOWN; i > 0; --i)
+        //{
+        //    PrintInfo($"Count Down\n{i}");
+        //    yield return new WaitForSeconds(1f);
+        //}
 
-        PrintInfo("Start Game!");
+        //PrintInfo("Start Game!");
 
         // 캐릭터 생성
-        int _playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
-        PhotonNetwork.Instantiate("PlayerModel", spawnPos[_playerNumber].position, spawnPos[_playerNumber].rotation, 0);
+        //int _playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
+        //PhotonNetwork.Instantiate("PlayerModel", spawnPos[_playerNumber].position, spawnPos[_playerNumber].rotation, 0);
 
-        yield return new WaitForSeconds(1f);
-        infoText.gameObject.SetActive(false);
+        //yield return new WaitForSeconds(1f);
+        //infoText.gameObject.SetActive(false);
+        PlayerSet();
+        yield break;
     }
+    private void PlayerSet()
+    {
 
-    private bool CheckAllPlayersLoadLevel()
+        int playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
+
+        object playerIndex;
+        Player p = PhotonNetwork.LocalPlayer;
+        p.CustomProperties.TryGetValue(GameData.PLAYER_CHAR, out playerIndex);
+        switch ((int)playerIndex - 1)
+        {
+            case 0:
+                GameObject playerModel = PhotonNetwork.Instantiate("MisakiPlayer", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);
+                player = playerModel.GetComponent<PlayerMove>();
+                break;
+            case 1:
+                GameObject playerModel2 =PhotonNetwork.Instantiate("Player", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);
+                player = playerModel2.GetComponent<PlayerMove>();
+                break;
+                
+        }
+    }
+        private bool CheckAllPlayersLoadLevel()
     {
         return CheckLoadedPlayersCount() == PhotonNetwork.PlayerList.Length;
     }
@@ -106,7 +124,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         return _count;
     }
 
-    private void PrintInfo(string info)
+    public void PrintInfo(string info)
     {
         Debug.Log(info);
         infoText.text = info;

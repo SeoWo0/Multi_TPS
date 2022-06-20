@@ -10,12 +10,43 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     Animator animator;
     PlayerInput m_input;
     GroundChecker groundChecker;
+    Collider col;
 
+    Item currentItem;
+
+    [SerializeField]
     private float moveSpeed = 10f;
     private float jumpPower = 10f;
     
+    [SerializeField]
     private int m_Hp = 1;
-    
+
+    public float MoveSpeed
+    {
+        get
+        {
+            return moveSpeed;
+        }
+
+        set
+        {
+            moveSpeed = value;
+        }
+    }
+
+    public int Hp
+    {
+        get
+        {
+            return m_Hp;
+        }
+
+        set
+        {
+            m_Hp = value;
+        }
+    }
+
     public void TakeDamage(int damage)
     {
         //todo: 총에 맞았을때
@@ -28,9 +59,10 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         groundChecker = GetComponent<SphereGroundChecker>();
-        m_input = PlayerInput.instance;
+        m_input = GetComponent<PlayerInput>();
+        col = GetComponent<Collider>();
     }
 
 
@@ -38,6 +70,10 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     {
         Move();
         Jump();
+
+        float colY = col.transform.position.y;
+        colY += 0.5f;
+        Debug.DrawRay(new Vector3(transform.position.x, colY, transform.position.z), transform.forward, new Color(255, 0, 0));
     }
 
     private void Move()
@@ -71,12 +107,30 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
     private void OnTriggerEnter(Collider other)
     {
-        
         if (other.CompareTag("Item"))
         {
-            // TODO : Item Use
-            Destroy(other.gameObject);
+            currentItem = other.transform.GetComponent<Item>();
+
+            switch (currentItem.itemType)
+            {
+                case Item.EItemType.Weapon:
+                    WeaponSpawnManager.Instance.CheckListRemove(currentItem.index);
+                    break;
+
+                case Item.EItemType.Buff:
+                    ItemSpawnManager.Instance.CheckListRemove(currentItem.index);
+                    break;
+            }
+
+            if (currentItem.useType == Item.EUseType.Immediately)
+            {
+                currentItem.Use();
+            }
+
+            else
+            {
+                currentItem.Use();
+            }
         }
     }
-
 }

@@ -6,9 +6,9 @@ using Photon.Pun;
 using Photon.Chat;
 using ExitGames.Client.Photon;
 
-public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
+public class InGameChat : MonoBehaviourPunCallbacks, IChatClientListener
 {
-    public static Chat instance { get; private set; }
+    public static InGameChat instance { get; private set; }
 
     private void Awake()
     {
@@ -21,13 +21,24 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
     private string userName;
     private string currentChannelName;
 
-    
+    public string UserName
+    {
+        get
+        {
+            return userName;
+        }
+
+        private set
+        {
+            
+        }
+    }
+
 
     public Animator animator;
     public InputField inputField;
     public Text outputText;
     public GameObject showText;
-    //public Text nickNameText;
 
     private bool m_buttonDown;
 
@@ -43,22 +54,15 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
 
         userName = PhotonNetwork.LocalPlayer.NickName;
 
-        AddLine(string.Format("연결시도 중" , userName));
+        
     }
 
     private void Update()
     {
         chatClient.Service();
 
-        //if (!PhotonNetwork.LocalPlayer.IsLocal) return;
         IsActiveChat();
-        //NickNameShow();
     }
-
-    //private void NickNameShow()
-    //{
-    //    nickNameText.text = "My NickName : " + userName;
-    //}
 
     public void IsActiveChat()
     {
@@ -174,7 +178,6 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
     public void OnUnsubscribed(string[] channels)
     {
         AddLine(string.Format("채널 퇴장 ({0})", string.Join(",", channels)));
-
     }
 
     public void OnStatusUpdate(string user, int status, bool gotMessage, object message)

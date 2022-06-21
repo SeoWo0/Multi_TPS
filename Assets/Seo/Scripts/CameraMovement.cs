@@ -50,8 +50,12 @@ public class CameraMovement : MonoBehaviourPun
     private void Start() {      // 초기화 작업
         dirNormalized = selectCamera.localPosition.normalized;
         finalDistance = selectCamera.localPosition.magnitude;
-        if (photonView.IsMine)
-            selectCamera.SetParent(transform);
+
+        // selectCamera.SetParent(transform);
+        if (!photonView.IsMine)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Update() {
@@ -59,6 +63,7 @@ public class CameraMovement : MonoBehaviourPun
     }
 
     private void LateUpdate() {
+        if (!photonView.IsMine) return;
         transform.position = Vector3.MoveTowards(transform.position, objectFollow.position, followSpeed);  
         finalDir = transform.TransformPoint(dirNormalized * maxDistance);  
 

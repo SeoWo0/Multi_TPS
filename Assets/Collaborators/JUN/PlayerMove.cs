@@ -54,7 +54,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
 
     public void Die()
     {
-        //todo: 죽었을때
+        InGameChat.instance.AddLine(InGameChat.instance.UserName + "님이 죽음.");
     }
     private void Awake()
     {
@@ -68,12 +68,30 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
     private void Update()
     {
         if (!photonView.IsMine) return;
+
+        if (Input.GetButtonDown("Fire1"))
+            Die();
+
         Move();
         photonView.RPC("Jump", RpcTarget.All);
 
         float colY = col.transform.position.y;
         colY += 0.5f;
         Debug.DrawRay(new Vector3(transform.position.x, colY, transform.position.z), transform.forward, new Color(255, 0, 0));
+    }
+
+    private void LateUpdate()
+    {
+        RayHitObject();
+    }
+
+    private void RayHitObject()
+    {
+        Collider[] colls = Physics.OverlapSphere(transform.position, 5f, LayerMask.GetMask("Object"));
+
+        
+
+        
     }
 
     private void Move()
@@ -129,23 +147,9 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
             }
 
             else
-            {
+            { 
                 currentItem.Use();
             }
         }
     }
-
-    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    //{
-    //    if(stream.IsWriting)
-    //    {
-    //        stream.SendNext(m_Hp);
-    //        stream.SendNext(moveSpeed);
-    //    }
-    //    else
-    //    {
-    //        m_Hp = (int)stream.ReceiveNext();
-    //        moveSpeed = (float)stream.ReceiveNext();
-    //    }
-    //}
 }

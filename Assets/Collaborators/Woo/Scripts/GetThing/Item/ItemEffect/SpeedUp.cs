@@ -7,6 +7,9 @@ public class SpeedUp : Item
 {
     public override void Use()
     {
+        if (!photonView.IsMine)
+            return;
+
         gameObject.SetActive(false);
         GameManager.Instance.player.MoveSpeed = 15f;
 
@@ -16,6 +19,5 @@ public class SpeedUp : Item
     private void RestoreBuff()
     {
         GameManager.Instance.player.MoveSpeed = 10f;
-        PhotonNetwork.Destroy(gameObject);
     }
 }

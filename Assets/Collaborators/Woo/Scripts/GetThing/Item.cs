@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Photon.Pun;
 using UnityEngine;
-using Photon.Pun;
 
 public abstract class Item : MonoBehaviourPun
 {
@@ -27,4 +25,14 @@ public abstract class Item : MonoBehaviourPun
     public EItemType itemType;
 
     public abstract void Use();
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Player")) return;
+
+        if (useType == EUseType.Immediately)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
+    }
 }

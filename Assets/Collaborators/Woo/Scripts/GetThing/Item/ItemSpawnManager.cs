@@ -22,7 +22,8 @@ public class ItemSpawnManager : Singleton<ItemSpawnManager>
         itemList = new List<int>();
         checkList = new List<int>();
 
-        StartCoroutine(Spawn());
+        if (PhotonNetwork.IsMasterClient)
+            StartCoroutine(Spawn());
     }
 
     IEnumerator Spawn()

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerGunAttackCommand : Command
 {   
-    private Item m_item;
+    private ShotGun m_shotgun;
 
-    public PlayerGunAttackCommand(Item item)
+    public PlayerGunAttackCommand(ShotGun gun)
     {
-        this.m_item = item;
+        m_shotgun = gun;
     }    
 
     public override void Execute()          // 플레이어가 기본 총으로 공격하였을 때
@@ -20,7 +20,7 @@ public class PlayerGunAttackCommand : Command
     {
         {
             // 플레이어 attackPos 에서 앞으로 쭉 쏘기 
-            m_item.Use();
+            m_shotgun.Use();
 
             // if( 카메라 에임의 RayCast가 상대 플레이어를 찍지 못했을 때)
             {

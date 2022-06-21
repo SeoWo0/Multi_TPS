@@ -12,6 +12,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     GroundChecker groundChecker;
     Collider col;
     PlayerGunAttackCommand playerGunAttackCommand;
+    PlayerSniperAttackCommand sniperAttack;
 
     Item currentItem;
     [SerializeField]
@@ -50,14 +51,25 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         }
     }
 
+    [PunRPC]
     public void TakeDamage(int damage)
     {
-        //todo: 총에 맞았을때
+        //TODO: 총에 맞았을때
+        m_Hp -= damage;
+
+        if (m_Hp <= 0)
+        {
+            Die();
+            //photonView.RPC(nameof(Die), RpcTarget.All);
+        }
     }
 
+    [PunRPC]
     public void Die()
     {
         //todo: 죽었을때
+        Debug.Log($"{name} : Died");
+        Destroy(gameObject);
     }
     private void Awake()
     {
@@ -73,6 +85,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     {
         if(!photonView.IsMine)
             return;
+
         Move();
         // photonView.RPC("Jump", RpcTarget.All);
         Jump();
@@ -110,7 +123,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         {
             rigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         }
-
     }
 
     private void Attack()
@@ -123,9 +135,9 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
                 playerGunAttackCommand.Execute();
                 break;
             case Item.EGunType.Sniper:
+                sniperAttack.Execute();
                 break;
         }
-
 
         currentItem = null;
     }
@@ -134,8 +146,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     {
         if (other.CompareTag("Item"))
         {
-                currentItem = other.transform.GetComponent<Item>();
-                playerGunAttackCommand = new PlayerGunAttackCommand(currentItem);
+            currentItem = other.transform.GetComponent<Item>();
+            Debug.Log(currentItem);
 
             // switch (currentItem.itemType)
             // {
@@ -155,7 +167,19 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
             else
             {
-                 currentItem.transform.SetParent(weaponHolder);
+                switch (currentItem.gunType)
+                {
+                    case Item.EGunType.ShotGun:
+                        playerGunAttackCommand = new PlayerGunAttackCommand(currentItem as ShotGun);
+                        break;
+
+                    case Item.EGunType.Sniper:
+                        sniperAttack = new PlayerSniperAttackCommand(this, currentItem as SniperGun);
+                        break;
+                }
+
+                currentItem.transform.SetParent(weaponHolder);
+                currentItem.transform.SetPositionAndRotation(weaponHolder.transform.position, weaponHolder.transform.rotation);
             }
         }
     }

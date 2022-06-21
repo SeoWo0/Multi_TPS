@@ -1,32 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class PlayerSniperAttackCommand : Command
 {
-    public PlayerSniperAttackCommand()
-    {
+    private PlayerMove m_player;
+    private SniperGun m_sniper;
 
+    public PlayerSniperAttackCommand(PlayerMove player, SniperGun gun)
+    {
+        m_player = player;
+        m_sniper = gun;
     }
 
     public override void Execute()
     {
+        //m_player.photonView.RPC(nameof(SniperFire), RpcTarget.All);
         SniperFire();
     }
 
+    [PunRPC]
     public void SniperFire()
     {
-        // if( 마우스 좌클릭을 눌렀을때 : InputManager의 특정 bool 값 && 총을 들고 있을 때 : PlayerController의 특정 bool 값)
-        {
-            // 플레이어 attackPos 에서 앞으로 쭉 쏘기
+        // 플레이어 attackPos 에서 앞으로 쭉 쏘기
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPos);
 
-            // if( 카메라 에임의 RayCast가 상대 플레이어를 찍지 못했을 때)
-            {
-            }
-            // if( 카메라 에임의 Raycast가 상대 플레이어을 찍었을 때)
-            {
-                // 상대방 HP -1
-            }
+        if (Physics.Raycast(ray, out RaycastHit _hit, m_sniper.maxRange))
+        {
+            Debug.Log(_hit);
+            _hit.transform.TryGetComponent(out IDamagable _target);
+
+            if (_target == null) return;
+
+            _target.TakeDamage(m_sniper.damage);
         }
+
+        m_sniper.Use();
     }
 }

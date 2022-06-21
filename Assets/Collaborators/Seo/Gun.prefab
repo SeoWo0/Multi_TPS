@@ -43,10 +43,10 @@ GameObject:
   - component: {fileID: 1062776597883376008}
   - component: {fileID: 8920361851328084381}
   - component: {fileID: 1936679811}
-  - component: {fileID: 1936679814}
+  - component: {fileID: 7217342073805051345}
   m_Layer: 0
   m_Name: Gun
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,7 +122,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8204041978782663128}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -223,7 +223,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1936679814
+--- !u!114 &7217342073805051345
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,17 +232,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8204041978782663128}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 245a39cf7250f0f4087bed20ca1c0a9f, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e25a13785bc3ee4ea5d6e57ea86a3de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
   useType: 1
   itemType: 0
-  gunType: 1
-  muzzlePos: {fileID: 4503382642511501958}
-  bullet: {fileID: 7708991738513223683, guid: 5e8031c43389a4643859e00dfa8fb32f, type: 3}
-  audioClipFire: {fileID: 8300000, guid: 4e8356aa333c9ff499bb76d472fa9ac7, type: 3}
-  audioClipTake: {fileID: 8300000, guid: c82dcfc68aa3e2343afbeaf8c51f7f1d, type: 3}
+  gunType: 2
+  maxRange: 10
+  damage: 10
 --- !u!1 &8643223105739208629
 GameObject:
   m_ObjectHideFlags: 0

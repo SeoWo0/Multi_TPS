@@ -35,8 +35,8 @@ public class CameraMovement : MonoBehaviourPun
     private float rotXCamAxisSpeed = 400;   // 카메라 x축 회전 속도
     [SerializeField]
     private float rotYCamAxisSpeed = 400;   // 카메라 y축 회전 속도
-    private float limitMinX = -40;          // 카메라 x축 회전 최소범위
-    private float limitMaxX = 40;           // 카메라 x축 회전 최대범위
+    private float limitMinX = -20;          // 카메라 x축 회전 최소범위
+    private float limitMaxX = 30;           // 카메라 x축 회전 최대범위
     private float eulerAngleY;
     private float eulerAngleX;
     private Vector3 dirNormalized;
@@ -85,8 +85,8 @@ public class CameraMovement : MonoBehaviourPun
 
     public void UpdateRotate()
     {
-        eulerAngleY += playerInput.mouseX * rotYCamAxisSpeed * Time.deltaTime;   // 마우스 좌/우 이동으로 카메라 y축 회전
-        eulerAngleX -= playerInput.mouseY * rotXCamAxisSpeed * Time.deltaTime;   // 마우스 위/아래 이동으로 카메라 x축 회전
+        eulerAngleY += playerInput.MouseX * rotYCamAxisSpeed * Time.deltaTime;   // 마우스 좌/우 이동으로 카메라 y축 회전
+        eulerAngleX -= playerInput.MouseY * rotXCamAxisSpeed * Time.deltaTime;   // 마우스 위/아래 이동으로 카메라 x축 회전
         
         // 카메라 x축 회전의 경우 회전 범위를 설정
         eulerAngleX = Mathf.Clamp(eulerAngleX, limitMinX, limitMaxX);

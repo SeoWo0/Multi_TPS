@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class ShotGun : Item
 {
+    [Header ("Gun Spec")]
     [SerializeField]
     private Transform   muzzlePos;      // 발사 위치
-    [SerializeField]
-    private GameObject  bullet;         // 발사체
+    public float maxRange = 10f;
+    public int damage = 1;
     
-
     [Header ("Audio Clip")]
     [SerializeField]
     private AudioClip   audioClipFire;  // 발사 사운드
@@ -21,9 +22,6 @@ public class ShotGun : Item
         audioSource = GetComponent<AudioSource>();
     }
 
-    private void Update() {
-    }
-
     public void GetGun() 
     {
         // TODO :: 바닥의 총을 줏었을때
@@ -33,14 +31,12 @@ public class ShotGun : Item
     public override void Use()
     {
         Fire();
+        // PhotonNetwork.Destroy(gameObject);
         Destroy(gameObject);
     }
 
     public void Fire()
     {   
         audioSource.PlayOneShot(audioClipFire);
-        Instantiate(bullet, muzzlePos.position, Quaternion.identity);
-
     }
-
 }

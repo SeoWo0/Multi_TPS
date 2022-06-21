@@ -1,36 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class PlayerGunAttackCommand : Command
 {   
-    private Item m_item;
+    private ShotGun m_shotgun;
+    private PlayerMove m_player;
 
-    public PlayerGunAttackCommand(Item item)
+    public PlayerGunAttackCommand(PlayerMove player, ShotGun gun)
     {
-        this.m_item = item;
+        m_player = player;
+        m_shotgun = gun;
     }    
 
     public override void Execute()          // 플레이어가 기본 총으로 공격하였을 때
     {
-        PlayerGunAttack();
+        ShotGunFire();
     }
 
-    public void PlayerGunAttack()                 // 플레이어 기본 총 공격 함수
+    [PunRPC]
+    public void ShotGunFire()                 // 플레이어 기본 총 공격 함수
     {
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPos);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, m_shotgun.maxRange))
         {
-            // 플레이어 attackPos 에서 앞으로 쭉 쏘기 
-            m_item.Use();
+            hit.transform.TryGetComponent(out IDamagable _target);
 
-            // if( 카메라 에임의 RayCast가 상대 플레이어를 찍지 못했을 때)
-            {
-
-            }
-            // if( 카메라 에임의 Raycast가 상대 플레이어을 찍었을 때)
-            {
-                // 상대방 HP -1
-            }
+            if(_target == null)
+                return;
+            _target.TakeDamage(m_shotgun.damage);
         }
-        
+
+        m_shotgun.Use();
     }
 }

@@ -52,12 +52,17 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
     public void TakeDamage(int damage)
     {
-        //todo: 총에 맞았을때
+        m_Hp -= damage;
+
+        if(m_Hp <= 0)
+        {
+            Die();
+        }
     }
 
     public void Die()
     {
-        //todo: 죽었을때
+        Destroy(gameObject);
     }
     private void Awake()
     {
@@ -73,6 +78,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     {
         if(!photonView.IsMine)
             return;
+            
         Move();
         // photonView.RPC("Jump", RpcTarget.All);
         Jump();
@@ -135,7 +141,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         if (other.CompareTag("Item"))
         {
                 currentItem = other.transform.GetComponent<Item>();
-                playerGunAttackCommand = new PlayerGunAttackCommand(currentItem);
 
             // switch (currentItem.itemType)
             // {
@@ -155,7 +160,15 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
             else
             {
+                switch (currentItem.gunType)
+                {
+                    case Item.EGunType.ShotGun:
+                        playerGunAttackCommand = new PlayerGunAttackCommand(this, currentItem as ShotGun);
+                        break;
+
+                }
                  currentItem.transform.SetParent(weaponHolder);
+                 currentItem.transform.SetPositionAndRotation(weaponHolder.position, weaponHolder.rotation);
             }
         }
     }

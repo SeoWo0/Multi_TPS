@@ -11,6 +11,7 @@ public struct tPlayerCommand
 {
     public KeyCode playerJump;
     public KeyCode playerShoot;
+    public KeyCode playerZoom;
 }
 
 public class PlayerInput : MonoBehaviour,IPunObservable
@@ -35,6 +36,9 @@ public class PlayerInput : MonoBehaviour,IPunObservable
 
     private float m_mouseX;
     private float m_mouseY;
+    private bool m_mouseLeft;
+    private bool m_mouseRight;
+
     public void Initialize(int playerId, string playerName)
     {
         ownerId = playerId;
@@ -89,6 +93,10 @@ public class PlayerInput : MonoBehaviour,IPunObservable
             return m_mouseY;
         }
     }
+
+    public bool MouseLeftClick => m_mouseLeft;
+    public bool MouseRightClick => m_mouseRight;
+
     private void Awake()
     {
         //if (s_Instance == null)
@@ -117,7 +125,13 @@ public class PlayerInput : MonoBehaviour,IPunObservable
 
         m_mouseX = Input.GetAxis("Mouse X");
         m_mouseY = Input.GetAxis("Mouse Y");
-        
+
+        m_mouseLeft = Input.GetKeyDown(m_command.playerShoot);
+
+        if (Input.GetKeyDown(m_command.playerZoom))
+        {
+            m_mouseRight = !m_mouseRight;
+        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

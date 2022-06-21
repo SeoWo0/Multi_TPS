@@ -36,9 +36,8 @@ public class PlayerInput : MonoBehaviour,IPunObservable
 
     private float m_mouseX;
     private float m_mouseY;
-    private bool m_mouseLeft;
     private bool m_mouseRight;
-
+    private bool m_mouseLeft;
     public void Initialize(int playerId, string playerName)
     {
         ownerId = playerId;
@@ -78,7 +77,7 @@ public class PlayerInput : MonoBehaviour,IPunObservable
     }
 
     //마우스 움직임 반환    
-    public float mouseX
+    public float MouseX
     {
         get
         {
@@ -86,7 +85,7 @@ public class PlayerInput : MonoBehaviour,IPunObservable
         }
     }
 
-    public float mouseY
+    public float MouseY
     {
         get
         {
@@ -94,8 +93,21 @@ public class PlayerInput : MonoBehaviour,IPunObservable
         }
     }
 
-    public bool MouseLeftClick => m_mouseLeft;
-    public bool MouseRightClick => m_mouseRight;
+    public bool MouseRight
+    {
+        get
+        {
+            return m_mouseRight;
+        }
+    }
+
+    public bool MouseLeft
+    {
+        get
+        {
+            return m_mouseLeft;
+        }
+    }
 
     private void Awake()
     {
@@ -127,11 +139,13 @@ public class PlayerInput : MonoBehaviour,IPunObservable
         m_mouseY = Input.GetAxis("Mouse Y");
 
         m_mouseLeft = Input.GetKeyDown(m_command.playerShoot);
-
-        if (Input.GetKeyDown(m_command.playerZoom))
+        
+        if(Input.GetKeyDown(m_command.playerZoom)) 
         {
             m_mouseRight = !m_mouseRight;
         }
+        
+        
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

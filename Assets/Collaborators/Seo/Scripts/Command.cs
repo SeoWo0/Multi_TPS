@@ -4,8 +4,7 @@ using UnityEngine;
 
 public abstract class Command
 {
-    public InputManager inputManager;
-    //public PlayerMove playerMove;
+    public PlayerInput playerInput;
 
     public abstract void Execute();         // override 해서 사용할 함수
 }

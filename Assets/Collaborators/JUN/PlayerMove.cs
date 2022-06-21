@@ -11,8 +11,11 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     PlayerInput m_input;
     GroundChecker groundChecker;
     Collider col;
+    PlayerGunAttackCommand playerGunAttackCommand;
 
     Item currentItem;
+    [SerializeField]
+    private Transform weaponHolder;
 
     [SerializeField]
     private float moveSpeed = 10f;
@@ -71,7 +74,9 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         if(!photonView.IsMine)
             return;
         Move();
-        photonView.RPC("Jump", RpcTarget.All);
+        // photonView.RPC("Jump", RpcTarget.All);
+        Jump();
+        Attack();
 
         float colY = col.transform.position.y;
         colY += 0.5f;
@@ -94,7 +99,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
     }
     
-    [PunRPC]
+    // [PunRPC]
     private void Jump()
     {
         animator.SetBool("Jump", !groundChecker.IsGrounded());
@@ -108,22 +113,40 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
     }
 
+    private void Attack()
+    {
+        if (!m_input.MouseLeft) return;
+
+        switch (currentItem.gunType)
+        {
+            case Item.EGunType.ShotGun:
+                playerGunAttackCommand.Execute();
+                break;
+            case Item.EGunType.Sniper:
+                break;
+        }
+
+
+        currentItem = null;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Item"))
         {
-            currentItem = other.transform.GetComponent<Item>();
+                currentItem = other.transform.GetComponent<Item>();
+                playerGunAttackCommand = new PlayerGunAttackCommand(currentItem);
 
-            switch (currentItem.itemType)
-            {
-                case Item.EItemType.Weapon:
-                    WeaponSpawnManager.Instance.CheckListRemove(currentItem.index);
-                    break;
+            // switch (currentItem.itemType)
+            // {
+            //     case Item.EItemType.Weapon:
+            //         WeaponSpawnManager.Instance.CheckListRemove(currentItem.index);
+            //         break;
 
-                case Item.EItemType.Buff:
-                    ItemSpawnManager.Instance.CheckListRemove(currentItem.index);
-                    break;
-            }
+            //     case Item.EItemType.Buff:
+            //         ItemSpawnManager.Instance.CheckListRemove(currentItem.index);
+            //         break;
+            // }
 
             if (currentItem.useType == Item.EUseType.Immediately)
             {
@@ -132,7 +155,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
             else
             {
-                currentItem.Use();
+                 currentItem.transform.SetParent(weaponHolder);
             }
         }
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class CreateRoomPanel : MonoBehaviour
 {
@@ -29,7 +30,10 @@ public class CreateRoomPanel : MonoBehaviour
         }
 
         byte maxPlayer = (byte)maxPlayerCount;
-        RoomOptions options = new RoomOptions { MaxPlayers = maxPlayer };
+        // For Room Chatting Channel
+        string _chattingChannel = "Channel " + Random.Range(0, 1000);
+        RoomOptions options = new RoomOptions { MaxPlayers = maxPlayer, 
+            CustomRoomProperties = new Hashtable { { GameData.ROOM_CHAT_CHANNEL, _chattingChannel } } };
         PhotonNetwork.CreateRoom(roomName, options, null);
     }
 

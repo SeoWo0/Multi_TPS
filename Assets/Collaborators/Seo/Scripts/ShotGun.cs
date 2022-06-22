@@ -30,9 +30,9 @@ public class ShotGun : Item
 
     public override void Use()
     {
-        Fire();
         // PhotonNetwork.Destroy(gameObject);
-        Destroy(gameObject);
+        Fire();
+        Destroy(gameObject, audioClipFire.length);
     }
 
     public void Fire()

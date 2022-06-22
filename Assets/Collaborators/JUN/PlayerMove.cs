@@ -55,6 +55,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
     public void Die()
     {
         InGameChat.instance.AddLine(InGameChat.instance.UserName + "님이 죽음.");
+        InGameChat.instance.KillLog(InGameChat.instance.UserName + "님이 죽음.");
     }
     private void Awake()
     {

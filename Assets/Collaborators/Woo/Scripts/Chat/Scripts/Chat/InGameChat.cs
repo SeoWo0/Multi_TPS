@@ -197,8 +197,13 @@ public class InGameChat : MonoBehaviourPunCallbacks, IChatClientListener
 
     public void Input_OnEndEdit(string text)
     {
-        chatClient.PublishMessage(currentChannelName, $"{userName} : {inputField.text}");
+        chatClient.PublishMessage(currentChannelName, $"{userName} : {text}");
 
         inputField.text = "";
+    }
+
+    public void KillLog(string text)
+    {
+        chatClient.PublishMessage(currentChannelName, $"{text}");
     }
 }

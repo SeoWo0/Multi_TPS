@@ -194,7 +194,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
                 switch (currentItem.gunType)
                 {
                     case Item.EGunType.ShotGun:
-                        playerGunAttackCommand = new PlayerGunAttackCommand(currentItem as ShotGun);
+                        playerGunAttackCommand = new PlayerGunAttackCommand(this, currentItem as ShotGun);
                         break;
 
                     case Item.EGunType.Sniper:

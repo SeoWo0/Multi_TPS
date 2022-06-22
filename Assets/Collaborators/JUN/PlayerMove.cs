@@ -68,12 +68,22 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
     private void Update()
     {
-        Move();
-        Jump();
+        if (!photonView.IsMine)
+            return;
 
-        float colY = col.transform.position.y;
-        colY += 0.5f;
-        Debug.DrawRay(new Vector3(transform.position.x, colY, transform.position.z), transform.forward, new Color(255, 0, 0));
+
+        if (m_input.JumpInput && groundChecker.IsGrounded())
+            Jump();
+
+        if (animator.velocity.y > 0 && !groundChecker.IsGrounded())
+            animator.SetTrigger("Fall");
+    }
+    private void FixedUpdate()
+    {
+        if (!photonView.IsMine)
+            return;
+
+        Move();
     }
 
     private void Move()
@@ -86,7 +96,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         if (Mathf.Approximately(m_dir.x, 0) && Mathf.Approximately(m_dir.z, 0))
             animator.SetBool("Walk", false);
         else
-            animator.SetBool("Walk", true);
+            animator.SetBool("Walk", groundChecker.IsGrounded());
         animator.SetFloat("xDir", m_input.HInput);
         animator.SetFloat("yDir", m_input.VInput);
 
@@ -94,15 +104,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
     private void Jump()
     {
-        animator.SetBool("Jump", !groundChecker.IsGrounded());
-        if (!groundChecker.IsGrounded())
-            return;
-
-        if (m_input.JumpInput)
-        {
-            rigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-        }
-
+        rigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+        animator.SetTrigger("jumping");
     }
 
     private void OnTriggerEnter(Collider other)

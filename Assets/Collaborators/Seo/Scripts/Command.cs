@@ -4,7 +4,9 @@ using UnityEngine;
 
 public abstract class Command
 {
-    public Transform attackPos;             // 캐릭터의 공격 위치
+    protected PlayerInput playerInput;
+    
+    protected Vector3 screenCenterPos = new Vector2(Screen.width / 2f, Screen.height / 2f);
 
     public abstract void Execute();         // override 해서 사용할 함수
 }

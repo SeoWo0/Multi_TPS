@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Chat;
 using ExitGames.Client.Photon;
 
-public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
+public class Chat : MonoBehaviour, IChatClientListener
 {
     public static Chat instance { get; private set; }
 
@@ -16,7 +16,7 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
     }
 
     Queue<Text> chatQueue = new Queue<Text>();
-
+    
     private ChatClient chatClient;
     private string userName;
     private string currentChannelName;
@@ -31,17 +31,19 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
 
     private bool m_buttonDown;
 
-    private void Start()
+    private void OnEnable()
     {
+        RenewalRoom();
+
         Application.runInBackground = true;
 
-        currentChannelName = "Channel 001";
+        currentChannelName = "Channel";
 
         chatClient = new ChatClient(this);
 
-        chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, "1.0", new AuthenticationValues(userName));
-
         userName = PhotonNetwork.LocalPlayer.NickName;
+    
+        chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, "1.0", new AuthenticationValues(userName));
 
         AddLine(string.Format("연결시도 중" , userName));
     }
@@ -50,15 +52,14 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
     {
         chatClient.Service();
 
-        //if (!PhotonNetwork.LocalPlayer.IsLocal) return;
+
         IsActiveChat();
-        //NickNameShow();
+
+        Debug.Log(chatQueue.Count);
+
     }
 
-    //private void NickNameShow()
-    //{
-    //    nickNameText.text = "My NickName : " + userName;
-    //}
+
 
     public void IsActiveChat()
     {
@@ -131,11 +132,10 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
         }
     }
 
-    public override void OnConnected()
+    public void OnConnected()
     {
         AddLine("서버에 연결되었습니다.");
-
-        chatClient.Subscribe(new string[] { currentChannelName });
+        chatClient.Subscribe(new string[] { currentChannelName += Random.Range(0, 100) });
     }
 
     public void OnDisconnected()
@@ -183,12 +183,12 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
 
     public void OnUserSubscribed(string channel, string user)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public void OnUserUnsubscribed(string channel, string user)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public void Input_OnEndEdit(string text)
@@ -196,5 +196,30 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
         chatClient.PublishMessage(currentChannelName, $"{userName} : {inputField.text}");
 
         inputField.text = "";
+    }
+    
+    public void OnplayerEnterRoom()
+    {
+
+    }
+
+    public void OnPlayerLeftRoom()
+    {
+
+    }
+
+    public void OnLeaveRoom()
+    {
+        // chatClient.Unsubscribe();
+    }
+    public void RenewalRoom()
+    {
+        float deleteCount = chatQueue.Count;
+
+        for(int i=0; i< deleteCount; i++)
+        {
+            Text _disableText = chatQueue.Dequeue();
+            Destroy(_disableText.gameObject);
+        }
     }
 }

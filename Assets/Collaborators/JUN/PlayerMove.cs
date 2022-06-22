@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -11,12 +12,18 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     PlayerInput m_input;
     GroundChecker groundChecker;
     Collider col;
+    PlayerGunAttackCommand playerGunAttackCommand;
+    PlayerSniperAttackCommand sniperAttack;
 
     Item currentItem;
-
     [SerializeField]
+
     private float moveSpeed = 4f;
     private float jumpPower = 7f;
+
+    private Transform weaponHolder;
+
+    private float m_extraGravity = -15f;
     
     [SerializeField]
     private int m_Hp = 1;
@@ -50,14 +57,23 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         }
     }
 
+    [PunRPC]
     public void TakeDamage(int damage)
     {
-        //todo: 총에 맞았을때
+        //TODO: 총에 맞았을때
+        m_Hp -= damage;
+
+        if (m_Hp <= 0)
+        {
+            Die();
+            //photonView.RPC(nameof(Die), RpcTarget.All);
+        }
     }
 
+    [PunRPC]
     public void Die()
     {
-        //todo: 죽었을때
+        Destroy(gameObject);
     }
     private void Awake()
     {
@@ -71,8 +87,13 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
     private void Update()
     {
-        if (!photonView.IsMine)
+        if(!photonView.IsMine)
             return;
+        
+        // photonView.RPC("Jump", RpcTarget.All);
+        Jump();
+        
+        Attack();
 
         //Fall Animation
         //animator.SetBool("IsGround", groundChecker.IsGrounded());
@@ -103,14 +124,39 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         Move();
     }
 
+    private void FixedUpdate()
+    {
+        if (!photonView.IsMine) return;
+        
+        Move();
+    }
+
     private void Move()
     {
         //Vector3 m_Velocity= new Vector3(-m_input.HInput, 0, -m_input.VInput) * moveSpeed;
-        Vector3 m_dir = transform.right * m_input.HInput + transform.forward * m_input.VInput;
-        rigid.velocity = new Vector3(m_dir.x * moveSpeed, rigid.velocity.y, m_dir.z * moveSpeed);
+        Vector3 _dir = transform.right * m_input.HInput + transform.forward * m_input.VInput;
+        if (_dir.magnitude > 1)
+        {
+            _dir.Normalize();
+        }
+
+        if (!groundChecker.IsGrounded())
+        {
+            rigid.AddForce(transform.up * (m_extraGravity * Time.deltaTime), ForceMode.VelocityChange);
+        }
+        
+        transform.Translate(_dir * (moveSpeed * Time.deltaTime), Space.World);
+
+        //rigid.velocity = new Vector3(_dir.x * moveSpeed, rigid.velocity.y, _dir.z * moveSpeed);
+
+        //rigid.AddForce(_dir * (moveSpeed * Time.deltaTime), ForceMode.Impulse);
+        // if (rigid.velocity.sqrMagnitude > maxSpeed * maxSpeed)
+        // {
+        //     rigid.velocity = new Vector3(maxSpeed, rigid.velocity.y, maxSpeed);
+        // }
         
         //animator setting
-        if (Mathf.Approximately(m_dir.x, 0) && Mathf.Approximately(m_dir.z, 0))
+        if (Mathf.Approximately(_dir.x, 0) && Mathf.Approximately(_dir.z, 0))
             animator.SetBool("Walk", false);
         else
             animator.SetBool("Walk", groundChecker.IsGrounded());
@@ -119,29 +165,47 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         animator.SetFloat("yDir", m_input.VInput);
 
     }
-
+    
+    // [PunRPC]
     private void Jump()
     {
         rigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         animator.SetTrigger("jumping");
     }
 
+    private void Attack()
+    {
+        if (!m_input.MouseLeft) return;
+
+        switch (currentItem.gunType)
+        {
+            case Item.EGunType.ShotGun:
+                playerGunAttackCommand.Execute();
+                break;
+            case Item.EGunType.Sniper:
+                sniperAttack.Execute();
+                break;
+        }
+
+        currentItem = null;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Item"))
         {
-            currentItem = other.transform.GetComponent<Item>();
+                currentItem = other.transform.GetComponent<Item>();
 
-            switch (currentItem.itemType)
-            {
-                case Item.EItemType.Weapon:
-                    WeaponSpawnManager.Instance.CheckListRemove(currentItem.index);
-                    break;
+            // switch (currentItem.itemType)
+            // {
+            //     case Item.EItemType.Weapon:
+            //         WeaponSpawnManager.Instance.CheckListRemove(currentItem.index);
+            //         break;
 
-                case Item.EItemType.Buff:
-                    ItemSpawnManager.Instance.CheckListRemove(currentItem.index);
-                    break;
-            }
+            //     case Item.EItemType.Buff:
+            //         ItemSpawnManager.Instance.CheckListRemove(currentItem.index);
+            //         break;
+            // }
 
             if (currentItem.useType == Item.EUseType.Immediately)
             {
@@ -150,7 +214,19 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
             else
             {
-                currentItem.Use();
+                switch (currentItem.gunType)
+                {
+                    case Item.EGunType.ShotGun:
+                        playerGunAttackCommand = new PlayerGunAttackCommand(this, currentItem as ShotGun);
+                        break;
+
+                    case Item.EGunType.Sniper:
+                        sniperAttack = new PlayerSniperAttackCommand(this, currentItem as SniperGun);
+                        break;
+                }
+
+                currentItem.transform.SetParent(weaponHolder);
+                currentItem.transform.SetPositionAndRotation(weaponHolder.transform.position, weaponHolder.transform.rotation);
             }
         }
     }

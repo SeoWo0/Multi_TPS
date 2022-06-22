@@ -132,8 +132,8 @@ public class PlayerInput : MonoBehaviour,IPunObservable
         m_Jump = Input.GetKeyDown(m_command.playerJump);
 
         //키 입력시 값 변환
-        m_hInput = Input.GetAxis("Horizontal");
-        m_vInput = Input.GetAxis("Vertical");
+        m_hInput = Input.GetAxisRaw("Horizontal");
+        m_vInput = Input.GetAxisRaw("Vertical");
 
         m_mouseX = Input.GetAxis("Mouse X");
         m_mouseY = Input.GetAxis("Mouse Y");

@@ -67,8 +67,8 @@ public class CameraMovement : MonoBehaviourPun
     private void LateUpdate() {
     
         if(!photonView.IsMine) return;
-        transform.position = Vector3.MoveTowards(transform.position, objectFollow.position, followSpeed);  
-        finalDir = transform.TransformPoint(dirNormalized * maxDistance);  
+        transform.position = Vector3.MoveTowards(transform.position, objectFollow.position, followSpeed);
+        finalDir = transform.TransformPoint(dirNormalized * maxDistance);
 
         RaycastHit hit;
 

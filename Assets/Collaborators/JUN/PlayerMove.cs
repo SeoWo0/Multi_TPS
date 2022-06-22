@@ -22,7 +22,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     [SerializeField]private float moveSpeed = 10f;
     [SerializeField]private float maxSpeed = 50f;
     [SerializeField]private float jumpPower = 10f;
-    private float m_extraGravity = -10f;
+    private float m_extraGravity = -15f;
     
     [SerializeField]
     private int m_Hp = 1;

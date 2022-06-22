@@ -442,6 +442,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UnityChanPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 5131495029731022068, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48df848726e113e4b8c63e14f57b11d3, type: 3}
 --- !u!4 &2563522609721357573 stripped

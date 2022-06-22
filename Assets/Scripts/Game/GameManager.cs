@@ -90,7 +90,7 @@ public class GameManager : Singleton<GameManager>
         switch ((int)playerIndex - 1)
         {
             case 0:
-                GameObject playerModel = PhotonNetwork.Instantiate("MisakiPlayer", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);
+                GameObject playerModel = PhotonNetwork.Instantiate("Player 1", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);
                 player = playerModel.GetComponent<PlayerMove>();
                 break;
             case 1:

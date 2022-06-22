@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class SpeedUp : Item
 {
     public override void Use()
     {
-        if (!photonView.IsMine)
-            return;
-
         gameObject.SetActive(false);
-        GameManager.Instance.player.MoveSpeed = 15f;
-
-        Invoke("RestoreBuff", 3f);
+        GameManager.Instance.player.MoveSpeed *= 2;
+        Invoke(nameof(RestoreBuff), 3.5f);
     }
 
     private void RestoreBuff()
     {
-        GameManager.Instance.player.MoveSpeed = 10f;
+        GameManager.Instance.player.MoveSpeed /= 2;
+
+        PhotonNetwork.Destroy(gameObject);
     }
+
+    private void OnTriggerEnter(Collider other) { }
 }

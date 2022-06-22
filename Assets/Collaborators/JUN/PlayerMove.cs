@@ -126,6 +126,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!photonView.IsMine) return;
+
         if (other.CompareTag("Item"))
         {
             currentItem = other.transform.GetComponent<Item>();

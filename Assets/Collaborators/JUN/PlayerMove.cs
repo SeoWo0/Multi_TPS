@@ -15,11 +15,14 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     Item currentItem;
 
     [SerializeField]
-    private float moveSpeed = 10f;
-    private float jumpPower = 10f;
+    private float moveSpeed = 4f;
+    private float jumpPower = 7f;
     
     [SerializeField]
     private int m_Hp = 1;
+
+    //FallAnimation
+    //private bool isFall = false;
 
     public float MoveSpeed
     {
@@ -71,12 +74,26 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         if (!photonView.IsMine)
             return;
 
+        //Fall Animation
+        //animator.SetBool("IsGround", groundChecker.IsGrounded());
+        //if(groundChecker.IsGrounded() == true)
+        //{
+        //    isFall = false;
+        //}
 
         if (m_input.JumpInput && groundChecker.IsGrounded())
             Jump();
 
-        if (animator.velocity.y > 0 && !groundChecker.IsGrounded())
-            animator.SetTrigger("Fall");
+        //Fall Animation
+        //if (rigid.velocity.y < -0.1f && !groundChecker.IsGrounded())
+        //{
+        //    if(isFall == false)
+        //    {
+        //        animator.SetTrigger("Fall");
+        //        isFall = true;
+        //    }
+
+        //}
     }
     private void FixedUpdate()
     {
@@ -97,6 +114,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
             animator.SetBool("Walk", false);
         else
             animator.SetBool("Walk", groundChecker.IsGrounded());
+        
         animator.SetFloat("xDir", m_input.HInput);
         animator.SetFloat("yDir", m_input.VInput);
 

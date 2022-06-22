@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Chat;
 using ExitGames.Client.Photon;
 
-public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
+public class Chat : MonoBehaviour, IChatClientListener
 {
     public static Chat instance { get; private set; }
 
@@ -27,15 +27,19 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
     public InputField inputField;
     public Text outputText;
     public GameObject showText;
-    //public Text nickNameText;
 
     private bool m_buttonDown;
 
-    private void Start()
+    private void OnEnable()
     {
+        ClearChat();
+
         Application.runInBackground = true;
 
-        currentChannelName = "Channel 001";
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(GameData.ROOM_CHAT_CHANNEL, out var _chatChannel))
+        {
+            currentChannelName = (string)_chatChannel;
+        }
 
         chatClient = new ChatClient(this);
 
@@ -50,15 +54,8 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
     {
         chatClient.Service();
 
-        //if (!PhotonNetwork.LocalPlayer.IsLocal) return;
         IsActiveChat();
-        //NickNameShow();
     }
-
-    //private void NickNameShow()
-    //{
-    //    nickNameText.text = "My NickName : " + userName;
-    //}
 
     public void IsActiveChat()
     {
@@ -131,7 +128,7 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
         }
     }
 
-    public override void OnConnected()
+    public void OnConnected()
     {
         AddLine("서버에 연결되었습니다.");
 
@@ -190,6 +187,22 @@ public class Chat : MonoBehaviourPunCallbacks, IChatClientListener
     public void OnUserUnsubscribed(string channel, string user)
     {
         throw new System.NotImplementedException();
+    }
+
+    public void OnLeftRoom()
+    {
+        chatClient.Unsubscribe(new string[] { currentChannelName });
+    }
+
+    private void ClearChat()
+    {
+        int _deleteCount = chatQueue.Count;
+
+        for (int i = 0; i < _deleteCount; i++)
+        {
+            Text _text = chatQueue.Dequeue();
+            Destroy(_text.gameObject);
+        }
     }
 
     public void Input_OnEndEdit(string text)

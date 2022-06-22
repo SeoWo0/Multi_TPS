@@ -31,11 +31,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     
     public void SetActivePanel(PANEL panel)
     {
-        loginPanel.gameObject.SetActive(panel == PANEL.Login);
-        inConnectPanel.gameObject.SetActive(panel == PANEL.Connect);
-        lobbyPanel.gameObject.SetActive(panel == PANEL.Lobby);
-        inRoomPanel.gameObject.SetActive(panel == PANEL.Room);
-        createRoomPanel.gameObject.SetActive(panel == PANEL.CreateRoom);
+        loginPanel?.gameObject.SetActive(panel == PANEL.Login);
+        inConnectPanel?.gameObject.SetActive(panel == PANEL.Connect);
+        lobbyPanel?.gameObject.SetActive(panel == PANEL.Lobby);
+        inRoomPanel?.gameObject.SetActive(panel == PANEL.Room);
+        createRoomPanel?.gameObject.SetActive(panel == PANEL.CreateRoom);
     }
 
     public void ShowError(string error)
@@ -80,7 +80,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinRandomFailed(short returnCode, string message)
     {  
         string roomName = "Room" + Random.Range(1000, 10000);
-        RoomOptions options = new RoomOptions { MaxPlayers = 4};
+        // For Room Chatting Channel
+        string _chattingChannel = "Channel " + Random.Range(0, 1000);
+        RoomOptions options = new RoomOptions
+        {
+            MaxPlayers = 4,
+            CustomRoomProperties = new Hashtable { { GameData.ROOM_CHAT_CHANNEL, _chattingChannel } }
+        };
         PhotonNetwork.CreateRoom(roomName, options, null);
     }
 

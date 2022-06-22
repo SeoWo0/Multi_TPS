@@ -21,8 +21,12 @@ public class Chat : MonoBehaviour, IChatClientListener
     private string userName;
     private string currentChannelName;
 
-    
+    public string UserName
+    {
+        get { return userName; }
 
+        set { }
+    }
     public Animator animator;
     public InputField inputField;
     public Text outputText;
@@ -210,5 +214,10 @@ public class Chat : MonoBehaviour, IChatClientListener
         chatClient.PublishMessage(currentChannelName, $"{userName} : {inputField.text}");
 
         inputField.text = "";
+    }
+
+    public void KillLog(string text)
+    {
+        chatClient.PublishMessage(currentChannelName, $"{text}");
     }
 }

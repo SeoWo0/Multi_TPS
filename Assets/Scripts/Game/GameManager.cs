@@ -124,6 +124,6 @@ public class GameManager : Singleton<GameManager>
     public void PrintInfo(string info)
     {
         Debug.Log(info);
-        infoText.text = info;
+        //infoText.text = info;
     }
 }

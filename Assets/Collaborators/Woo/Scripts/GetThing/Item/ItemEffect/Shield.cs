@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class Shield : Item
@@ -15,6 +16,6 @@ public class Shield : Item
         }
 
         // PhotonNetwork.Destroy();
-        Destroy(gameObject);
+        photonView.RPC(nameof(OnGetItem), RpcTarget.MasterClient);
     }
 }

@@ -37,14 +37,22 @@ public abstract class Item : MonoBehaviourPun
 
     public abstract void Use();
 
-    private void OnTriggerEnter(Collider other)
+    [PunRPC]
+    public void OnGetItem()
     {
-        if (!other.CompareTag("Player")) return;
-
-        transform.GetComponent<Rotation>().enabled = false;
-
-        onGetItemEvent?.Invoke();
-
-        Destroy(gameObject);
+        if (!PhotonNetwork.IsMasterClient) return;
+        
+        PhotonNetwork.Destroy(gameObject);
     }
+
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (!other.CompareTag("Player")) return;
+    //
+    //     transform.GetComponent<Rotation>().enabled = false;
+    //
+    //     onGetItemEvent?.Invoke();
+    //
+    //     Destroy(gameObject);
+    // }
 }

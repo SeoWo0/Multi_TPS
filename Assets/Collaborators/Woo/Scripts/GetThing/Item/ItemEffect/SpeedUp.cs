@@ -17,7 +17,6 @@ public class SpeedUp : Item
     {
         GameManager.Instance.player.MoveSpeed = GameManager.Instance.player.MoveSpeed - 3f;
 
-        Destroy(gameObject);
-
+        photonView.RPC(nameof(OnGetItem), RpcTarget.MasterClient);
     }
 }

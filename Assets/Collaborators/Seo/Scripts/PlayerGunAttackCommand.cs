@@ -4,33 +4,25 @@ using UnityEngine;
 using Photon.Pun;
 
 public class PlayerGunAttackCommand : Command
-{   
-    private ShotGun m_shotgun;
-    private PlayerMove m_player;
-
-    public PlayerGunAttackCommand(PlayerMove player, ShotGun gun)
+{
+    public PlayerGunAttackCommand(PlayerMove player, Gun gun) : base(player, gun)
     {
-        m_player = player;
-        m_shotgun = gun;
-    }    
-
-    public override void Execute()          // 플레이어가 기본 총으로 공격하였을 때
+    }
+    
+    public override void Execute(Vector3 targetPos)          // 플레이어가 기본 총으로 공격하였을 때
     {
-        ShotGunFire();
+        ShotGunFire(targetPos);
     }
 
-    public void ShotGunFire()                 // 플레이어 기본 총 공격 함수
+    public void ShotGunFire(Vector3 targetPos)                 // 플레이어 기본 총 공격 함수
     {
         //m_shotgun.Use();
 
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterPos);
+        var _position = gun.muzzlePos.position;
+            
+        Vector3 _aimDir = (targetPos - _position).normalized;
 
-        if (Physics.Raycast(ray, out RaycastHit _hit, m_shotgun.hitLayer))
-        {
-            Vector3 _aimDir = (_hit.point - m_shotgun.muzzlePos.position).normalized;
-
-            //Vector3 _shotPos = (Vector2)m_shotgun.muzzlePos.position - Random.insideUnitCircle;
-            Object.Instantiate(m_shotgun.bullet, m_shotgun.muzzlePos.position, Quaternion.LookRotation(_aimDir, Vector3.up));
-        }
+        //Vector3 _shotPos = (Vector2)m_shotgun.muzzlePos.position - Random.insideUnitCircle;
+        Object.Instantiate(gun.bullet, _position, Quaternion.LookRotation(_aimDir, Vector3.up));
     }
 }

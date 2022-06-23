@@ -98,11 +98,19 @@ MonoBehaviour:
   useType: 1
   itemType: 0
   gunType: 2
+  muzzlePos: {fileID: 0}
   maxRange: 10
   damage: 10
+  hitLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  audioClipFire: {fileID: 0}
+  audioClipTake: {fileID: 0}
   soundEffectPrefab: {fileID: 4575907500896311598, guid: 6656dfb2caca4a4468d7dc82da762135,
     type: 3}
-  fireAudioClip: {fileID: 8300000, guid: 40fa03bd1183d224fba5c1f0ba1809a4, type: 3}
+  bullet: {fileID: 0}
+  fireFlameFx: {fileID: 0}
+  hitFx: {fileID: 0}
 --- !u!1001 &2985844331499531229
 PrefabInstance:
   m_ObjectHideFlags: 0

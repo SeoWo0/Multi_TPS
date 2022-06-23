@@ -54,9 +54,6 @@ public class Chat : MonoBehaviour, IChatClientListener
 
 
         IsActiveChat();
-
-        Debug.Log(chatQueue.Count);
-
     }
 
 

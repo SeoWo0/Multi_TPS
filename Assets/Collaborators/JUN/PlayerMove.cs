@@ -12,12 +12,14 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     PlayerInput m_input;
     GroundChecker groundChecker;
     Collider col;
+    
     PlayerGunAttackCommand playerGunAttackCommand;
     PlayerSniperAttackCommand sniperAttack;
+    [SerializeField] private LayerMask attackTargetLayer;
 
     Item currentItem;
+    
     [SerializeField]
-
     private float moveSpeed = 4f;
     private float jumpPower = 7f;
 
@@ -60,7 +62,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     [PunRPC]
     public void TakeDamage(int damage)
     {
-        //TODO: 총에 맞았을때
         m_Hp -= damage;
         print("Hit!!");
 
@@ -91,9 +92,18 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     {
         if(!photonView.IsMine)
             return;
-        
-        //photonView.RPC(nameof(Attack), RpcTarget.All);
-        Attack();
+
+        if (m_input.MouseLeft)
+        {
+            Vector3 _screenCenterPos = new Vector3(Screen.width / 2f, Screen.height / 2f);
+            Ray _ray = Camera.main.ScreenPointToRay(_screenCenterPos);
+
+            if (Physics.Raycast(_ray, out RaycastHit _hit, attackTargetLayer))
+            {
+                photonView.RPC(nameof(Attack), RpcTarget.All, _hit.point);
+            }
+            //Attack();
+        }
 
         //Fall Animation
         //animator.SetBool("IsGround", groundChecker.IsGrounded());
@@ -126,28 +136,16 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
     private void Move()
     {
-        //Vector3 m_Velocity= new Vector3(-m_input.HInput, 0, -m_input.VInput) * moveSpeed;
         Vector3 _dir = transform.right * m_input.HInput + transform.forward * m_input.VInput;
         if (_dir.magnitude > 1)
         {
             _dir.Normalize();
         }
 
-        if (!groundChecker.IsGrounded())
-        {
-            rigid.AddForce(transform.up * (m_extraGravity * Time.deltaTime), ForceMode.VelocityChange);
-        }
-        
         transform.Translate(_dir * (moveSpeed * Time.deltaTime), Space.World);
 
         //rigid.velocity = new Vector3(_dir.x * moveSpeed, rigid.velocity.y, _dir.z * moveSpeed);
 
-        //rigid.AddForce(_dir * (moveSpeed * Time.deltaTime), ForceMode.Impulse);
-        // if (rigid.velocity.sqrMagnitude > maxSpeed * maxSpeed)
-        // {
-        //     rigid.velocity = new Vector3(maxSpeed, rigid.velocity.y, maxSpeed);
-        // }
-        
         //animator setting
         if (Mathf.Approximately(_dir.x, 0) && Mathf.Approximately(_dir.z, 0))
             animator.SetBool("Walk", false);
@@ -156,7 +154,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         
         animator.SetFloat("xDir", m_input.HInput);
         animator.SetFloat("yDir", m_input.VInput);
-
     }
     
     // [PunRPC]
@@ -167,10 +164,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     }
 
     [PunRPC]
-    private void Attack()
+    private void Attack(Vector3 targetPos)
     {
-        if (!m_input.MouseLeft) return;
-
         if (!currentItem)
         {
             animator.SetBool("HasGun", false);
@@ -180,10 +175,10 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         switch (currentItem.gunType)
         {
             case Item.EGunType.ShotGun:
-                playerGunAttackCommand.Execute();
+                playerGunAttackCommand.Execute(targetPos);
                 break;
             case Item.EGunType.Sniper:
-                sniperAttack.Execute();
+                sniperAttack.Execute(targetPos);
                 break;
         }
     }
@@ -192,18 +187,23 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     {
         if (other.CompareTag("Item"))
         {
-                currentItem = other.transform.GetComponent<Item>();
+            if (currentItem && other.transform.GetComponent<Item>().itemType == Item.EItemType.Weapon)
+            {
+                return;
+            }
+            
+            currentItem = other.transform.GetComponent<Item>();
 
-            // switch (currentItem.itemType)
-            // {
-            //     case Item.EItemType.Weapon:
-            //         WeaponSpawnManager.Instance.CheckListRemove(currentItem.index);
-            //         break;
+            switch (currentItem.itemType)
+            {
+                case Item.EItemType.Weapon:
+                    WeaponSpawnManager.Instance.CheckListRemove(currentItem.index);
+                    break;
 
-            //     case Item.EItemType.Buff:
-            //         ItemSpawnManager.Instance.CheckListRemove(currentItem.index);
-            //         break;
-            // }
+                case Item.EItemType.Buff:
+                    ItemSpawnManager.Instance.CheckListRemove(currentItem.index);
+                    break;
+            }
 
             if (currentItem.useType == Item.EUseType.Immediately)
             {

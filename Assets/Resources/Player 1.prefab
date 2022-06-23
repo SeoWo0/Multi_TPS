@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
+  weaponHolder: {fileID: 0}
   m_Hp: 1
 --- !u!114 &5594203363866099017
 MonoBehaviour:
@@ -364,6 +365,61 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1466085435617363457}
     m_Modifications:
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeLayers.Array.data[0].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeLayers.Array.data[1].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeLayers.Array.data[2].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[0].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[1].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[2].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[3].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[4].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[5].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[6].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[7].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3902326104591950162, guid: 13b16a9a96fbdd349b316fac56d95529,
         type: 3}
       propertyPath: playerInput

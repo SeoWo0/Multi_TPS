@@ -5,31 +5,23 @@ using Photon.Pun;
 
 public class PlayerSniperAttackCommand : Command
 {
-    private PlayerMove m_player;
-    private SniperGun m_sniper;
-
-    public PlayerSniperAttackCommand(PlayerMove player, SniperGun gun)
+    public PlayerSniperAttackCommand(PlayerMove player, Gun gun) : base(player, gun)
     {
-        m_player = player;
-        m_sniper = gun;
     }
 
-    public override void Execute()
+    public override void Execute(Vector3 targetPos)
     {
-        SniperFire();
+        SniperFire(targetPos);
     }
 
-    public void SniperFire()
+    public void SniperFire(Vector3 targetPos)
     {
         //m_sniper.Use();
 
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterPos);
+        var _position = gun.muzzlePos.position;
+            
+        Vector3 _aimDir = (targetPos - _position).normalized;
 
-        if (Physics.Raycast(ray, out RaycastHit _hit, m_sniper.hitLayer))
-        {
-            Vector3 _aimDir = (_hit.point - m_sniper.muzzlePos.position).normalized;
-
-            Object.Instantiate(m_sniper.bullet, m_sniper.muzzlePos.position, Quaternion.LookRotation(_aimDir, Vector3.up));
-        }
+        Object.Instantiate(gun.bullet, _position, Quaternion.LookRotation(_aimDir, Vector3.up));
     }
 }

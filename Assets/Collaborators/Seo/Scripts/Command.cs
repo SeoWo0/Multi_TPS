@@ -4,10 +4,15 @@ using UnityEngine;
 
 public abstract class Command
 {
-    protected PlayerInput playerInput;
+    protected PlayerMove player;
+    protected Gun gun;
 
-    protected Vector3 mouseWorldPos = Vector3.zero;
-    protected Vector3 screenCenterPos = new Vector2(Screen.width / 2f, Screen.height / 2f);
-
-    public abstract void Execute();         // override 해서 사용할 함수
+    // TODO : player가 필요할 지 모르겠음 일단 보류
+    protected Command(PlayerMove player, Gun gun)
+    {
+        this.player = player;
+        this.gun = gun;
+    }
+    
+    public abstract void Execute(Vector3 targetPos);         // override 해서 사용할 함수
 }

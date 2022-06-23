@@ -142,8 +142,8 @@ GameObject:
   - component: {fileID: 2768902482797901093}
   - component: {fileID: 5594203363866099017}
   - component: {fileID: 5243252357251647738}
-  - component: {fileID: 5455478215362925207}
   - component: {fileID: 4910751199727585878}
+  - component: {fileID: 5455478215362925207}
   - component: {fileID: 7242956669694349321}
   m_Layer: 11
   m_Name: Player
@@ -211,7 +211,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e45a1ba42c035b44598c9e9490f83d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  attackTargetLayer:
+    serializedVersion: 2
+    m_Bits: 6401
+  moveSpeed: 5
   weaponHolder: {fileID: 6658366891522411684}
   m_Hp: 1
 --- !u!114 &5594203363866099017
@@ -245,6 +248,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   feetPos: {fileID: 3918744864776266300}
   detectSize: 0.15
+--- !u!114 &4910751199727585878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3388057987088777920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 2
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 5594203363866099017}
+  - {fileID: 5455478215362925207}
+  - {fileID: 7242956669694349321}
+  - {fileID: 2043424101115437845}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!114 &5455478215362925207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,32 +290,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &4910751199727585878
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3388057987088777920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: 5594203363866099017}
-  - {fileID: 5455478215362925207}
-  - {fileID: 7242956669694349321}
-  - {fileID: 2043424101115437845}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!114 &7242956669694349321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1191,8 +1194,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
         type: 3}
+      propertyPath: m_SynchronizeLayers.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
       propertyPath: m_SynchronizeParameters.Array.size
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
         type: 3}
@@ -1213,6 +1221,86 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SynchronizeParameters.Array.data[5].Type
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[6].Name
+      value: IsGround
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[6].Type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[7].Name
+      value: HasGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[7].Type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_SynchronizeLayers.Array.data[2].LayerIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_SynchronizeLayers.Array.data[0].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_SynchronizeLayers.Array.data[1].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_SynchronizeLayers.Array.data[2].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[0].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[1].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[2].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[3].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[4].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[5].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[6].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[7].SynchronizeType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8739422659260498189, guid: 48df848726e113e4b8c63e14f57b11d3,
         type: 3}

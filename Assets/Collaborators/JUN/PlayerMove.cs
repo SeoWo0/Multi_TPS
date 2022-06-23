@@ -91,8 +91,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
             return;
         
         // photonView.RPC("Jump", RpcTarget.All);
-        Jump();
-        
         Attack();
 
         //Fall Animation
@@ -121,13 +119,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         if (!photonView.IsMine)
             return;
 
-        Move();
-    }
-
-    private void FixedUpdate()
-    {
-        if (!photonView.IsMine) return;
-        
         Move();
     }
 

@@ -229,6 +229,7 @@ MonoBehaviour:
   m_command:
     playerJump: 32
     playerShoot: 323
+    playerZoom: 0
 --- !u!114 &5243252357251647738
 MonoBehaviour:
   m_ObjectHideFlags: 0

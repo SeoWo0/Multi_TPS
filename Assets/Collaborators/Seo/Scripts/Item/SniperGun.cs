@@ -8,24 +8,21 @@ public class SniperGun : Item
     public float maxRange;
     public int damage;
 
-    public List<SoundGroup> soundGroupList;
-    public SoundDistributor soundDistributor;
-
-    private void Awake()
-    {
-        if (soundDistributor == null)
-            soundDistributor = GetComponentInChildren<SoundDistributor>();
-    }
+    public GameObject soundEffectPrefab;
+    public AudioClip fireAudioClip;
 
     public override void Use()
     {
         Fire();
-        //PhotonNetwork.Destroy(gameObject);
     }
 
     private void Fire()
     {
-        AudioClip _clip = soundDistributor.PlaySound(soundGroupList, "Fire", 0);
-        Destroy(gameObject, _clip.length);
+        print("Fire!!!");
+        GameObject _soundObj = PhotonNetwork.Instantiate("@SoundEffect", transform.position, Quaternion.identity);
+        //GameObject _soundObj = Instantiate(soundEffectPrefab, transform.position, Quaternion.identity);
+        AudioSource _source = _soundObj.GetComponent<AudioSource>();
+        SoundManager.Instance.PlayAt(fireAudioClip, _source);
+        Destroy(gameObject);
     }
 }

@@ -2495,10 +2495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e45a1ba42c035b44598c9e9490f83d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponHolder: {fileID: 0}
   moveSpeed: 10
-  maxSpeed: 50
-  jumpPower: 10
   m_Hp: 1
 --- !u!114 &1499638367303591804
 MonoBehaviour:
@@ -2530,7 +2527,6 @@ MonoBehaviour:
   m_command:
     playerJump: 32
     playerShoot: 323
-    playerZoom: 0
 --- !u!1 &5362025121097832279
 GameObject:
   m_ObjectHideFlags: 0

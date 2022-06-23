@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2748491072798074699}
   - component: {fileID: -2683117149348065518}
-  - component: {fileID: -9105047726458571469}
   - component: {fileID: -131550292411081099}
   - component: {fileID: 3935586019836877225}
+  - component: {fileID: 8941030187344965418}
   m_Layer: 0
   m_Name: ShotGun
   m_TagString: Item
@@ -47,22 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558f768b17ce81f47ac78a9432adfc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-9105047726458571469
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1956368986900801187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d269129cc532b9948b93d401e76d2049, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  index: 0
-  useType: 1
-  itemType: 0
-  gunType: 0
 --- !u!114 &-131550292411081099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,6 +82,27 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.7
   m_Center: {x: 0, y: 0.1, z: 0.3}
+--- !u!114 &8941030187344965418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1956368986900801187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e25a13785bc3ee4ea5d6e57ea86a3de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 0
+  useType: 1
+  itemType: 0
+  gunType: 2
+  maxRange: 10
+  damage: 10
+  soundEffectPrefab: {fileID: 4575907500896311598, guid: 6656dfb2caca4a4468d7dc82da762135,
+    type: 3}
+  fireAudioClip: {fileID: 8300000, guid: 40fa03bd1183d224fba5c1f0ba1809a4, type: 3}
 --- !u!1001 &2985844331499531229
 PrefabInstance:
   m_ObjectHideFlags: 0

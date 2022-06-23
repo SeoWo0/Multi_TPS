@@ -18,6 +18,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     Item currentItem;
     [SerializeField]
     private Transform weaponHolder;
+
+    [SerializeField] private GameObject hitEffect;
     
     [SerializeField]private float moveSpeed = 10f;
     [SerializeField]private float maxSpeed = 50f;
@@ -58,6 +60,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     {
         //TODO: 총에 맞았을때
         m_Hp -= damage;
+        print("Hit!!");
 
         if (m_Hp <= 0)
         {
@@ -85,10 +88,11 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     {
         if(!photonView.IsMine)
             return;
-        
+
         // photonView.RPC("Jump", RpcTarget.All);
         Jump();
         
+        //photonView.RPC(nameof(Attack), RpcTarget.All);
         Attack();
 
         float colY = col.transform.position.y;
@@ -150,6 +154,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         }
     }
 
+    [PunRPC]
     private void Attack()
     {
         if (!m_input.MouseLeft) return;
@@ -164,7 +169,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
                 break;
         }
 
-        currentItem = null;
+        //currentItem = null;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -198,8 +203,14 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
                         break;
 
                     case Item.EGunType.Sniper:
-                        sniperAttack = new PlayerSniperAttackCommand(this, currentItem as SniperGun);
+                        sniperAttack = new PlayerSniperAttackCommand(this, currentItem as SniperGun, hitEffect);
                         break;
+                    
+                    case Item.EGunType.None:
+                        break;
+                    
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
 
                 currentItem.transform.SetParent(weaponHolder);

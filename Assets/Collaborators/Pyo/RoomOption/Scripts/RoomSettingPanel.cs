@@ -16,7 +16,7 @@ public enum EGameMode
 public enum EMapType
 {
     Crossline,
-    TestMap,
+    Test,
 
     Count
 }

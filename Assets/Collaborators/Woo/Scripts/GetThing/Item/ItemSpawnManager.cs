@@ -77,6 +77,13 @@ public class ItemSpawnManager : Singleton<ItemSpawnManager>
         }
     }
 
+    public void DestroyItemOnGain(GameObject go)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        PhotonNetwork.Destroy(go);
+    }
+
     public void CheckListRemove(int index)
     {
         checkList.Remove(index);

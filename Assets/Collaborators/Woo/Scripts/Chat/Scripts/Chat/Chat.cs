@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Chat;
 using ExitGames.Client.Photon;
 
-public class Chat : MonoBehaviour, IChatClientListener
+public class Chat : MonoBehaviourPun, IChatClientListener
 {
     public static Chat instance { get; private set; }
 
@@ -105,7 +105,7 @@ public class Chat : MonoBehaviour, IChatClientListener
             Destroy(_disableText.gameObject);
         }
 
-        inputField.text = "";
+        //inputField.text = "";
         inputField.ActivateInputField();
 
         Text _text = Instantiate(outputText);

@@ -28,11 +28,19 @@ public abstract class Item : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player") && !photonView.IsMine) return;
+        if (!other.CompareTag("Player")) return;
 
         if (useType == EUseType.Immediately)
         {
-            PhotonNetwork.Destroy(gameObject);
+            photonView.RPC(nameof(GainItem), RpcTarget.MasterClient);
         }
+    }
+
+    [PunRPC]
+    public void GainItem()
+    {
+        gameObject.SetActive(false);
+        ItemSpawnManager.Instance.DestroyItemOnGain(gameObject);
+        WeaponSpawnManager.Instance.DestroyItemOnGain(gameObject);
     }
 }

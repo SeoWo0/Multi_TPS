@@ -8,16 +8,15 @@ public class SpeedUp : Item
 {
     public override void Use()
     {
-        gameObject.SetActive(false);
         GameManager.Instance.player.MoveSpeed *= 2;
         Invoke(nameof(RestoreBuff), 3.5f);
     }
 
-    private void RestoreBuff()
+    public void RestoreBuff()
     {
         GameManager.Instance.player.MoveSpeed /= 2;
 
-        PhotonNetwork.Destroy(gameObject);
+        photonView.RPC(nameof(GainItem), RpcTarget.MasterClient);
     }
 
     private void OnTriggerEnter(Collider other) { }

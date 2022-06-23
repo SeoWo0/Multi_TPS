@@ -21,7 +21,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     private float moveSpeed = 4f;
     private float jumpPower = 7f;
 
-    private Transform weaponHolder;
+    [SerializeField] private Transform weaponHolder;
 
     private float m_extraGravity = -15f;
     
@@ -179,6 +179,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         }
 
         currentItem = null;
+        animator.SetBool("HasGun", false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -218,6 +219,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
                 currentItem.transform.SetParent(weaponHolder);
                 currentItem.transform.SetPositionAndRotation(weaponHolder.transform.position, weaponHolder.transform.rotation);
+                animator.SetBool("HasGun", true);
             }
         }
     }

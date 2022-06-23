@@ -23,6 +23,8 @@ public class PlayerSniperAttackCommand : Command
     [PunRPC]
     public void SniperFire()
     {
+        m_sniper.Use();
+
         // 플레이어 attackPos 에서 앞으로 쭉 쏘기
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPos);
 
@@ -35,7 +37,5 @@ public class PlayerSniperAttackCommand : Command
 
             _target.TakeDamage(m_sniper.damage);
         }
-
-        m_sniper.Use();
     }
 }

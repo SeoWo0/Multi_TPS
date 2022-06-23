@@ -170,7 +170,12 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     private void Attack()
     {
         if (!m_input.MouseLeft) return;
-        if (!currentItem) return;
+
+        if (!currentItem)
+        {
+            animator.SetBool("HasGun", false);
+            return;
+        }
 
         switch (currentItem.gunType)
         {
@@ -181,9 +186,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
                 sniperAttack.Execute();
                 break;
         }
-
-        //currentItem = null;
-        animator.SetBool("HasGun", false);
     }
 
     private void OnTriggerEnter(Collider other)

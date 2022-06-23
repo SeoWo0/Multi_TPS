@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.Events;
 
 public abstract class Item : MonoBehaviourPun
 {
@@ -9,8 +10,6 @@ public abstract class Item : MonoBehaviourPun
     {
         Immediately,
         Has,
-
-        Count
     }
 
     public enum EItemType
@@ -24,7 +23,6 @@ public abstract class Item : MonoBehaviourPun
         None,
         ShotGun,
         Sniper,
-        
     }
 
 
@@ -35,5 +33,18 @@ public abstract class Item : MonoBehaviourPun
     public EItemType itemType;
     public EGunType gunType;
 
+    public UnityAction onGetItemEvent;
+
     public abstract void Use();
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Player")) return;
+
+        transform.GetComponent<Rotation>().enabled = false;
+
+        onGetItemEvent?.Invoke();
+
+        Destroy(gameObject);
+    }
 }

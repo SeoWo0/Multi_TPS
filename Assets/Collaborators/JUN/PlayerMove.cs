@@ -18,8 +18,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     Item currentItem;
     [SerializeField]
     private Transform weaponHolder;
-
-    [SerializeField] private GameObject hitEffect;
     
     [SerializeField]private float moveSpeed = 10f;
     [SerializeField]private float maxSpeed = 50f;
@@ -74,6 +72,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     {
         Destroy(gameObject);
     }
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -158,6 +157,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     private void Attack()
     {
         if (!m_input.MouseLeft) return;
+        if (!currentItem) return;
 
         switch (currentItem.gunType)
         {
@@ -203,7 +203,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
                         break;
 
                     case Item.EGunType.Sniper:
-                        sniperAttack = new PlayerSniperAttackCommand(this, currentItem as SniperGun, hitEffect);
+                        sniperAttack = new PlayerSniperAttackCommand(this, currentItem as SniperGun);
                         break;
                     
                     case Item.EGunType.None:

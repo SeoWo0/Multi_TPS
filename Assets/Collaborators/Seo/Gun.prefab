@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4503382642511501958}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Muzzle Pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5650522798062542872}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.506}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 6249839240194696075}
@@ -43,7 +43,8 @@ GameObject:
   - component: {fileID: 1062776597883376008}
   - component: {fileID: 8920361851328084381}
   - component: {fileID: 7217342073805051345}
-  m_Layer: 0
+  - component: {fileID: 687676042000670596}
+  m_Layer: 9
   m_Name: Gun
   m_TagString: Item
   m_Icon: {fileID: 0}
@@ -57,7 +58,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8204041978782663128}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.07, z: 0.36}
   m_Children:
@@ -65,7 +66,7 @@ Transform:
   - {fileID: 4503382642511501958}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2486040810375647355
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -142,11 +143,31 @@ MonoBehaviour:
   useType: 1
   itemType: 0
   gunType: 2
+  muzzlePos: {fileID: 4503382642511501958}
   maxRange: 10
   damage: 10
+  hitLayer:
+    serializedVersion: 2
+    m_Bits: 6401
+  audioClipFire: {fileID: 8300000, guid: 40fa03bd1183d224fba5c1f0ba1809a4, type: 3}
+  audioClipTake: {fileID: 8300000, guid: 40fa03bd1183d224fba5c1f0ba1809a4, type: 3}
   soundEffectPrefab: {fileID: 4575907500896311598, guid: 6656dfb2caca4a4468d7dc82da762135,
     type: 3}
-  fireAudioClip: {fileID: 8300000, guid: 40fa03bd1183d224fba5c1f0ba1809a4, type: 3}
+  bullet: {fileID: 114896872521589134, guid: 03621f138d83762479aab581dbbfb1e0, type: 3}
+  fireFlameFx: {fileID: 0}
+  hitFx: {fileID: 1570423950586096, guid: 01afa85b461d4dc49ba4530e39b61739, type: 3}
+--- !u!114 &687676042000670596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8204041978782663128}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558f768b17ce81f47ac78a9432adfc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8643223105739208629
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,7 +180,7 @@ GameObject:
   - component: {fileID: 3009333991012037312}
   - component: {fileID: 6298265500774320175}
   - component: {fileID: 4745161201991584241}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +195,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8643223105739208629}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.48, z: 0.446}
+  m_LocalPosition: {x: 0, y: -1.5, z: -0.45}
   m_LocalScale: {x: 1, y: 2, z: 0.1}
   m_Children: []
   m_Father: {fileID: 6249839240194696075}

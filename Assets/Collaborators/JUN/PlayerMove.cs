@@ -12,15 +12,16 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     PlayerInput m_input;
     GroundChecker groundChecker;
     Collider col;
+    RagdollChanger  ragdollChanger;
     PlayerGunAttackCommand playerGunAttackCommand;
     PlayerSniperAttackCommand sniperAttack;
-
     Item currentItem;
-    [SerializeField]
 
+    [SerializeField]
     private float moveSpeed = 4f;
     private float jumpPower = 7f;
 
+    [SerializeField]
     private Transform weaponHolder;
 
     private float m_extraGravity = -15f;
@@ -72,8 +73,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
     [PunRPC]
     public void Die()
-    {
-        Destroy(gameObject);
+    {   
+        ragdollChanger.ChangeRagdoll();
     }
     private void Awake()
     {
@@ -82,6 +83,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         groundChecker = GetComponent<SphereGroundChecker>();
         m_input = GetComponent<PlayerInput>();
         col = GetComponent<Collider>();
+        ragdollChanger = GetComponent<RagdollChanger>();
     }
 
 

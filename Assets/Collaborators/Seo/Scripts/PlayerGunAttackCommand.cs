@@ -8,6 +8,8 @@ public class PlayerGunAttackCommand : Command
     private ShotGun m_shotgun;
     private PlayerMove m_player;
 
+    public RaycastHit savedHitPoint;
+
     public PlayerGunAttackCommand(PlayerMove player, ShotGun gun)
     {
         m_player = player;
@@ -21,10 +23,11 @@ public class PlayerGunAttackCommand : Command
 
     [PunRPC]
     public void ShotGunFire()                 // 플레이어 기본 총 공격 함수
-    {
+    {       
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPos);
+        RaycastHit hit;
 
-        if (Physics.Raycast(ray, out RaycastHit hit, m_shotgun.maxRange))
+        if (Physics.Raycast(ray, out hit, m_shotgun.maxRange))
         {
             hit.transform.TryGetComponent(out IDamagable _target);
 
@@ -33,6 +36,6 @@ public class PlayerGunAttackCommand : Command
             _target.TakeDamage(m_shotgun.damage);
         }
 
-        m_shotgun.Use();
+        m_shotgun.Use();  
     }
 }

@@ -10,33 +10,25 @@ public class ShotGun : Item
     private Transform   muzzlePos;      // 발사 위치
     public float maxRange = 10f;
     public int damage = 1;
-    
-    [Header ("Audio Clip")]
-    [SerializeField]
-    private AudioClip   audioClipFire;  // 발사 사운드
-    [SerializeField]
-    private AudioClip   audioClipTake;  // 장착 사운드  
-    private AudioSource audioSource;
 
-    private void Awake() {
-        audioSource = GetComponent<AudioSource>();
+    public List<SoundGroup> soundGroupList;
+    public SoundDistributor soundDistributor;
+
+    private void Awake()
+    {
+        if (soundDistributor == null)
+            soundDistributor = GetComponentInChildren<SoundDistributor>();
     }
 
-    public void GetGun() 
+    private void Fire()
     {
-        // TODO :: 바닥의 총을 줏었을때
-        audioSource.PlayOneShot(audioClipTake);
+        AudioClip _clip = soundDistributor.PlaySound(soundGroupList, "Fire", 0);
+        Destroy(gameObject, _clip.length);
     }
 
     public override void Use()
     {
-        // PhotonNetwork.Destroy(gameObject);
         Fire();
-        Destroy(gameObject, audioClipFire.length);
-    }
-
-    public void Fire()
-    {   
-        audioSource.PlayOneShot(audioClipFire);
+        //PhotonNetwork.Destroy(gameObject);
     }
 }

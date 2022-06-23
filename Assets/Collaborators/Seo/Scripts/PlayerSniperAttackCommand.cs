@@ -28,7 +28,6 @@ public class PlayerSniperAttackCommand : Command
 
         if (Physics.Raycast(ray, out RaycastHit _hit, m_sniper.maxRange))
         {
-            Debug.Log(_hit);
             _hit.transform.TryGetComponent(out IDamagable _target);
 
             if (_target == null) return;

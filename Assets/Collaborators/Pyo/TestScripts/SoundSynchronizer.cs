@@ -15,21 +15,21 @@ public class SoundSynchronizer : MonoBehaviour
             source = GetComponent<AudioSource>();
         }
 
-        SyncData();
+        // SyncData();
 
-        SoundManager.Instance.onSoundValueChangeEvent += SyncData;
+        // SoundManager.Instance.onSoundValueChangeEvent += SyncData;
     }
 
-    public void SyncData()
-    {
-        print("SyncSoundData");
-        if (type == SoundType.Bgm)
-        {
-            source.volume = SoundManager.Instance.soundOption.volume_BGM / 100;
-        }
-        else
-        {
-            source.volume = SoundManager.Instance.soundOption.volume_Effect / 100;
-        }
-    }
+    // public void SyncData()
+    // {
+    //     print("SyncSoundData");
+    //     if (type == SoundType.Bgm)
+    //     {
+    //         source.volume = SoundManager.Instance.soundOption.volume_BGM / 100;
+    //     }
+    //     else
+    //     {
+    //         source.volume = SoundManager.Instance.soundOption.volume_Effect / 100;
+    //     }
+    // }
 }

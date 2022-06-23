@@ -91,12 +91,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     {
         if(!photonView.IsMine)
             return;
-
-        // photonView.RPC("Jump", RpcTarget.All);
-        Jump();
         
         //photonView.RPC(nameof(Attack), RpcTarget.All);
-        Attack();
         Attack();
 
         //Fall Animation
@@ -187,7 +183,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         }
 
         //currentItem = null;
-        currentItem = null;
         animator.SetBool("HasGun", false);
     }
 

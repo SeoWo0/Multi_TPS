@@ -3,13 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class SniperGun : Gun
+public class ShotGun : Gun
 {
+    public void GetGun() 
+    {
+        GenerateSound(audioClipTake);
+    }
+
     public override void Use()
     {
-        print("Fire!!!");
-        bullet.damage = damage;
+        Fire();
+    }
+
+    public void Fire()
+    {
         GenerateSound(audioClipFire);
+
         Destroy(gameObject);
     }
 }

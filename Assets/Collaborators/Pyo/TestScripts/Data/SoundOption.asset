@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fa36b1dad4cf1b4385feed3129c55e4, type: 3}
   m_Name: SoundOption
   m_EditorClassIdentifier: 
-  volume_BGM: 34.7
+  volume_BGM: 100
   volume_Effect: 100

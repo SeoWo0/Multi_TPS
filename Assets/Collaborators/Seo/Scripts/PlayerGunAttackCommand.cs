@@ -19,20 +19,21 @@ public class PlayerGunAttackCommand : Command
         ShotGunFire();
     }
 
-    [PunRPC]
     public void ShotGunFire()                 // 플레이어 기본 총 공격 함수
     {
+        //m_shotgun.Use();
+
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPos);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, m_shotgun.maxRange))
+        if (Physics.Raycast(ray, out RaycastHit _hit, m_shotgun.hitLayer))
         {
-            hit.transform.TryGetComponent(out IDamagable _target);
+            Vector3 _aimDir = (_hit.point - m_shotgun.muzzlePos.position).normalized;
 
-            if(_target == null)
-                return;
-            _target.TakeDamage(m_shotgun.damage);
+            for(int i = 0; i < 8; i++)
+            {
+                Vector3 _shotPos = (Vector2)m_shotgun.muzzlePos.position - Random.insideUnitCircle;
+                Object.Instantiate(m_shotgun.bullet, _shotPos, Quaternion.LookRotation(_aimDir, Vector3.up));
+            }
         }
-
-        m_shotgun.Use();
     }
 }

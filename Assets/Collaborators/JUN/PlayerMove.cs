@@ -62,6 +62,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     {
         //TODO: 총에 맞았을때
         m_Hp -= damage;
+        print("Hit!!");
 
         if (m_Hp <= 0)
         {
@@ -75,6 +76,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     {
         Destroy(gameObject);
     }
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -89,8 +91,12 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     {
         if(!photonView.IsMine)
             return;
-        
+
         // photonView.RPC("Jump", RpcTarget.All);
+        Jump();
+        
+        //photonView.RPC(nameof(Attack), RpcTarget.All);
+        Attack();
         Attack();
 
         //Fall Animation
@@ -164,9 +170,11 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         animator.SetTrigger("jumping");
     }
 
+    [PunRPC]
     private void Attack()
     {
         if (!m_input.MouseLeft) return;
+        if (!currentItem) return;
 
         switch (currentItem.gunType)
         {
@@ -178,6 +186,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
                 break;
         }
 
+        //currentItem = null;
         currentItem = null;
         animator.SetBool("HasGun", false);
     }
@@ -215,6 +224,12 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
                     case Item.EGunType.Sniper:
                         sniperAttack = new PlayerSniperAttackCommand(this, currentItem as SniperGun);
                         break;
+                    
+                    case Item.EGunType.None:
+                        break;
+                    
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
 
                 currentItem.transform.SetParent(weaponHolder);

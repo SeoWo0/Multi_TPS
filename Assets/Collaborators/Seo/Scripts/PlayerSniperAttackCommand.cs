@@ -16,26 +16,20 @@ public class PlayerSniperAttackCommand : Command
 
     public override void Execute()
     {
-        //m_player.photonView.RPC(nameof(SniperFire), RpcTarget.All);
         SniperFire();
     }
 
-    [PunRPC]
     public void SniperFire()
     {
-        m_sniper.Use();
+        //m_sniper.Use();
 
-        // 플레이어 attackPos 에서 앞으로 쭉 쏘기
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPos);
 
-        if (Physics.Raycast(ray, out RaycastHit _hit, m_sniper.maxRange))
+        if (Physics.Raycast(ray, out RaycastHit _hit, m_sniper.hitLayer))
         {
-            Debug.Log(_hit);
-            _hit.transform.TryGetComponent(out IDamagable _target);
+            Vector3 _aimDir = (_hit.point - m_sniper.muzzlePos.position).normalized;
 
-            if (_target == null) return;
-
-            _target.TakeDamage(m_sniper.damage);
+            Object.Instantiate(m_sniper.bullet, m_sniper.muzzlePos.position, Quaternion.LookRotation(_aimDir, Vector3.up));
         }
     }
 }

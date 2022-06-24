@@ -29,11 +29,7 @@ public class PlayerGunAttackCommand : Command
         {
             Vector3 _aimDir = (_hit.point - m_shotgun.muzzlePos.position).normalized;
 
-            for(int i = 0; i < 8; i++)
-            {
-                Vector3 _shotPos = (Vector2)m_shotgun.muzzlePos.position - Random.insideUnitCircle;
-                Object.Instantiate(m_shotgun.bullet, _shotPos, Quaternion.LookRotation(_aimDir, Vector3.up));
-            }
+            Object.Instantiate(m_shotgun.bullet, m_shotgun.muzzlePos.position, Quaternion.LookRotation(_aimDir, Vector3.up));
         }
     }
 }

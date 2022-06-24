@@ -368,6 +368,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1466085435617363457}
     m_Modifications:
+    - target: {fileID: 5131495029723735684, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 7dedc68dba410f84eb276933ddfdf58d, type: 2}
     - target: {fileID: 5131495029730920724, guid: 48df848726e113e4b8c63e14f57b11d3,
         type: 3}
       propertyPath: m_RootOrder
@@ -427,6 +432,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UnityChanPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.size
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48df848726e113e4b8c63e14f57b11d3, type: 3}

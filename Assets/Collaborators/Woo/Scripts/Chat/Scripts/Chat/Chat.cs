@@ -21,12 +21,7 @@ public class Chat : MonoBehaviour, IChatClientListener
     private string userName;
     private string currentChannelName;
 
-    public string UserName
-    {
-        get { return userName; }
-
-        set { }
-    }
+    public string UserName => userName;
     public Animator animator;
     public InputField inputField;
     public Text outputText;
@@ -43,6 +38,7 @@ public class Chat : MonoBehaviour, IChatClientListener
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(GameData.ROOM_CHAT_CHANNEL, out var _chatChannel))
         {
             currentChannelName = (string)_chatChannel;
+            //Debug.Log(currentChannelName);
         }
 
         chatClient = new ChatClient(this);
@@ -67,7 +63,7 @@ public class Chat : MonoBehaviour, IChatClientListener
 
         if (!animator.GetBool("isActive"))
         {
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetButtonDown("Chat"))
             {
                 inputField.enabled = true;
                 inputField.ActivateInputField();
@@ -135,7 +131,7 @@ public class Chat : MonoBehaviour, IChatClientListener
     public void OnConnected()
     {
         AddLine("서버에 연결되었습니다.");
-        chatClient.Subscribe(new string[] { currentChannelName += Random.Range(0, 100) });
+        chatClient.Subscribe(new string[] { currentChannelName });
     }
 
     public void OnDisconnected()
@@ -194,6 +190,7 @@ public class Chat : MonoBehaviour, IChatClientListener
 
     public void OnLeftRoom()
     {
+        //Debug.Log(currentChannelName);
         chatClient.Unsubscribe(new string[] { currentChannelName });
     }
 

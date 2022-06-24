@@ -7,6 +7,7 @@ TagManager:
   - CameraDirection
   - Item
   - AudioRoot
+  - DeadZone
   layers:
   - Default
   - TransparentFX

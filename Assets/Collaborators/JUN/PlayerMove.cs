@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using Photon.Realtime;
+using UnityEngine.Events;
 
 public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
 {
@@ -29,6 +29,11 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
     
     [SerializeField]
     private int m_Hp = 1;
+
+    private bool m_isDead;
+    public bool IsDead => m_isDead;
+
+    public UnityAction onDeadEvent;
 
     //FallAnimation
     //private bool isFall = false;
@@ -75,8 +80,11 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
     [PunRPC]
     public void Die()
     {
+        m_isDead = true;
         Chat.instance.AddLine(Chat.instance.UserName + "님이 죽음.");
         Chat.instance.KillLog(Chat.instance.UserName + "님이 죽음.");
+        enabled = false;
+        onDeadEvent?.Invoke();
     }
 
     private void Awake()
@@ -115,6 +123,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
         if (m_input.JumpInput && groundChecker.IsGrounded())
             Jump();
 
+
         //Fall Animation
         //if (rigid.velocity.y < -0.1f && !groundChecker.IsGrounded())
         //{
@@ -132,20 +141,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
             return;
 
         Move();
-    }
-
-    private void LateUpdate()
-    {
-        RayHitObject();
-    }
-
-    private void RayHitObject()
-    {
-        Collider[] colls = Physics.OverlapSphere(transform.position, 5f, LayerMask.GetMask("Object"));
-
-        
-
-        
     }
 
     private void Move()
@@ -251,5 +246,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
                 animator.SetBool("HasGun", true);
             }
         }
+
+        if (other.CompareTag("DeadZone"))
+            Die();
     }
 }

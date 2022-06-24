@@ -11,6 +11,7 @@ public struct tPlayerCommand
 {
     public KeyCode playerJump;
     public KeyCode playerShoot;
+    public KeyCode playerZoom;
 }
 
 public class PlayerInput : MonoBehaviour,IPunObservable
@@ -35,6 +36,8 @@ public class PlayerInput : MonoBehaviour,IPunObservable
 
     private float m_mouseX;
     private float m_mouseY;
+    private bool m_mouseRight;
+    private bool m_mouseLeft;
     public void Initialize(int playerId, string playerName)
     {
         ownerId = playerId;
@@ -74,7 +77,7 @@ public class PlayerInput : MonoBehaviour,IPunObservable
     }
 
     //마우스 움직임 반환    
-    public float mouseX
+    public float MouseX
     {
         get
         {
@@ -82,13 +85,30 @@ public class PlayerInput : MonoBehaviour,IPunObservable
         }
     }
 
-    public float mouseY
+    public float MouseY
     {
         get
         {
             return m_mouseY;
         }
     }
+
+    public bool MouseRight
+    {
+        get
+        {
+            return m_mouseRight;
+        }
+    }
+
+    public bool MouseLeft
+    {
+        get
+        {
+            return m_mouseLeft;
+        }
+    }
+
     private void Awake()
     {
         //if (s_Instance == null)
@@ -112,11 +132,19 @@ public class PlayerInput : MonoBehaviour,IPunObservable
         m_Jump = Input.GetKeyDown(m_command.playerJump);
 
         //키 입력시 값 변환
-        m_hInput = Input.GetAxis("Horizontal");
-        m_vInput = Input.GetAxis("Vertical");
+        m_hInput = Input.GetAxisRaw("Horizontal");
+        m_vInput = Input.GetAxisRaw("Vertical");
 
         m_mouseX = Input.GetAxis("Mouse X");
         m_mouseY = Input.GetAxis("Mouse Y");
+
+        m_mouseLeft = Input.GetKeyDown(m_command.playerShoot);
+        
+        if(Input.GetKeyDown(m_command.playerZoom)) 
+        {
+            m_mouseRight = !m_mouseRight;
+        }
+        
         
     }
 

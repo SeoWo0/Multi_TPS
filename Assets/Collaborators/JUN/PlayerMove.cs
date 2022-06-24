@@ -1,25 +1,37 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
+public class PlayerMove : MonoBehaviourPun ,IDamagable
 {
     Rigidbody rigid;
     Animator animator;
     PlayerInput m_input;
     GroundChecker groundChecker;
     Collider col;
+    
+    PlayerGunAttackCommand playerGunAttackCommand;
+    PlayerSniperAttackCommand sniperAttack;
+    [SerializeField] private LayerMask attackTargetLayer;
 
     Item currentItem;
-
+    
     [SerializeField]
-    private float moveSpeed = 10f;
-    private float jumpPower = 10f;
+    private float moveSpeed = 4f;
+    private float jumpPower = 7f;
+
+    [SerializeField] private Transform weaponHolder;
+
+    private float m_extraGravity = -15f;
     
     [SerializeField]
     private int m_Hp = 1;
+
+    //FallAnimation
+    //private bool isFall = false;
 
     public float MoveSpeed
     {
@@ -47,16 +59,25 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
         }
     }
 
+    [PunRPC]
     public void TakeDamage(int damage)
     {
-        //todo: 총에 맞았을때
+        m_Hp -= damage;
+        print("Hit!!");
+
+        if (m_Hp <= 0)
+        {
+            Die();
+            //photonView.RPC(nameof(Die), RpcTarget.All);
+        }
     }
 
+    [PunRPC]
     public void Die()
     {
-        Chat.instance.AddLine(Chat.instance.UserName + "님이 죽음.");
-        Chat.instance.KillLog(Chat.instance.UserName + "님이 죽음.");
+        Destroy(gameObject);
     }
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -66,72 +87,111 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
         col = GetComponent<Collider>();
     }
 
+
     private void Update()
     {
-        if (!photonView.IsMine) return;
-
-        if (Input.GetButtonDown("Fire1"))
-            Die();
-
-        Move();
-        photonView.RPC("Jump", RpcTarget.All);
-
-        float colY = col.transform.position.y;
-        colY += 0.5f;
-        Debug.DrawRay(new Vector3(transform.position.x, colY, transform.position.z), transform.forward, new Color(255, 0, 0));
-    }
-
-    private void LateUpdate()
-    {
-        RayHitObject();
-    }
-
-    private void RayHitObject()
-    {
-        Collider[] colls = Physics.OverlapSphere(transform.position, 5f, LayerMask.GetMask("Object"));
-
-        
-
-        
-    }
-
-    private void Move()
-    {
-        //Vector3 m_Velocity= new Vector3(-m_input.HInput, 0, -m_input.VInput) * moveSpeed;
-        Vector3 m_dir = transform.right * m_input.HInput + transform.forward * m_input.VInput;
-        rigid.velocity = new Vector3(m_dir.x * moveSpeed, rigid.velocity.y, m_dir.z * moveSpeed);
-        
-        //animator setting
-        if (Mathf.Approximately(m_dir.x, 0) && Mathf.Approximately(m_dir.z, 0))
-            animator.SetBool("Walk", false);
-        else
-            animator.SetBool("Walk", true);
-        animator.SetFloat("xDir", m_input.HInput);
-        animator.SetFloat("yDir", m_input.VInput);
-
-    }
-
-    [PunRPC]
-    private void Jump()
-    {
-        animator.SetBool("Jump", !groundChecker.IsGrounded());
-        if (!groundChecker.IsGrounded())
+        if(!photonView.IsMine)
             return;
 
-        if (m_input.JumpInput)
+        if (m_input.MouseLeft)
         {
-            rigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            Vector3 _screenCenterPos = new Vector3(Screen.width / 2f, Screen.height / 2f);
+            Ray _ray = Camera.main.ScreenPointToRay(_screenCenterPos);
+
+            if (Physics.Raycast(_ray, out RaycastHit _hit, attackTargetLayer))
+            {
+                photonView.RPC(nameof(Attack), RpcTarget.All, _hit.point);
+            }
+            //Attack();
         }
 
-    }
+        //Fall Animation
+        //animator.SetBool("IsGround", groundChecker.IsGrounded());
+        //if(groundChecker.IsGrounded() == true)
+        //{
+        //    isFall = false;
+        //}
 
-    private void OnTriggerEnter(Collider other)
+        if (m_input.JumpInput && groundChecker.IsGrounded())
+            Jump();
+
+        //Fall Animation
+        //if (rigid.velocity.y < -0.1f && !groundChecker.IsGrounded())
+        //{
+        //    if(isFall == false)
+        //    {
+        //        animator.SetTrigger("Fall");
+        //        isFall = true;
+        //    }
+
+        //}
+    }
+    private void FixedUpdate()
     {
         if (!photonView.IsMine)
             return;
 
+        Move();
+    }
+
+    private void Move()
+    {
+        Vector3 _dir = transform.right * m_input.HInput + transform.forward * m_input.VInput;
+        if (_dir.magnitude > 1)
+        {
+            _dir.Normalize();
+        }
+
+        transform.Translate(_dir * (moveSpeed * Time.deltaTime), Space.World);
+
+        //rigid.velocity = new Vector3(_dir.x * moveSpeed, rigid.velocity.y, _dir.z * moveSpeed);
+
+        //animator setting
+        if (Mathf.Approximately(_dir.x, 0) && Mathf.Approximately(_dir.z, 0))
+            animator.SetBool("Walk", false);
+        else
+            animator.SetBool("Walk", groundChecker.IsGrounded());
+        
+        animator.SetFloat("xDir", m_input.HInput);
+        animator.SetFloat("yDir", m_input.VInput);
+    }
+    
+    // [PunRPC]
+    private void Jump()
+    {
+        rigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+        animator.SetTrigger("jumping");
+    }
+
+    [PunRPC]
+    private void Attack(Vector3 targetPos)
+    {
+        if (!currentItem)
+        {
+            animator.SetBool("HasGun", false);
+            return;
+        }
+
+        switch (currentItem.gunType)
+        {
+            case Item.EGunType.ShotGun:
+                playerGunAttackCommand.Execute(targetPos);
+                break;
+            case Item.EGunType.Sniper:
+                sniperAttack.Execute(targetPos);
+                break;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
         if (other.CompareTag("Item"))
         {
+            if (currentItem && other.transform.GetComponent<Item>().itemType == Item.EItemType.Weapon)
+            {
+                return;
+            }
+            
             currentItem = other.transform.GetComponent<Item>();
 
             switch (currentItem.itemType)
@@ -151,8 +211,27 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
             }
 
             else
-            { 
-                currentItem.Use();
+            {
+                switch (currentItem.gunType)
+                {
+                    case Item.EGunType.ShotGun:
+                        playerGunAttackCommand = new PlayerGunAttackCommand(this, currentItem as ShotGun);
+                        break;
+
+                    case Item.EGunType.Sniper:
+                        sniperAttack = new PlayerSniperAttackCommand(this, currentItem as SniperGun);
+                        break;
+                    
+                    case Item.EGunType.None:
+                        break;
+                    
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                currentItem.transform.SetParent(weaponHolder);
+                currentItem.transform.SetPositionAndRotation(weaponHolder.transform.position, weaponHolder.transform.rotation);
+                animator.SetBool("HasGun", true);
             }
         }
     }

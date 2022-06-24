@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/Prefabs/LobbyScene/UI.meta
 guid: 9dcfd51f65067004089184076a339378
+========
+guid: 190e5bfeddcfa6d4abf41f572c0014e8
+>>>>>>>> origin/Player:Assets/Prefabs/LobbyScene/UI.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

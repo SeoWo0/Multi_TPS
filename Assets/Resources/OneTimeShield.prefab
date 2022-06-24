@@ -62,6 +62,7 @@ MonoBehaviour:
   index: 0
   useType: 0
   itemType: 1
+  gunType: 0
 --- !u!114 &754602129440871551
 MonoBehaviour:
   m_ObjectHideFlags: 0

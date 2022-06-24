@@ -10,13 +10,9 @@ using Managers;
 
 public class GameManager : Singleton<GameManager>
 {
-    // public Text infoText;
+    public Text infoText;
     public Transform[] spawnPos;
-
-    //public GameObject playerPrefab;
-
     public PlayerMove player;
-
     #region UNITY
 
     private void Start()
@@ -51,7 +47,7 @@ public class GameManager : Singleton<GameManager>
         else
         {
             // 나머지 플레이어 기다리기
-            // PrintInfo($"Wait for Players - {CheckLoadedPlayersCount()} / {PhotonNetwork.PlayerList.Length}");
+            PrintInfo($"Wait for Players - {CheckLoadedPlayersCount()} / {PhotonNetwork.PlayerList.Length}");
         }
     }
 
@@ -90,9 +86,9 @@ public class GameManager : Singleton<GameManager>
         switch ((int)playerIndex - 1)
         {
             case 0:
-                GameObject playerModel = PhotonNetwork.Instantiate("MisakiPlayer", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);
+                GameObject playerModel = PhotonNetwork.Instantiate("Player 1", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);
                 player = playerModel.GetComponent<PlayerMove>();
-                
+
                 break;
             case 1:
                 GameObject playerModel2 =PhotonNetwork.Instantiate("Player", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);

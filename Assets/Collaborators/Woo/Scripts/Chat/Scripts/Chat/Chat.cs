@@ -27,17 +27,19 @@ public class Chat : MonoBehaviour, IChatClientListener
     public InputField inputField;
     public Text outputText;
     public GameObject showText;
-    //public Text nickNameText;
 
     private bool m_buttonDown;
 
     private void OnEnable()
     {
-        RenewalRoom();
+        ClearChat();
 
         Application.runInBackground = true;
 
-        currentChannelName = "Channel";
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(GameData.ROOM_CHAT_CHANNEL, out var _chatChannel))
+        {
+            currentChannelName = (string)_chatChannel;
+        }
 
         chatClient = new ChatClient(this);
 
@@ -52,11 +54,8 @@ public class Chat : MonoBehaviour, IChatClientListener
     {
         chatClient.Service();
 
-
         IsActiveChat();
     }
-
-
 
     public void IsActiveChat()
     {
@@ -186,6 +185,22 @@ public class Chat : MonoBehaviour, IChatClientListener
     public void OnUserUnsubscribed(string channel, string user)
     {
         //throw new System.NotImplementedException();
+    }
+
+    public void OnLeftRoom()
+    {
+        chatClient.Unsubscribe(new string[] { currentChannelName });
+    }
+
+    private void ClearChat()
+    {
+        int _deleteCount = chatQueue.Count;
+
+        for (int i = 0; i < _deleteCount; i++)
+        {
+            Text _text = chatQueue.Dequeue();
+            Destroy(_text.gameObject);
+        }
     }
 
     public void Input_OnEndEdit(string text)

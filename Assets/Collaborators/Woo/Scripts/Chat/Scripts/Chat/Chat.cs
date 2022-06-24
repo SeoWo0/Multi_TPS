@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Chat;
 using ExitGames.Client.Photon;
 
-public class Chat : MonoBehaviourPun, IChatClientListener
+public class Chat : MonoBehaviour, IChatClientListener
 {
     public static Chat instance { get; private set; }
 
@@ -16,7 +16,7 @@ public class Chat : MonoBehaviourPun, IChatClientListener
     }
 
     Queue<Text> chatQueue = new Queue<Text>();
-
+    
     private ChatClient chatClient;
     private string userName;
     private string currentChannelName;
@@ -47,9 +47,9 @@ public class Chat : MonoBehaviourPun, IChatClientListener
 
         chatClient = new ChatClient(this);
 
-        chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, "1.0", new AuthenticationValues(userName));
-
         userName = PhotonNetwork.LocalPlayer.NickName;
+    
+        chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, "1.0", new AuthenticationValues(userName));
 
         AddLine(string.Format("연결시도 중" , userName));
     }
@@ -135,8 +135,7 @@ public class Chat : MonoBehaviourPun, IChatClientListener
     public void OnConnected()
     {
         AddLine("서버에 연결되었습니다.");
-
-        chatClient.Subscribe(new string[] { currentChannelName });
+        chatClient.Subscribe(new string[] { currentChannelName += Random.Range(0, 100) });
     }
 
     public void OnDisconnected()
@@ -185,12 +184,12 @@ public class Chat : MonoBehaviourPun, IChatClientListener
 
     public void OnUserSubscribed(string channel, string user)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public void OnUserUnsubscribed(string channel, string user)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public void OnLeftRoom()

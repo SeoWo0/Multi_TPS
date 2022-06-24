@@ -91,5 +91,10 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # Asset 파일 이그노어 목록
-Assets/Pyo/UI/Sprite/Icons/
 Assets/Plugins/
+
+Assets/Collaborators/Woo/@Resources/
+
+Assets/Collaborators/Jun/@Resources/
+
+Assets/Collaborators/Seo/@Resources/

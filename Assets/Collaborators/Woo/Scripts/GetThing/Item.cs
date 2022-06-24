@@ -1,5 +1,8 @@
-﻿using Photon.Pun;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using UnityEngine.Events;
 
 public abstract class Item : MonoBehaviourPun
 {
@@ -7,8 +10,6 @@ public abstract class Item : MonoBehaviourPun
     {
         Immediately,
         Has,
-
-        Count
     }
 
     public enum EItemType
@@ -17,12 +18,22 @@ public abstract class Item : MonoBehaviourPun
         Buff,
     }
 
+    public enum EGunType
+    {
+        None,
+        ShotGun,
+        Sniper,
+    }
+
 
     // 스폰된 지점 알기 위한 변수
     public int index;
 
     public EUseType useType;
     public EItemType itemType;
+    public EGunType gunType;
+
+    public UnityAction onGetItemEvent;
 
     public abstract void Use();
 

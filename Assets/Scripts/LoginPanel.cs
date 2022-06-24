@@ -26,4 +26,9 @@ public class LoginPanel : MonoBehaviour
         PhotonNetwork.LocalPlayer.NickName = playerName;
         PhotonNetwork.ConnectUsingSettings();
     }
+
+    public void ExitButtonClicked()
+    {
+        Application.Quit();
+    }
 }

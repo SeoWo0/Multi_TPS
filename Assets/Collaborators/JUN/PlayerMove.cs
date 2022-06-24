@@ -16,6 +16,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     PlayerGunAttackCommand playerGunAttackCommand;
     PlayerSniperAttackCommand sniperAttack;
     [SerializeField] private LayerMask attackTargetLayer;
+    RagdollChanger ragdollChanger;
 
     Item currentItem;
     
@@ -75,7 +76,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     [PunRPC]
     public void Die()
     {
-        Destroy(gameObject);
+        ragdollChanger.ChangeRagdoll();
     }
 
     private void Awake()
@@ -85,6 +86,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         groundChecker = GetComponent<SphereGroundChecker>();
         m_input = GetComponent<PlayerInput>();
         col = GetComponent<Collider>();
+        ragdollChanger = GetComponent<RagdollChanger>();
     }
 
 

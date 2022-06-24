@@ -50,8 +50,7 @@ public abstract class Item : MonoBehaviourPun
     [PunRPC]
     public void GainItem()
     {
-        gameObject.SetActive(false);
-        ItemSpawnManager.Instance.DestroyItemOnGain(gameObject);
-        WeaponSpawnManager.Instance.DestroyItemOnGain(gameObject);
+        //ItemSpawnManager.Instance.DestroyItemOnGain(gameObject);
+        PhotonNetwork.Destroy(gameObject);
     }
 }

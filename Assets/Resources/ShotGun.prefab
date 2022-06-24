@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -2683117149348065518}
   - component: {fileID: -131550292411081099}
   - component: {fileID: 3935586019836877225}
-  - component: {fileID: 8941030187344965418}
+  - component: {fileID: 699212490206354608}
   m_Layer: 0
   m_Name: ShotGun
   m_TagString: Item
@@ -83,7 +83,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.7
   m_Center: {x: 0, y: 0.1, z: 0.3}
---- !u!114 &8941030187344965418
+--- !u!114 &699212490206354608
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,13 +92,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1956368986900801187}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e25a13785bc3ee4ea5d6e57ea86a3de, type: 3}
+  m_Script: {fileID: 11500000, guid: 245a39cf7250f0f4087bed20ca1c0a9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
   useType: 1
   itemType: 0
-  gunType: 2
+  gunType: 1
   muzzlePos: {fileID: 6424519603170429733}
   maxRange: 10
   damage: 10
@@ -106,7 +106,7 @@ MonoBehaviour:
   audioClipTake: {fileID: 0}
   soundEffectPrefab: {fileID: 4575907500896311598, guid: 6656dfb2caca4a4468d7dc82da762135,
     type: 3}
-  bullet: {fileID: 2189598559570388267, guid: ada9d5c31c0e29b41bc5056c16b70b62, type: 3}
+  bullet: {fileID: 0}
   fireFlameFx: {fileID: 0}
   hitFx: {fileID: 0}
 --- !u!1 &7781896348095753239

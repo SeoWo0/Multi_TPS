@@ -102,9 +102,9 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
             if (Physics.Raycast(_ray, out RaycastHit _hit, attackTargetLayer))
             {
-                photonView.RPC(nameof(Attack), RpcTarget.All, _hit.point);
+                // photonView.RPC(nameof(Attack), RpcTarget.All, _hit.point);
+                Attack(_hit.point);
             }
-            //Attack();
         }
 
         //Fall Animation

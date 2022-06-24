@@ -43,7 +43,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1956368986900801187}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 558f768b17ce81f47ac78a9432adfc18, type: 3}
   m_Name: 
@@ -106,7 +106,7 @@ MonoBehaviour:
   audioClipTake: {fileID: 0}
   soundEffectPrefab: {fileID: 4575907500896311598, guid: 6656dfb2caca4a4468d7dc82da762135,
     type: 3}
-  bullet: {fileID: 0}
+  bullet: {fileID: 2189598559570388267, guid: ada9d5c31c0e29b41bc5056c16b70b62, type: 3}
   fireFlameFx: {fileID: 0}
   hitFx: {fileID: 0}
 --- !u!1 &7781896348095753239

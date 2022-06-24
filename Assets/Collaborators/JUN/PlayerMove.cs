@@ -69,7 +69,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         if (m_Hp <= 0)
         {
             Die();
-            //photonView.RPC(nameof(Die), RpcTarget.All);
+            // photonView.RPC(nameof(Die), RpcTarget.All);
         }
     }
 
@@ -102,8 +102,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
             if (Physics.Raycast(_ray, out RaycastHit _hit, attackTargetLayer))
             {
-                // photonView.RPC(nameof(Attack), RpcTarget.All, _hit.point);
-                Attack(_hit.point);
+                photonView.RPC(nameof(Attack), RpcTarget.All, _hit.point);
+                // Attack(_hit.point);
             }
         }
 
@@ -234,6 +234,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
                 currentItem.transform.SetParent(weaponHolder);
                 currentItem.transform.SetPositionAndRotation(weaponHolder.transform.position, weaponHolder.transform.rotation);
                 animator.SetBool("HasGun", true);
+                currentItem.GetComponent<Rotation>().enabled = false;
+                currentItem.GetComponent<SphereCollider>().enabled = false;
             }
         }
     }

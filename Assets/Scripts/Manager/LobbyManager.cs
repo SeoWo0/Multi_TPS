@@ -80,7 +80,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinRandomFailed(short returnCode, string message)
     {  
         string roomName = "Room" + Random.Range(1000, 10000);
-        // For Room Chatting Channel
+        
         string _chattingChannel = "Channel " + Random.Range(0, 1000);
         RoomOptions options = new RoomOptions
         {

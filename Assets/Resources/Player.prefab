@@ -351,7 +351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInput: {fileID: 5594203363866099017}
-  objectFollow: {fileID: 7647175207162860521}
+  objectFollow: {fileID: 0}
   selectCamera: {fileID: 8058757579530776351}
   playerObj: {fileID: 3388057987088777920}
   handObj: {fileID: 8849773310893637219}
@@ -463,12 +463,6 @@ Transform:
 --- !u!4 &3918744864776266300 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5964982525262880301, guid: 48df848726e113e4b8c63e14f57b11d3,
-    type: 3}
-  m_PrefabInstance: {fileID: 7252428937523166225}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7647175207162860521 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1046511748754518008, guid: 48df848726e113e4b8c63e14f57b11d3,
     type: 3}
   m_PrefabInstance: {fileID: 7252428937523166225}
   m_PrefabAsset: {fileID: 0}

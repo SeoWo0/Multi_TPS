@@ -131,7 +131,7 @@ public class Chat : MonoBehaviour, IChatClientListener
     public void OnConnected()
     {
         AddLine("서버에 연결되었습니다.");
-        chatClient.Subscribe(new string[] { currentChannelName += Random.Range(0, 100) });
+        chatClient.Subscribe(new string[] { currentChannelName});
     }
 
     public void OnDisconnected()

@@ -392,6 +392,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2683117149348065518, guid: ea60e27e9e6f26c41bed7d2cf1ba4a06,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -131550292411081099, guid: ea60e27e9e6f26c41bed7d2cf1ba4a06,
         type: 3}
       propertyPath: sceneViewId
@@ -710,8 +715,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1233689019}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 2.42}
+  m_LocalScale: {x: 2, y: 2, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 15
@@ -778,6 +783,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3501073356645556381, guid: ca59985f053e4b344b68b15b991fecc5,
+        type: 3}
+      propertyPath: weaponHolder
+      value: 
+      objectReference: {fileID: 2059202922}
     - target: {fileID: 4179231884094920568, guid: ca59985f053e4b344b68b15b991fecc5,
         type: 3}
       propertyPath: m_Name
@@ -1282,6 +1292,12 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!4 &2059202922 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9091147008496154301, guid: ca59985f053e4b344b68b15b991fecc5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1302263970}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2059431871
 GameObject:
   m_ObjectHideFlags: 0

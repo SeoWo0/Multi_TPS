@@ -91,7 +91,7 @@ public class GameManager : Singleton<GameManager>
 
                 break;
             case 1:
-                GameObject playerModel2 =PhotonNetwork.Instantiate("Player", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);
+                GameObject playerModel2 =PhotonNetwork.Instantiate("NewPlayer", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);
                 player = playerModel2.GetComponent<PlayerMove>();
                 break;
                 

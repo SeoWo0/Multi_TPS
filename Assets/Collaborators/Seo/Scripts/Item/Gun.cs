@@ -8,7 +8,6 @@ public abstract class Gun : Item
     public Transform muzzlePos;      // 발사 위치
     public float maxRange;
     public int damage;
-    public LayerMask hitLayer;
 
     [Header("Audio Clip")]
     [SerializeField]

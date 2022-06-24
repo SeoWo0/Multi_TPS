@@ -211,6 +211,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e45a1ba42c035b44598c9e9490f83d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackTargetLayer:
+    serializedVersion: 2
+    m_Bits: 0
   moveSpeed: 3
   weaponHolder: {fileID: 0}
   m_Hp: 1

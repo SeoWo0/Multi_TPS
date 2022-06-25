@@ -102,7 +102,7 @@ MonoBehaviour:
   muzzlePos: {fileID: 6424519603170429733}
   maxRange: 10
   damage: 10
-  audioClipFire: {fileID: 0}
+  audioClipFire: {fileID: 8300000, guid: c9078c3724d980347b7b29c5e846c2bb, type: 3}
   audioClipTake: {fileID: 0}
   soundEffectPrefab: {fileID: 4575907500896311598, guid: 6656dfb2caca4a4468d7dc82da762135,
     type: 3}

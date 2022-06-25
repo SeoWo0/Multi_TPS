@@ -13,8 +13,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     GroundChecker groundChecker;
     Collider col;
     
-    PlayerGunAttackCommand playerGunAttackCommand;
-    PlayerSniperAttackCommand sniperAttack;
+    private Command m_attackCommand;
     [SerializeField] private LayerMask attackTargetLayer;
     RagdollChanger ragdollChanger;
 
@@ -174,22 +173,16 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
             return;
         }
 
-        switch (currentItem.gunType)
-        {
-            case Item.EGunType.ShotGun:
-                playerGunAttackCommand.Execute(targetPos);
-                break;
-            case Item.EGunType.Sniper:
-                sniperAttack.Execute(targetPos);
-                break;
-        }
+        m_attackCommand.Execute(targetPos);
+        
+        animator.SetBool("HasGun", false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Item"))
         {
-            if (currentItem && other.transform.GetComponent<Item>().itemType == Item.EItemType.Weapon)
+            if (currentItem)
             {
                 return;
             }
@@ -217,11 +210,11 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
                 switch (currentItem.gunType)
                 {
                     case Item.EGunType.ShotGun:
-                        playerGunAttackCommand = new PlayerGunAttackCommand(this, currentItem as ShotGun);
+                        m_attackCommand = new PlayerGunAttackCommand(this, currentItem as ShotGun);
                         break;
 
                     case Item.EGunType.Sniper:
-                        sniperAttack = new PlayerSniperAttackCommand(this, currentItem as SniperGun);
+                        m_attackCommand = new PlayerSniperAttackCommand(this, currentItem as SniperGun);
                         break;
                     
                     case Item.EGunType.None:

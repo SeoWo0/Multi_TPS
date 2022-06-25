@@ -14,8 +14,8 @@ public class PlayOneShot : MonoBehaviourPun
     
     private void Start()
     {
-        OneShot();
-        //photonView.RPC(nameof(OneShot), RpcTarget.All);
+        //OneShot();
+        photonView.RPC(nameof(OneShot), RpcTarget.All);
     }
 
     [PunRPC]

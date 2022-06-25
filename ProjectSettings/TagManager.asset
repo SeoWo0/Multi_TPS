@@ -8,6 +8,7 @@ TagManager:
   - Item
   - AudioRoot
   - DeadZone
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Bullet
   - Player
   - Wall
-  - 
+  - Friction
   - 
   - 
   - 

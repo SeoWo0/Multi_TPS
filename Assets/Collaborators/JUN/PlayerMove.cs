@@ -5,7 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Events;
 
-public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
+public class PlayerMove : MonoBehaviourPun ,IDamagable ,IPunObservable
 {
     Rigidbody rigid;
     Animator animator;
@@ -72,8 +72,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
 
         if (m_Hp <= 0)
         {
-            Die();
-            //photonView.RPC(nameof(Die), RpcTarget.All);
+            //Die();
+            photonView.RPC(nameof(Die), RpcTarget.All);
         }
     }
 
@@ -81,10 +81,18 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
     public void Die()
     {
         m_isDead = true;
-        Chat.instance.AddLine(Chat.instance.UserName + "님이 죽음.");
-        Chat.instance.KillLog(Chat.instance.UserName + "님이 죽음.");
         enabled = false;
         onDeadEvent?.Invoke();
+
+        if (!photonView.IsMine)
+        {
+            Chat.instance.KillLog("내가 죽음");
+        }
+
+        else
+        {
+            Chat.instance.KillLog($"{Chat.instance.UserName} 님이 죽음.");
+        }
     }
 
     private void Awake()
@@ -98,8 +106,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
 
     private void Update()
     {
-        if(!photonView.IsMine)
-            return;
+        if(!photonView.IsMine) return;
 
         if (m_input.MouseLeft)
         {
@@ -199,7 +206,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
 
         if (other.CompareTag("Item"))
         {
-            if (currentItem && other.transform.GetComponent<Item>().itemType == Item.EItemType.Weapon)
+            if (currentItem)
             {
                 return;
             }
@@ -218,7 +225,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
             }
 
             if (currentItem.useType == Item.EUseType.Immediately)
-            {
+            {                
                 currentItem.Use();
             }
 
@@ -248,6 +255,23 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
         }
 
         if (other.CompareTag("DeadZone"))
-            Die();
+        {
+            photonView.RPC(nameof(Die), RpcTarget.All);
+            print("바닥충돌!");
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(m_Hp);
+            stream.SendNext(moveSpeed);
+        }
+        else
+        {
+            m_Hp = (int)stream.ReceiveNext();
+            moveSpeed = (float)stream.ReceiveNext();
+        }
     }
 }

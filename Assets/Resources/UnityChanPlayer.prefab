@@ -2290,28 +2290,28 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Walk
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Jump
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: xDir
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: yDir
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: jumping
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Fall
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsGround
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: HasGun
   m_SynchronizeLayers:
   - SynchronizeType: 1

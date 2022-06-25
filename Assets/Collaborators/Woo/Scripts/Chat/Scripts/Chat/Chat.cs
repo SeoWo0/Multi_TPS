@@ -13,6 +13,8 @@ public class Chat : MonoBehaviour, IChatClientListener
     private void Awake()
     {
         instance = this;
+
+        inputField.enabled = false;
     }
 
     Queue<Text> chatQueue = new Queue<Text>();

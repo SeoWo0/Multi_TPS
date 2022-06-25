@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5251594521268316723}
   - component: {fileID: 2172639900933181579}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -267,6 +267,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
+  - {fileID: 2768902482797901093}
   - {fileID: 5594203363866099017}
   - {fileID: 5455478215362925207}
   - {fileID: 7242956669694349321}

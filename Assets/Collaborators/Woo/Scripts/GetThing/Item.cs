@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -37,22 +38,30 @@ public abstract class Item : MonoBehaviourPun
 
     public abstract void Use();
 
-    [PunRPC]
-    public void OnGetItem()
+    private void OnTriggerEnter(Collider other)
     {
-        if (!PhotonNetwork.IsMasterClient) return;
-        
-        PhotonNetwork.Destroy(gameObject);
+        if (!other.CompareTag("Player")) return;
+
+        print("OnGetItem");
+        photonView.RPC(nameof(GainItem), RpcTarget.MasterClient);
     }
 
-    // private void OnTriggerEnter(Collider other)
-    // {
-    //     if (!other.CompareTag("Player")) return;
-    //
-    //     transform.GetComponent<Rotation>().enabled = false;
-    //
-    //     onGetItemEvent?.Invoke();
-    //
-    //     Destroy(gameObject);
-    // }
+    [PunRPC]
+    public void GainItem()
+    {
+        PhotonNetwork.Destroy(gameObject);
+        
+        switch (itemType)
+        {
+            case EItemType.Weapon:
+                WeaponSpawnManager.Instance.CheckListRemove(index);
+                break;
+            case EItemType.Buff:
+                ItemSpawnManager.Instance.CheckListRemove(index);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        print("OnGetItem");
+    }
 }

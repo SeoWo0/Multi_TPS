@@ -128,6 +128,11 @@ public class PlayerInput : MonoBehaviour,IPunObservable
 
     private void Update()
     {
+        if (Input.GetButtonDown("Chat"))
+            playerControllerInputBlocked = true;
+
+        else if (Input.GetButtonDown("Submit"))
+            playerControllerInputBlocked = false;
 
         m_Jump = Input.GetKeyDown(m_command.playerJump);
 
@@ -144,6 +149,7 @@ public class PlayerInput : MonoBehaviour,IPunObservable
         {
             m_mouseRight = !m_mouseRight;
         }
+        
         
         
     }

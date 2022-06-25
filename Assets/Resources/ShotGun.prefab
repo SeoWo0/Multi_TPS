@@ -9,17 +9,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2748491072798074699}
-  - component: {fileID: -2683117149348065518}
   - component: {fileID: -131550292411081099}
-  - component: {fileID: 3935586019836877225}
-  - component: {fileID: 699212490206354608}
+  - component: {fileID: 7435412114486927254}
   m_Layer: 0
   m_Name: ShotGun
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2748491072798074699
 Transform:
   m_ObjectHideFlags: 0
@@ -36,18 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -15, y: 0, z: 0}
---- !u!114 &-2683117149348065518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1956368986900801187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 558f768b17ce81f47ac78a9432adfc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-131550292411081099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,20 +56,7 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!135 &3935586019836877225
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1956368986900801187}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.7
-  m_Center: {x: 0, y: 0.1, z: 0.3}
---- !u!114 &699212490206354608
+--- !u!114 &7435412114486927254
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,7 +74,7 @@ MonoBehaviour:
   gunType: 1
   muzzlePos: {fileID: 6424519603170429733}
   maxRange: 10
-  damage: 10
+  damage: 1
   audioClipFire: {fileID: 8300000, guid: c9078c3724d980347b7b29c5e846c2bb, type: 3}
   audioClipTake: {fileID: 0}
   soundEffectPrefab: {fileID: 4575907500896311598, guid: 6656dfb2caca4a4468d7dc82da762135,

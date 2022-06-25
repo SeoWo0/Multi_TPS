@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using Photon.Pun;
 
 public class Shield : Item
 {
@@ -14,8 +15,5 @@ public class Shield : Item
         {
             GameManager.Instance.player.Hp = 2;
         }
-
-        // PhotonNetwork.Destroy();
-        photonView.RPC(nameof(OnGetItem), RpcTarget.MasterClient);
     }
 }

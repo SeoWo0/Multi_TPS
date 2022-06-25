@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5251594521268316723}
   - component: {fileID: 2172639900933181579}
-  m_Layer: 11
-  m_Name: Collider
+  m_Layer: 13
+  m_Name: FrictionCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -215,7 +215,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 6401
   moveSpeed: 5
-  weaponHolder: {fileID: 6658366891522411684}
+  guns:
+  - {fileID: 9122126677016670207}
+  weaponHolder: {fileID: 4958514591074206556}
   m_Hp: 1
 --- !u!114 &5594203363866099017
 MonoBehaviour:
@@ -267,6 +269,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
+  - {fileID: 2768902482797901093}
   - {fileID: 5594203363866099017}
   - {fileID: 5455478215362925207}
   - {fileID: 7242956669694349321}
@@ -448,15 +451,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &8849773310893637219 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2194792617090794098, guid: 48df848726e113e4b8c63e14f57b11d3,
+--- !u!4 &4958514591074206556 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2339025232322707277, guid: 48df848726e113e4b8c63e14f57b11d3,
     type: 3}
   m_PrefabInstance: {fileID: 7252428937523166225}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &6658366891522411684 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4089981875496333493, guid: 48df848726e113e4b8c63e14f57b11d3,
+--- !u!114 &9122126677016670207 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1890808500194743278, guid: 48df848726e113e4b8c63e14f57b11d3,
+    type: 3}
+  m_PrefabInstance: {fileID: 7252428937523166225}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 245a39cf7250f0f4087bed20ca1c0a9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8849773310893637219 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2194792617090794098, guid: 48df848726e113e4b8c63e14f57b11d3,
     type: 3}
   m_PrefabInstance: {fileID: 7252428937523166225}
   m_PrefabAsset: {fileID: 0}

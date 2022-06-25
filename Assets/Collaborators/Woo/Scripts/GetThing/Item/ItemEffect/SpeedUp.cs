@@ -2,21 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class SpeedUp : Item
 {
+    Collider coll;
+
     public override void Use()
     {
-        gameObject.SetActive(false);
-        GameManager.Instance.player.MoveSpeed = GameManager.Instance.player.MoveSpeed + 3f;
+        GameManager.Instance.player.MoveSpeed += 3;
 
-        Invoke("RestoreBuff", 3f);
+        Invoke(nameof(RestoreBuff), 3.5f);
+
+        photonView.RPC(nameof(DeActivate), RpcTarget.All);
     }
 
-    private void RestoreBuff()
+    public void RestoreBuff()
     {
-        GameManager.Instance.player.MoveSpeed = GameManager.Instance.player.MoveSpeed - 3f;
+        GameManager.Instance.player.MoveSpeed -= 3;
 
-        photonView.RPC(nameof(OnGetItem), RpcTarget.MasterClient);
+        photonView.RPC(nameof(GainItem), RpcTarget.MasterClient);
     }
+
+    [PunRPC]
+    public void DeActivate()
+    {
+        gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter(Collider other) { }
 }

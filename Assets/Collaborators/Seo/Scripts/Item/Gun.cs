@@ -32,6 +32,4 @@ public abstract class Gun : Item
         AudioSource _source = _soundObj.GetComponent<AudioSource>();
         SoundManager.Instance.PlayAt(clip, _source);
     }
-
-    private void OnTriggerEnter(Collider other) { }
 }

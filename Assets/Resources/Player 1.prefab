@@ -57,8 +57,8 @@ GameObject:
   - component: {fileID: 7659669955277385645}
   - component: {fileID: 84140932935104854}
   m_Layer: 9
-  m_Name: Camera (1)
-  m_TagString: Untagged
+  m_Name: MainCamera
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -213,9 +213,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackTargetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 6401
   moveSpeed: 3
-  weaponHolder: {fileID: 0}
+  weaponHolder: {fileID: 5933741119156511748}
   m_Hp: 1
 --- !u!114 &5594203363866099017
 MonoBehaviour:
@@ -368,66 +368,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1466085435617363457}
     m_Modifications:
-    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: m_SynchronizeLayers.Array.data[0].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: m_SynchronizeLayers.Array.data[1].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: m_SynchronizeLayers.Array.data[2].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[0].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[1].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[2].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[3].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[4].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[5].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[6].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[7].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3902326104591950162, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: playerInput
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5362025121097832189, guid: 13b16a9a96fbdd349b316fac56d95529,
         type: 3}
       propertyPath: m_Name
@@ -511,6 +451,12 @@ MonoBehaviour:
 --- !u!1 &2827753282845679991 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1779256895348236728, guid: 13b16a9a96fbdd349b316fac56d95529,
+    type: 3}
+  m_PrefabInstance: {fileID: 4579881651837026511}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5933741119156511748 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7915041181524862155, guid: 13b16a9a96fbdd349b316fac56d95529,
     type: 3}
   m_PrefabInstance: {fileID: 4579881651837026511}
   m_PrefabAsset: {fileID: 0}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Managers;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class WeaponSpawnManager : Singleton<WeaponSpawnManager>
 {
@@ -21,7 +22,8 @@ public class WeaponSpawnManager : Singleton<WeaponSpawnManager>
         weaponList = new List<int>();
         checkList = new List<int>();
 
-        StartCoroutine(Spawn());
+        if (PhotonNetwork.IsMasterClient)
+            StartCoroutine(Spawn());
     }
 
     IEnumerator Spawn()
@@ -73,6 +75,13 @@ public class WeaponSpawnManager : Singleton<WeaponSpawnManager>
             }
             yield return null;
         }
+    }
+
+    public void DestroyItemOnGain(GameObject go)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        PhotonNetwork.Destroy(go);
     }
 
     public void CheckListRemove(int index)

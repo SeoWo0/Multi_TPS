@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using Photon.Realtime;
+using UnityEngine.Events;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class PlayerMove : MonoBehaviourPun ,IDamagable
+public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 {
     Rigidbody rigid;
     Animator animator;
@@ -17,18 +18,24 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     [SerializeField] private LayerMask attackTargetLayer;
     RagdollChanger ragdollChanger;
 
-    Item currentItem;
-    
+    private Item m_currentItem;
+
     [SerializeField]
     private float moveSpeed = 4f;
     private float jumpPower = 7f;
 
+    [Header("Weapon Info")] public Gun[] guns;
     [SerializeField] private Transform weaponHolder;
 
     private float m_extraGravity = -15f;
     
     [SerializeField]
     private int m_Hp = 1;
+
+    private bool m_isDead;
+    public bool IsDead => m_isDead;
+
+    public UnityAction onDeadEvent;
 
     //FallAnimation
     //private bool isFall = false;
@@ -58,8 +65,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
             m_Hp = value;
         }
     }
-
-    [PunRPC]
+    
     public void TakeDamage(int damage)
     {
         m_Hp -= damage;
@@ -67,8 +73,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
         if (m_Hp <= 0)
         {
-            Die();
-            // photonView.RPC(nameof(Die), RpcTarget.All);
+            //Die();
+            photonView.RPC(nameof(Die), RpcTarget.All);
         }
     }
 
@@ -76,6 +82,20 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     public void Die()
     {
         ragdollChanger.ChangeRagdoll();
+        
+        m_isDead = true;
+        enabled = false;
+        onDeadEvent?.Invoke();
+
+        if (!photonView.IsMine)
+        {
+            Chat.instance.KillLog("내가 죽음");
+        }
+
+        else
+        {
+            Chat.instance.KillLog($"{Chat.instance.UserName} 님이 죽음.");
+        }
     }
 
     private void Awake()
@@ -88,11 +108,9 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
         ragdollChanger = GetComponent<RagdollChanger>();
     }
 
-
     private void Update()
     {
-        if(!photonView.IsMine)
-            return;
+        if(!photonView.IsMine) return;
 
         if (m_input.MouseLeft)
         {
@@ -115,6 +133,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
 
         if (m_input.JumpInput && groundChecker.IsGrounded())
             Jump();
+
 
         //Fall Animation
         //if (rigid.velocity.y < -0.1f && !groundChecker.IsGrounded())
@@ -167,69 +186,101 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable
     [PunRPC]
     private void Attack(Vector3 targetPos)
     {
-        if (!currentItem)
-        {
-            animator.SetBool("HasGun", false);
-            return;
-        }
-
+        if (!m_currentItem) return;
+        
         m_attackCommand.Execute(targetPos);
         
         animator.SetBool("HasGun", false);
+
+        //animator.SetBool("HasGun", false);
+    }
+    
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(m_Hp);
+            stream.SendNext(moveSpeed);
+        }
+        else
+        {
+            m_Hp = (int) stream.ReceiveNext();
+            moveSpeed = (float) stream.ReceiveNext();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!photonView.IsMine)
+            return;
+
         if (other.CompareTag("Item"))
         {
-            if (currentItem)
+            Item _item = other.transform.GetComponent<Item>();
+            
+            if (m_currentItem)
             {
+                if (_item.useType == Item.EUseType.Immediately)
+                {
+                    _item.Use();
+                }
                 return;
             }
-            
-            currentItem = other.transform.GetComponent<Item>();
 
-            switch (currentItem.itemType)
+            m_currentItem = _item;
+
+            if (m_currentItem.useType == Item.EUseType.Immediately)
             {
-                case Item.EItemType.Weapon:
-                    WeaponSpawnManager.Instance.CheckListRemove(currentItem.index);
-                    break;
-
-                case Item.EItemType.Buff:
-                    ItemSpawnManager.Instance.CheckListRemove(currentItem.index);
-                    break;
-            }
-
-            if (currentItem.useType == Item.EUseType.Immediately)
-            {
-                currentItem.Use();
+                m_currentItem.Use();
             }
 
             else
             {
-                switch (currentItem.gunType)
-                {
-                    case Item.EGunType.ShotGun:
-                        m_attackCommand = new PlayerGunAttackCommand(this, currentItem as ShotGun);
-                        break;
+                if (m_currentItem.itemType != Item.EItemType.Weapon) return;
 
-                    case Item.EGunType.Sniper:
-                        m_attackCommand = new PlayerSniperAttackCommand(this, currentItem as SniperGun);
-                        break;
-                    
-                    case Item.EGunType.None:
-                        break;
-                    
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                string _gunName = Enum.GetName(typeof(Item.EGunType), m_currentItem.gunType);
+                photonView.RPC(nameof(ActivateGun), RpcTarget.All, _gunName);
 
-                currentItem.transform.SetParent(weaponHolder);
-                currentItem.transform.SetPositionAndRotation(weaponHolder.transform.position, weaponHolder.transform.rotation);
+                //currentItem.transform.SetParent(weaponHolder);
+                //currentItem.transform.SetPositionAndRotation(weaponHolder.transform.position, weaponHolder.transform.rotation);
                 animator.SetBool("HasGun", true);
-                currentItem.GetComponent<Rotation>().enabled = false;
-                currentItem.GetComponent<SphereCollider>().enabled = false;
             }
+        }
+
+        if (other.CompareTag("DeadZone"))
+        {
+            photonView.RPC(nameof(Die), RpcTarget.All);
+            print("바닥충돌!");
+        }
+    }
+
+    [PunRPC]
+    public void ActivateGun(string gunType)
+    {
+        foreach (Gun _gun in guns)
+        {
+            if (Enum.GetName(typeof(Item.EGunType), _gun.gunType) != gunType) continue;
+
+            m_currentItem = _gun;
+            _gun.gameObject.SetActive(true);
+            break;
+        }
+        
+        switch (m_currentItem.gunType)
+        {
+            case Item.EGunType.ShotGun:
+                m_attackCommand = new PlayerGunAttackCommand(this, m_currentItem as ShotGun);
+                break;
+
+            case Item.EGunType.Sniper:
+                m_attackCommand = new PlayerSniperAttackCommand(this, m_currentItem as SniperGun);
+                break;
+                    
+            case Item.EGunType.None:
+                break;
+                    
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 }

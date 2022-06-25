@@ -10,7 +10,7 @@ using Managers;
 
 public class GameManager : Singleton<GameManager>
 {
-    public Text infoText;
+    // public Text infoText;
     public Transform[] spawnPos;
     public PlayerMove player;
     #region UNITY
@@ -47,7 +47,7 @@ public class GameManager : Singleton<GameManager>
         else
         {
             // 나머지 플레이어 기다리기
-            PrintInfo($"Wait for Players - {CheckLoadedPlayersCount()} / {PhotonNetwork.PlayerList.Length}");
+            // PrintInfo($"Wait for Players - {CheckLoadedPlayersCount()} / {PhotonNetwork.PlayerList.Length}");
         }
     }
 
@@ -75,9 +75,21 @@ public class GameManager : Singleton<GameManager>
         PlayerSet();
         yield break;
     }
+
+    public void StartRespawn()
+    {
+        StartCoroutine(nameof(PlayerSpawn));
+    }
+
+    IEnumerator PlayerSpawn()
+    {
+        yield return new WaitForSeconds(5f);
+        PhotonNetwork.Destroy(player.gameObject);
+        PlayerSet();
+    }
+
     private void PlayerSet()
     {
-
         int playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
 
         object playerIndex;
@@ -94,8 +106,9 @@ public class GameManager : Singleton<GameManager>
                 GameObject playerModel2 =PhotonNetwork.Instantiate("NewPlayer", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);
                 player = playerModel2.GetComponent<PlayerMove>();
                 break;
-                
         }
+
+        player.onDeadEvent += StartRespawn;
     }
         private bool CheckAllPlayersLoadLevel()
     {

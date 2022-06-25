@@ -22,7 +22,8 @@ public class ItemSpawnManager : Singleton<ItemSpawnManager>
         itemList = new List<int>();
         checkList = new List<int>();
 
-        StartCoroutine(Spawn());
+        if (PhotonNetwork.IsMasterClient)
+            StartCoroutine(Spawn());
     }
 
     IEnumerator Spawn()
@@ -76,6 +77,13 @@ public class ItemSpawnManager : Singleton<ItemSpawnManager>
         }
     }
 
+    public void DestroyItemOnGain(GameObject go)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        PhotonNetwork.Destroy(go);
+    }
+    
     public void CheckListRemove(int index)
     {
         checkList.Remove(index);

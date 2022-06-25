@@ -13,6 +13,8 @@ public class Chat : MonoBehaviour, IChatClientListener
     private void Awake()
     {
         instance = this;
+
+        inputField.enabled = false;
     }
 
     Queue<Text> chatQueue = new Queue<Text>();
@@ -21,8 +23,7 @@ public class Chat : MonoBehaviour, IChatClientListener
     private string userName;
     private string currentChannelName;
 
-    
-
+    public string UserName => userName;
     public Animator animator;
     public InputField inputField;
     public Text outputText;
@@ -39,6 +40,7 @@ public class Chat : MonoBehaviour, IChatClientListener
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(GameData.ROOM_CHAT_CHANNEL, out var _chatChannel))
         {
             currentChannelName = (string)_chatChannel;
+            //Debug.Log(currentChannelName);
         }
 
         chatClient = new ChatClient(this);
@@ -63,7 +65,7 @@ public class Chat : MonoBehaviour, IChatClientListener
 
         if (!animator.GetBool("isActive"))
         {
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetButtonDown("Chat"))
             {
                 inputField.enabled = true;
                 inputField.ActivateInputField();
@@ -101,7 +103,7 @@ public class Chat : MonoBehaviour, IChatClientListener
             Destroy(_disableText.gameObject);
         }
 
-        inputField.text = "";
+        //inputField.text = "";
         inputField.ActivateInputField();
 
         Text _text = Instantiate(outputText);
@@ -170,6 +172,7 @@ public class Chat : MonoBehaviour, IChatClientListener
     public void OnUnsubscribed(string[] channels)
     {
         AddLine(string.Format("채널 퇴장 ({0})", string.Join(",", channels)));
+
     }
 
     public void OnStatusUpdate(string user, int status, bool gotMessage, object message)
@@ -189,6 +192,7 @@ public class Chat : MonoBehaviour, IChatClientListener
 
     public void OnLeftRoom()
     {
+        //Debug.Log(currentChannelName);
         chatClient.Unsubscribe(new string[] { currentChannelName });
     }
 
@@ -209,29 +213,9 @@ public class Chat : MonoBehaviour, IChatClientListener
 
         inputField.text = "";
     }
-    
-    public void OnplayerEnterRoom()
+
+    public void KillLog(string text)
     {
-
-    }
-
-    public void OnPlayerLeftRoom()
-    {
-
-    }
-
-    public void OnLeaveRoom()
-    {
-        // chatClient.Unsubscribe();
-    }
-    public void RenewalRoom()
-    {
-        float deleteCount = chatQueue.Count;
-
-        for(int i=0; i< deleteCount; i++)
-        {
-            Text _disableText = chatQueue.Dequeue();
-            Destroy(_disableText.gameObject);
-        }
+        chatClient.PublishMessage(currentChannelName, $"{text}");
     }
 }

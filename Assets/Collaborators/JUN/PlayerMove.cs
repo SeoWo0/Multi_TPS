@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Events;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
+public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 {
     Rigidbody rigid;
     Animator animator;
@@ -17,12 +18,13 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
     PlayerSniperAttackCommand sniperAttack;
     [SerializeField] private LayerMask attackTargetLayer;
 
-    Item currentItem;
-    
+    private Item m_currentItem;
+
     [SerializeField]
     private float moveSpeed = 4f;
     private float jumpPower = 7f;
 
+    [Header("Weapon Info")] public Gun[] guns;
     [SerializeField] private Transform weaponHolder;
 
     private float m_extraGravity = -15f;
@@ -63,8 +65,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
             m_Hp = value;
         }
     }
-
-    [PunRPC]
+    
     public void TakeDamage(int damage)
     {
         m_Hp -= damage;
@@ -72,8 +73,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
 
         if (m_Hp <= 0)
         {
-            Die();
-            //photonView.RPC(nameof(Die), RpcTarget.All);
+            //Die();
+            photonView.RPC(nameof(Die), RpcTarget.All);
         }
     }
 
@@ -81,10 +82,9 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
     public void Die()
     {
         m_isDead = true;
-        Chat.instance.AddLine(Chat.instance.UserName + "님이 죽음.");
         Chat.instance.KillLog(Chat.instance.UserName + "님이 죽음.");
-        enabled = false;
         onDeadEvent?.Invoke();
+        enabled = false;
     }
 
     private void Awake()
@@ -175,13 +175,9 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
     [PunRPC]
     private void Attack(Vector3 targetPos)
     {
-        if (!currentItem)
-        {
-            animator.SetBool("HasGun", false);
-            return;
-        }
+        if (!m_currentItem) return;
 
-        switch (currentItem.gunType)
+        switch (m_currentItem.gunType)
         {
             case Item.EGunType.ShotGun:
                 playerGunAttackCommand.Execute(targetPos);
@@ -189,6 +185,22 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
             case Item.EGunType.Sniper:
                 sniperAttack.Execute(targetPos);
                 break;
+        }
+        
+        //animator.SetBool("HasGun", false);
+    }
+    
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(m_Hp);
+            stream.SendNext(moveSpeed);
+        }
+        else
+        {
+            m_Hp = (int) stream.ReceiveNext();
+            moveSpeed = (float) stream.ReceiveNext();
         }
     }
 
@@ -199,55 +211,70 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable //,IPunObservable
 
         if (other.CompareTag("Item"))
         {
-            if (currentItem && other.transform.GetComponent<Item>().itemType == Item.EItemType.Weapon)
+            Item _item = other.transform.GetComponent<Item>();
+            
+            if (m_currentItem)
             {
+                if (_item.useType == Item.EUseType.Immediately)
+                {
+                    _item.Use();
+                }
                 return;
             }
-            
-            currentItem = other.transform.GetComponent<Item>();
 
-            switch (currentItem.itemType)
+            m_currentItem = _item;
+
+            if (m_currentItem.useType == Item.EUseType.Immediately)
             {
-                case Item.EItemType.Weapon:
-                    WeaponSpawnManager.Instance.CheckListRemove(currentItem.index);
-                    break;
-
-                case Item.EItemType.Buff:
-                    ItemSpawnManager.Instance.CheckListRemove(currentItem.index);
-                    break;
-            }
-
-            if (currentItem.useType == Item.EUseType.Immediately)
-            {
-                currentItem.Use();
+                m_currentItem.Use();
             }
 
             else
             {
-                switch (currentItem.gunType)
-                {
-                    case Item.EGunType.ShotGun:
-                        playerGunAttackCommand = new PlayerGunAttackCommand(this, currentItem as ShotGun);
-                        break;
+                if (m_currentItem.itemType != Item.EItemType.Weapon) return;
 
-                    case Item.EGunType.Sniper:
-                        sniperAttack = new PlayerSniperAttackCommand(this, currentItem as SniperGun);
-                        break;
-                    
-                    case Item.EGunType.None:
-                        break;
-                    
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                string _gunName = Enum.GetName(typeof(Item.EGunType), m_currentItem.gunType);
+                photonView.RPC(nameof(ActivateGun), RpcTarget.All, _gunName);
 
-                currentItem.transform.SetParent(weaponHolder);
-                currentItem.transform.SetPositionAndRotation(weaponHolder.transform.position, weaponHolder.transform.rotation);
+                //currentItem.transform.SetParent(weaponHolder);
+                //currentItem.transform.SetPositionAndRotation(weaponHolder.transform.position, weaponHolder.transform.rotation);
                 animator.SetBool("HasGun", true);
             }
         }
 
         if (other.CompareTag("DeadZone"))
-            Die();
+        {
+            photonView.RPC(nameof(Die), RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    public void ActivateGun(string gunType)
+    {
+        foreach (Gun _gun in guns)
+        {
+            if (Enum.GetName(typeof(Item.EGunType), _gun.gunType) != gunType) continue;
+
+            m_currentItem = _gun;
+            _gun.gameObject.SetActive(true);
+            break;
+        }
+        
+        switch (m_currentItem.gunType)
+        {
+            case Item.EGunType.ShotGun:
+                playerGunAttackCommand = new PlayerGunAttackCommand(this, m_currentItem as ShotGun);
+                break;
+
+            case Item.EGunType.Sniper:
+                sniperAttack = new PlayerSniperAttackCommand(this, m_currentItem as SniperGun);
+                break;
+                    
+            case Item.EGunType.None:
+                break;
+                    
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 }

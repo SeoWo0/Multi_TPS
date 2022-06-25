@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -41,16 +42,26 @@ public abstract class Item : MonoBehaviourPun
     {
         if (!other.CompareTag("Player")) return;
 
-        if (useType == EUseType.Immediately)
-        {
-            photonView.RPC(nameof(GainItem), RpcTarget.MasterClient);
-        }
+        print("OnGetItem");
+        photonView.RPC(nameof(GainItem), RpcTarget.MasterClient);
     }
 
     [PunRPC]
     public void GainItem()
     {
-        //ItemSpawnManager.Instance.DestroyItemOnGain(gameObject);
         PhotonNetwork.Destroy(gameObject);
+        
+        switch (itemType)
+        {
+            case EItemType.Weapon:
+                WeaponSpawnManager.Instance.CheckListRemove(index);
+                break;
+            case EItemType.Buff:
+                ItemSpawnManager.Instance.CheckListRemove(index);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        print("OnGetItem");
     }
 }

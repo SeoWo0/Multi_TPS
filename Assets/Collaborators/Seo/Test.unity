@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4398842, g: 0.4883412, b: 0.5685462, a: 1}
+  m_IndirectSpecularColor: {r: 0.43988454, g: 0.4883414, b: 0.56854653, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -775,7 +775,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f3cebd03229bc45b61fd135a42def4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infoText: {fileID: 0}
   spawnPos:
   - {fileID: 195046265}
   - {fileID: 651775717}
@@ -1673,6 +1672,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7465575897658912284, guid: 3f090885925a71b4abb738e3681b11fa,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7614373167717247744, guid: 3f090885925a71b4abb738e3681b11fa,
         type: 3}
       propertyPath: m_Layer
@@ -1892,12 +1896,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3388057987088777920, guid: 3f090885925a71b4abb738e3681b11fa,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4910751199727585878, guid: 3f090885925a71b4abb738e3681b11fa,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465575897658912284, guid: 3f090885925a71b4abb738e3681b11fa,
         type: 3}
       propertyPath: sceneViewId
       value: 1

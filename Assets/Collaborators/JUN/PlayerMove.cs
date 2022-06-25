@@ -189,8 +189,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         if (!m_currentItem) return;
         
         m_attackCommand.Execute(targetPos);
-        
-        animator.SetBool("HasGun", false);
 
         //animator.SetBool("HasGun", false);
     }

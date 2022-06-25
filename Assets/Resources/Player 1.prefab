@@ -57,8 +57,8 @@ GameObject:
   - component: {fileID: 7659669955277385645}
   - component: {fileID: 84140932935104854}
   m_Layer: 9
-  m_Name: Camera (1)
-  m_TagString: Untagged
+  m_Name: MainCamera
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -370,18 +370,88 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
         type: 3}
-      propertyPath: m_SynchronizeLayers.Array.data[0].SynchronizeType
+      propertyPath: m_SynchronizeParameters.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[0].Name
+      value: Walk
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[0].Type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[1].Name
+      value: Jump
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[1].Type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[2].Name
+      value: xDir
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[2].Type
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
         type: 3}
-      propertyPath: m_SynchronizeLayers.Array.data[1].SynchronizeType
+      propertyPath: m_SynchronizeParameters.Array.data[3].Name
+      value: yDir
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[3].Type
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
         type: 3}
-      propertyPath: m_SynchronizeLayers.Array.data[2].SynchronizeType
-      value: 1
+      propertyPath: m_SynchronizeParameters.Array.data[4].Name
+      value: jumping
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[4].Type
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[5].Name
+      value: Fall
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[5].Type
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[6].Name
+      value: IsGround
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[6].Type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[7].Name
+      value: HasGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[7].Type
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,
         type: 3}
@@ -422,11 +492,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SynchronizeParameters.Array.data[7].SynchronizeType
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3902326104591950162, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: playerInput
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5362025121097832189, guid: 13b16a9a96fbdd349b316fac56d95529,
         type: 3}

@@ -2265,7 +2265,7 @@ Animator:
   m_GameObject: {fileID: 5131495029731022068}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: dd4802cc7972ecb4699ed0b29916793f, type: 3}
-  m_Controller: {fileID: 9100000, guid: 0d64c286960145a458c1bb7e7e5e028a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7dedc68dba410f84eb276933ddfdf58d, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2290,28 +2290,28 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Walk
   - Type: 4
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Jump
   - Type: 1
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: xDir
   - Type: 1
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: yDir
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: jumping
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Fall
   - Type: 4
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: IsGround
   - Type: 4
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: HasGun
   m_SynchronizeLayers:
   - SynchronizeType: 1

@@ -83,7 +83,7 @@ public class ItemSpawnManager : Singleton<ItemSpawnManager>
 
         PhotonNetwork.Destroy(go);
     }
-
+    
     public void CheckListRemove(int index)
     {
         checkList.Remove(index);

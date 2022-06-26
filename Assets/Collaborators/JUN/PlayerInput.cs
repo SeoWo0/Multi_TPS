@@ -14,7 +14,7 @@ public struct tPlayerCommand
     public KeyCode playerZoom;
 }
 
-public class PlayerInput : MonoBehaviour,IPunObservable
+public class PlayerInput : MonoBehaviour
 {
     //public static PlayerInput instance
     //{
@@ -81,6 +81,9 @@ public class PlayerInput : MonoBehaviour,IPunObservable
     {
         get
         {
+            if (playerControllerInputBlocked)
+                return 0;
+            
             return m_mouseX;
         }
     }
@@ -89,6 +92,9 @@ public class PlayerInput : MonoBehaviour,IPunObservable
     {
         get
         {
+            if (playerControllerInputBlocked)
+                return 0;
+            
             return m_mouseY;
         }
     }
@@ -97,7 +103,7 @@ public class PlayerInput : MonoBehaviour,IPunObservable
     {
         get
         {
-            return m_mouseRight;
+            return m_mouseRight && !playerControllerInputBlocked;
         }
     }
 
@@ -105,7 +111,7 @@ public class PlayerInput : MonoBehaviour,IPunObservable
     {
         get
         {
-            return m_mouseLeft;
+            return m_mouseLeft && !playerControllerInputBlocked;
         }
     }
 
@@ -151,11 +157,6 @@ public class PlayerInput : MonoBehaviour,IPunObservable
         }
         
         
-        
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
         
     }
 }

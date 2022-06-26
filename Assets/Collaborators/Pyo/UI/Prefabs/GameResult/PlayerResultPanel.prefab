@@ -643,8 +643,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: 
-  playerCharacter: {fileID: 4502589093041505602, guid: af67caf993b1deb479e17bbfae01402a,
-    type: 3}
+  playerCharacters:
+  - {fileID: 4502589093041505602, guid: af67caf993b1deb479e17bbfae01402a, type: 3}
+  - {fileID: 5131495029731022068, guid: 746de6c5f6707574e9a26a3015437519, type: 3}
   playerScore: 0
   isWinner: 0
   nameText: {fileID: 6369213118285316677}

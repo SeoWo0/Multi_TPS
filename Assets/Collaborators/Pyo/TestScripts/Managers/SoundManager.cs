@@ -69,6 +69,8 @@ public class SoundManager : Singleton<SoundManager>
 
         // 배경음악은 무한 반복
         m_audioSources[(int)SoundType.Bgm].loop = true;
+        
+        DontDestroyOnLoad(gameObject);
     }
 
     public void Clear()

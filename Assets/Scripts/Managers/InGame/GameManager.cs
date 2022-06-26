@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ExitGames.Client.Photon;
 using UnityEngine;
+using UnityEngine.Events;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
@@ -16,6 +17,7 @@ namespace Managers
         [Header("Start Info")] public TextMeshProUGUI infoText;
         //public Transform[] spawnPos;
 
+        public Camera mapCamera;
         public Transform[] spawnPos;
         public PlayerMove player;
 
@@ -32,6 +34,9 @@ namespace Managers
         public bool isGameCompleted;
 
         public GameObject crossHair;
+        
+        // Events
+        public UnityAction onGameComplete;
 
         #region UNITY
 
@@ -147,6 +152,7 @@ namespace Managers
             // int _playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
             // PhotonNetwork.Instantiate("PlayerModel", spawnPos[_playerNumber].position, spawnPos[_playerNumber].rotation, 0);
 
+            mapCamera.gameObject.SetActive(false);
             PlayerSet();
             yield return new WaitForSeconds(1f);
             infoText.transform.parent.gameObject.SetActive(false);
@@ -219,8 +225,13 @@ namespace Managers
             Debug.Log("GameComplete");
             isGameCompleted = true;
 
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            onGameComplete?.Invoke();
+
             gameTimer.gameObject.SetActive(false);
             scorePanel.gameObject.SetActive(false);
+            crossHair.gameObject.SetActive(false);
             gameResultPanel.parent.gameObject.SetActive(true);
 
             foreach (Player _player in PhotonNetwork.PlayerList)

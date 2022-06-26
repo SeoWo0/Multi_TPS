@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 905082700}
-  m_IndirectSpecularColor: {r: 0.6339384, g: 0.7140164, b: 0.740649, a: 1}
+  m_IndirectSpecularColor: {r: 0.6339488, g: 0.7140159, b: 0.7405487, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4072,6 +4072,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66772365fc84cc34e90f2851f630f2c1, type: 3}
+--- !u!20 &415289754 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 8159906698858026178, guid: 66772365fc84cc34e90f2851f630f2c1,
+    type: 3}
+  m_PrefabInstance: {fileID: 415289753}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &421751667 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4203431030706318, guid: 694a9c3445f3cb0448c24a04ce64d96d,
@@ -4430,6 +4436,11 @@ PrefabInstance:
       propertyPath: gameTimer
       value: 
       objectReference: {fileID: 2020289130}
+    - target: {fileID: 2776781866945954931, guid: edc33a6d63da4dc4ba28baac0eb3ccbd,
+        type: 3}
+      propertyPath: mapCamera
+      value: 
+      objectReference: {fileID: 1892369109327690749}
     - target: {fileID: 2776781866945954931, guid: edc33a6d63da4dc4ba28baac0eb3ccbd,
         type: 3}
       propertyPath: scorePanel
@@ -9928,6 +9939,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2402853155664102102, guid: ac7cd36b3b6bcf8488f2d533bb2b7476,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 415289754}
     - target: {fileID: 2402853155664102105, guid: ac7cd36b3b6bcf8488f2d533bb2b7476,
         type: 3}
       propertyPath: m_Name
@@ -21467,3 +21483,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd8178d62cf929644abab84571b6af18, type: 3}
+--- !u!20 &1892369109327690749 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 1892369108615439867, guid: fd8178d62cf929644abab84571b6af18,
+    type: 3}
+  m_PrefabInstance: {fileID: 1892369109327690748}
+  m_PrefabAsset: {fileID: 0}

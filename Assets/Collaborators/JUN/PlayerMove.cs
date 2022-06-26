@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Events;
@@ -75,7 +76,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
         if (m_Hp <= 0)
         {
-            print(photonView.Owner.NickName);
             if (photonView.IsMine)
             {
                 Chat.instance.KillLog($"/c log {PhotonNetwork.LocalPlayer.NickName} 님이 {attackerName} 님에 의해 죽음");
@@ -105,6 +105,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         groundChecker = GetComponent<SphereGroundChecker>();
         m_input = GetComponent<PlayerInput>();
         col = GetComponent<Collider>();
+
+        GameManager.Instance.onGameComplete += OnGameComplete;
     }
 
     private void Update()
@@ -287,5 +289,10 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
             default:
                 throw new ArgumentOutOfRangeException();
         }
+    }
+
+    private void OnGameComplete()
+    {
+        m_input.playerControllerInputBlocked = true;
     }
 }

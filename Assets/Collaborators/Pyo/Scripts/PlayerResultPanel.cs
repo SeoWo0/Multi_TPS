@@ -12,7 +12,9 @@ public class PlayerResultPanel : MonoBehaviour
 {
     [Header("Player Info")]
     public string playerName;
-    public GameObject playerCharacter;
+    
+    public GameObject[] playerCharacters;
+
     public int playerScore;
     public bool isWinner;
 
@@ -79,18 +81,26 @@ public class PlayerResultPanel : MonoBehaviour
     {
         nameText.text = playerName;
         
-        if (playerCharacter)
+        if (playerCharacters.Length > 0)
         {
-            string _name = playerCharacter.name;
-            if (_name.Contains("(Clone)"))
+            Player _player = PhotonNetwork.LocalPlayer;
+            _player.CustomProperties.TryGetValue(GameData.PLAYER_CHAR, out var _playerIndex);
+
+            if (_playerIndex != null)
             {
-                _name = _name.Replace(" (Clone)", string.Empty);
+                GameObject _character = playerCharacters[(int) _playerIndex - 1];
+                
+                // string _name = _character.name;
+                // if (_name.Contains("(Clone)"))
+                // {
+                //     _name = _name.Replace(" (Clone)", string.Empty);
+                // }
+                
+                GameObject _myPlayer = Instantiate(_character, _character.transform.position, _character.transform.rotation);
+                _myPlayer.transform.SetParent(characterHolder);
+                _myPlayer.transform.SetPositionAndRotation(characterHolder.position, _character.transform.rotation);
+                _myPlayer.transform.localScale = _character.transform.localScale;
             }
-            
-            GameObject _myPlayer = Instantiate(playerCharacter, playerCharacter.transform.position, playerCharacter.transform.rotation);
-            _myPlayer.transform.SetParent(characterHolder);
-            _myPlayer.transform.SetPositionAndRotation(characterHolder.position, playerCharacter.transform.rotation);
-            _myPlayer.transform.localScale = playerCharacter.transform.localScale;
         }
 
         scoreText.text = playerScore.ToString();

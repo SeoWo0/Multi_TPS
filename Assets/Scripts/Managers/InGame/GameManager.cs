@@ -31,6 +31,8 @@ namespace Managers
         public List<PlayerResultPanel> managedResultList;
         public bool isGameCompleted;
 
+        public GameObject crossHair;
+
         #region UNITY
 
         private void Start()
@@ -125,6 +127,9 @@ namespace Managers
 
         private IEnumerator StartCountdown()
         {
+            crossHair.gameObject.SetActive(false);
+            scorePanel.gameObject.SetActive(false);
+
             PrintInfo("All Player Loaded!\nStart Count Down");
             yield return new WaitForSeconds(1f);
 
@@ -161,6 +166,9 @@ namespace Managers
 
         private void PlayerSet()
         {
+            crossHair.gameObject.SetActive(true);
+            scorePanel.gameObject.SetActive(true);
+
             int _playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
 
             object _playerIndex;

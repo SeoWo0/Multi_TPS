@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Photon.Pun;
+﻿using UnityEngine;
+using Photon.Pun.UtilityScripts;
 
 public class PlayerSniperAttackCommand : Command
 {
@@ -22,6 +20,7 @@ public class PlayerSniperAttackCommand : Command
             
         Vector3 _aimDir = (targetPos - _position).normalized;
 
-        Object.Instantiate(gun.bullet, _position, Quaternion.LookRotation(_aimDir, Vector3.up));
+        var _projectile = Object.Instantiate(gun.bullet, _position, Quaternion.LookRotation(_aimDir, Vector3.up));
+        _projectile.SetShooterInfo(player.photonView.Owner.NickName, player.photonView.Owner.GetPlayerNumber());
     }
 }

@@ -108,6 +108,7 @@ public class GameManager : Singleton<GameManager>
                 break;
         }
 
+        player.onDeadEvent -= StartRespawn;
         player.onDeadEvent += StartRespawn;
     }
         private bool CheckAllPlayersLoadLevel()

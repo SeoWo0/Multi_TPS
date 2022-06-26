@@ -5,7 +5,7 @@ using UnityEngine;
 public interface IDamagable
 {
     //총을 맞았을때
-    void TakeDamage(int damage);
+    void TakeDamage(int damage, string attackerName, int attackerNumber);
 
-    void Die();
+    void Die(string killerName, int killerNumber);
 }

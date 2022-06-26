@@ -23,7 +23,7 @@ public class Score : MonoBehaviour
     [Header("Score Info")]
     public int score;
     public int ownerNumber;
-    private WaitForSeconds m_waitSeconds;
+    //private WaitForSeconds m_waitSeconds;
 
     private void Start()
     {
@@ -37,34 +37,47 @@ public class Score : MonoBehaviour
         ownerIcon.color = ownerIconColor;
         scoreBoardBorder.color = ownerBorderColor;
         
-        m_waitSeconds = new WaitForSeconds(ownerNumber + 0.5f);
+        //m_waitSeconds = new WaitForSeconds(ownerNumber + 0.5f);
         
-        StartCoroutine(UpdateScore(0));
+        //StartCoroutine(UpdateScore(0));
+        UpdateScore(0);
     }
 
-    // 테스트 버전 => 로컬 플레이어가 상대 플레이어를 죽였을 때 얻은 score만큼
-    // Update해주도록 해야함
-    public IEnumerator UpdateScore(int score)
+    public void UpdateScore(int earnedScore)
     {
-        this.score += score;
-
-        while (true)
-        {
-            this.score++;
-
-            SetScore(this.score);
-
-            if (GameManager.Instance.isGameCompleted) yield break;
-            // Score 동기화
-            Hashtable _prop = new Hashtable() { { GameData.PLAYER_SCORE, this.score } };
-            PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
-            
-            yield return m_waitSeconds;
-        }
+        score += earnedScore;
+        
+        if (GameManager.Instance.isGameCompleted) return;
+        
+        SetScore(score);
+        // Score 동기화
+        Hashtable _prop = new Hashtable() { { GameData.PLAYER_SCORE, score } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
     }
 
     public void SetScore(int score)
     {
         scoreText.text = score.ToString();
     }
+    
+    // 테스트 버전 => 로컬 플레이어가 상대 플레이어를 죽였을 때 얻은 score만큼
+    // Update해주도록 해야함
+    // public IEnumerator UpdateScore(int score)
+    // {
+    //     this.score += score;
+    //
+    //     while (true)
+    //     {
+    //         this.score++;
+    //
+    //         SetScore(this.score);
+    //
+    //         if (GameManager.Instance.isGameCompleted) yield break;
+    //         // Score 동기화
+    //         Hashtable _prop = new Hashtable() { { GameData.PLAYER_SCORE, this.score } };
+    //         PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+    //         
+    //         yield return m_waitSeconds;
+    //     }
+    // }
 }

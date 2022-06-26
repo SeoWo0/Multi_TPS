@@ -13,7 +13,10 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     PlayerInput m_input;
     GroundChecker groundChecker;
     Collider col;
-    
+
+    //rigging animation target
+    public Transform riggingTarget;
+
     private Command m_attackCommand;
     [SerializeField] private LayerMask attackTargetLayer;
     RagdollChanger ragdollChanger;
@@ -112,17 +115,18 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     {
         if(!photonView.IsMine) return;
 
-        if (m_input.MouseLeft)
-        {
-            Vector3 _screenCenterPos = new Vector3(Screen.width / 2f, Screen.height / 2f);
-            Ray _ray = Camera.main.ScreenPointToRay(_screenCenterPos);
+        Vector3 _screenCenterPos = new Vector3(Screen.width / 2f, Screen.height / 2f);
+        Ray _ray = Camera.main.ScreenPointToRay(_screenCenterPos);
 
-            if (Physics.Raycast(_ray, out RaycastHit _hit, attackTargetLayer))
+        if (Physics.Raycast(_ray, out RaycastHit _hit, attackTargetLayer))
+        {
+            riggingTarget.position = _hit.point;
+            if (m_input.MouseLeft)
             {
                 photonView.RPC(nameof(Attack), RpcTarget.All, _hit.point);
-                // Attack(_hit.point);
             }
         }
+
 
         //Fall Animation
         //animator.SetBool("IsGround", groundChecker.IsGrounded());

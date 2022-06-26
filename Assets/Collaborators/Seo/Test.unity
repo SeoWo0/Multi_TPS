@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -783,11 +783,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3501073356645556381, guid: ca59985f053e4b344b68b15b991fecc5,
-        type: 3}
-      propertyPath: weaponHolder
-      value: 
-      objectReference: {fileID: 2059202922}
     - target: {fileID: 4179231884094920568, guid: ca59985f053e4b344b68b15b991fecc5,
         type: 3}
       propertyPath: m_Name
@@ -967,6 +962,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7685024040334521108, guid: ca59985f053e4b344b68b15b991fecc5,
         type: 3}
+      propertyPath: m_ConnectedAnchor.x
+      value: -0.09821831
+      objectReference: {fileID: 0}
+    - target: {fileID: 7685024040334521108, guid: ca59985f053e4b344b68b15b991fecc5,
+        type: 3}
+      propertyPath: m_ConnectedAnchor.y
+      value: 0.4014927
+      objectReference: {fileID: 0}
+    - target: {fileID: 7685024040334521108, guid: ca59985f053e4b344b68b15b991fecc5,
+        type: 3}
       propertyPath: m_ConnectedAnchor.z
       value: 4.21
       objectReference: {fileID: 0}
@@ -1057,7 +1062,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f3cebd03229bc45b61fd135a42def4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infoText: {fileID: 0}
   spawnPos: []
   player: {fileID: 0}
 --- !u!4 &1567645781
@@ -1292,12 +1296,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!4 &2059202922 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9091147008496154301, guid: ca59985f053e4b344b68b15b991fecc5,
-    type: 3}
-  m_PrefabInstance: {fileID: 1302263970}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2059431871
 GameObject:
   m_ObjectHideFlags: 0

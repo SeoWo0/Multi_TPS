@@ -7,12 +7,15 @@ using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Photon.Pun.UtilityScripts;
 using Managers;
+using TMPro;
 
 public class GameManager : Singleton<GameManager>
 {
     // public Text infoText;
     public Transform[] spawnPos;
     public PlayerMove player;
+
+    public TextMeshProUGUI deadTextInfo;
     #region UNITY
 
     private void Start()
@@ -83,7 +86,19 @@ public class GameManager : Singleton<GameManager>
 
     IEnumerator PlayerSpawn()
     {
-        yield return new WaitForSeconds(5f);
+        deadTextInfo.gameObject.SetActive(true);
+
+        for (int i = GameData.COUNTDOWN; i > 0; --i)
+        {
+            PrintInfo($"당신은 죽었습니다.\n <color=red>{i}</color> 초 후 부활합니다!");
+            yield return new WaitForSeconds(1f);
+        }
+
+        yield return new WaitForSeconds(0.5f);
+        deadTextInfo.gameObject.SetActive(false);
+
+
+        yield return new WaitForSeconds(0.5f);
         PhotonNetwork.Destroy(player.gameObject);
         PlayerSet();
     }
@@ -136,7 +151,7 @@ public class GameManager : Singleton<GameManager>
 
     public void PrintInfo(string info)
     {
-        Debug.Log(info);
+        deadTextInfo.text = info;
         //infoText.text = info;
     }
 }

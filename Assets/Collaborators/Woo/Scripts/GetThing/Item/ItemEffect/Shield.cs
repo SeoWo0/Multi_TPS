@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Photon.Pun;
-using UnityEngine;
-using Photon.Pun;
+﻿using Managers;
 
 public class Shield : Item
 {

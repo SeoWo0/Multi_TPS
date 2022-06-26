@@ -6,8 +6,8 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Photon.Pun.UtilityScripts;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Managers
 {
@@ -16,7 +16,8 @@ namespace Managers
         [Header("Start Info")] public TextMeshProUGUI infoText;
         //public Transform[] spawnPos;
 
-        public GameObject playerPrefab;
+        public Transform[] spawnPos;
+        public PlayerMove player;
 
         [Header("Score Info")] public Score scorePrefab;
         public Score myScore;
@@ -141,8 +142,44 @@ namespace Managers
             // int _playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
             // PhotonNetwork.Instantiate("PlayerModel", spawnPos[_playerNumber].position, spawnPos[_playerNumber].rotation, 0);
 
+            PlayerSet();
             yield return new WaitForSeconds(1f);
             infoText.transform.parent.gameObject.SetActive(false);
+        }
+        
+        public void StartRespawn()
+        {
+            StartCoroutine(nameof(PlayerSpawn));
+        }
+
+        IEnumerator PlayerSpawn()
+        {
+            yield return new WaitForSeconds(5f);
+            PhotonNetwork.Destroy(player.gameObject);
+            PlayerSet();
+        }
+
+        private void PlayerSet()
+        {
+            int _playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
+
+            object _playerIndex;
+            Player _p = PhotonNetwork.LocalPlayer;
+            _p.CustomProperties.TryGetValue(GameData.PLAYER_CHAR, out _playerIndex);
+            switch ((int)_playerIndex - 1)
+            {
+                case 0:
+                    GameObject _playerModel = PhotonNetwork.Instantiate("Player 1", spawnPos[_playerNumber].position, spawnPos[_playerNumber].rotation, 0);
+                    player = _playerModel.GetComponent<PlayerMove>();
+
+                    break;
+                case 1:
+                    GameObject _playerModel2 =PhotonNetwork.Instantiate("Player", spawnPos[_playerNumber].position, spawnPos[_playerNumber].rotation, 0);
+                    player = _playerModel2.GetComponent<PlayerMove>();
+                    break;
+            }
+
+            player.onDeadEvent += StartRespawn;
         }
 
         private bool CheckAllPlayersLoadLevel()

@@ -215,6 +215,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 6401
   moveSpeed: 3
+  guns: []
   weaponHolder: {fileID: 5933741119156511748}
   m_Hp: 1
 --- !u!114 &5594203363866099017
@@ -283,6 +284,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
+  - {fileID: 2768902482797901093}
   - {fileID: 5594203363866099017}
   - {fileID: 5455478215362925207}
   - {fileID: 7242956669694349321}

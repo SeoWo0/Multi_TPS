@@ -47,7 +47,6 @@ public class InRoomPanel : MonoBehaviour
             playerListEntries.Add(p.ActorNumber, entry);
 
             // RoomSettingPanel
-            // �̹� Room�� �����ִ� ���¶�� continue
             if (PhotonNetwork.InRoom) continue;
             if (p.CustomProperties.TryGetValue(GameData.ROOM_SET_MAP, out var _isPassedToNext))
             {

@@ -31,9 +31,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        PhotonNetwork.AutomaticallySyncScene = true;
-        
         SoundManager.Instance.Play(onConnectBGM, SoundType.Bgm);
+
+        if (PhotonNetwork.InRoom)
+        {
+            SetActivePanel(PANEL.Room);
+        }
     }
 
     public enum PANEL {Login, Connect, Lobby, Room, CreateRoom}

@@ -8,6 +8,7 @@ public class GameData : MonoBehaviour
 
     public const string PLAYER_READY = "Ready";
     public const string PLAYER_LOAD = "Load";
+    public const string PLAYER_START = "StartGame";
 
     public const string PLAYER_CHAR = "Character";
 
@@ -15,7 +16,10 @@ public class GameData : MonoBehaviour
     public const string ROOM_SET_MAP = "MapSetting";
     public const string ROOM_SET_MODE = "ModeSetting";
     public const string ROOM_SET_TIME_LIMIT = "TimeLimitSetting";
-
+    
+    public const string PLAYER_SCORE = "Score";
+    public const string GAME_IS_COMPLETE = "GameComplete";
+    
     public static Color GetColor(int playerNumber)
     {
         switch(playerNumber)

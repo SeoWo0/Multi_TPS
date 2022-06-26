@@ -45,8 +45,6 @@ public class PlayerEntry : MonoBehaviour
         props = new Hashtable() { { GameData.PLAYER_CHAR, playerIndex } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
-        Debug.Log(playerIndex);
-
         if (PhotonNetwork.IsMasterClient)
         {
             LobbyManager.instance.LocalPlayerPropertiesUpdated();

@@ -38,14 +38,17 @@ public class InRoomPanel : MonoBehaviour
             {
                 entry.GetComponent<PlayerEntry>().SetPlayerReady((bool)isPlayerReady);
             }
-
+            
             object playerindex;
             if (p.CustomProperties.TryGetValue(GameData.PLAYER_CHAR, out playerindex))
             {
                 entry.GetComponent<PlayerEntry>().ChangeModel((int)playerindex - 1);
             }
+            playerListEntries.Add(p.ActorNumber, entry);
 
             // RoomSettingPanel
+            // �̹� Room�� �����ִ� ���¶�� continue
+            if (PhotonNetwork.InRoom) continue;
             if (p.CustomProperties.TryGetValue(GameData.ROOM_SET_MAP, out var _isPassedToNext))
             {
                 roomSettingPanel.SetMapType((int)_isPassedToNext);
@@ -58,8 +61,6 @@ public class InRoomPanel : MonoBehaviour
             {
                 roomSettingPanel.SetTimeLimit((int)_isPassedToNext);
             }
-
-            playerListEntries.Add(p.ActorNumber, entry);
         }
 
         startGameButton.gameObject.SetActive(CheckPlayersReady());
@@ -92,8 +93,12 @@ public class InRoomPanel : MonoBehaviour
     {
         PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.CurrentRoom.IsVisible = false;
+        
+        //PhotonNetwork.LoadLevel("HarborCity");
+        PhotonNetwork.LoadLevel(roomSettingPanel.mapSelectText.text);
 
-        PhotonNetwork.LoadLevel("HarborCity");
+        Hashtable _prop = new Hashtable() { { GameData.PLAYER_START, true } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
     }
 
     private bool CheckPlayersReady()
@@ -189,14 +194,19 @@ public class InRoomPanel : MonoBehaviour
             {
                 entry.GetComponent<PlayerEntry>().SetPlayerReady((bool)isPlayerReady);
             }
-
+            
             //CharacterSetting
             object playerindex;
             if (changedProps.TryGetValue(GameData.PLAYER_CHAR, out playerindex))
             {
                 entry.GetComponent<PlayerEntry>().ChangeModel((int)playerindex - 1);
             }
-
+            
+            if (changedProps.TryGetValue(GameData.PLAYER_START, out object _isStarted))
+            {
+                PhotonNetwork.LoadLevel(roomSettingPanel.mapSelectText.text);
+            }
+            
             // RoomSettingPanel
             if (changedProps.TryGetValue(GameData.ROOM_SET_MAP, out var _isPassedToNext))
             {

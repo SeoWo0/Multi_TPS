@@ -129,12 +129,12 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
 
         //Fall Animation
-        //animator.SetBool("IsGround", groundChecker.IsGrounded());
         //if(groundChecker.IsGrounded() == true)
         //{
         //    isFall = false;
         //}
-
+        
+        animator.SetBool("IsGround", groundChecker.IsGrounded());
         if (m_input.JumpInput && groundChecker.IsGrounded())
             Jump();
 

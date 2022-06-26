@@ -66,34 +66,36 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         }
     }
     
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, string attackerName, int attackerNumber)
     {
+        if (m_isDead) return;
+        
         m_Hp -= damage;
         print("Hit!!");
 
         if (m_Hp <= 0)
         {
+            print(photonView.Owner.NickName);
+            if (photonView.IsMine)
+            {
+                Chat.instance.KillLog($"/c log {PhotonNetwork.LocalPlayer.NickName} 님이 {attackerName} 님에 의해 죽음");
+            }
+            else
+            {
+                Chat.instance.KillLog($"/c log {photonView.Owner.NickName} 님이 {attackerName} 님에 의해 죽음");
+            }
+            
             //Die();
-            photonView.RPC(nameof(Die), RpcTarget.All);
+            photonView.RPC(nameof(Die), RpcTarget.All, attackerName, attackerNumber);
         }
     }
 
     [PunRPC]
-    public void Die()
+    public void Die(string killerName, int killerNumber)
     {
         m_isDead = true;
         enabled = false;
         onDeadEvent?.Invoke();
-
-        if (!photonView.IsMine)
-        {
-            Chat.instance.KillLog("내가 죽음");
-        }
-
-        else
-        {
-            Chat.instance.KillLog($"{Chat.instance.UserName} 님이 죽음.");
-        }
     }
 
     private void Awake()
@@ -252,7 +254,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
         if (other.CompareTag("DeadZone"))
         {
-            photonView.RPC(nameof(Die), RpcTarget.All);
+            TakeDamage(100, "DEADZONE", -1);
             print("바닥충돌!");
         }
     }

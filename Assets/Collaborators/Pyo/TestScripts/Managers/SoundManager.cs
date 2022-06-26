@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Managers;
 
 public enum SoundType
 {
@@ -18,29 +19,19 @@ public class SoundGroup
     public List<AudioClip> audioClipList;
 }
 
-public class SoundManager : MonoBehaviour
+public class SoundManager : Singleton<SoundManager>
 {
-    private static SoundManager s_instance;
-    public static SoundManager Instance => s_instance;
-
     public SoundOptionData soundOption;
     
     private AudioSource[] m_audioSources = new AudioSource[(int)SoundType.MaxCount];
     private Dictionary<string, AudioClip> m_audioClips = new Dictionary<string, AudioClip>();
 
+    public float audioFadeTime;
+
     public UnityAction onSoundValueChangeEvent;
 
     private void Awake()
     {
-        if (!s_instance)
-        {
-            s_instance = this;
-        }
-        else if (s_instance != this)
-        {
-            return;
-        }
-        
         Init();
     }
 
@@ -96,19 +87,34 @@ public class SoundManager : MonoBehaviour
     public void Play(AudioClip audioClip, SoundType type = SoundType.Effect, float volume = 1.0f, float pitch = 1.0f)
     {
         if (!audioClip) return;
-
+        
+        //StopAllCoroutines();
+        
         if (type == SoundType.Bgm)
         {
             AudioSource _audioSource = m_audioSources[(int)SoundType.Bgm];
             if (_audioSource.isPlaying)
             {
-                _audioSource.Stop();
-            }
+                StartCoroutine(FadeAudio(_audioSource, 0));
+                
+                AudioSource _newSource = _audioSource.gameObject.AddComponent<AudioSource>();
+                m_audioSources[(int) SoundType.Bgm] = _newSource;
 
-            _audioSource.volume = volume * (soundOption.volume_BGM / 100);
+                _newSource.volume = 0;
+                _newSource.pitch = pitch;
+                _newSource.clip = audioClip;
+                _newSource.Play();
+                
+                StartCoroutine(FadeAudio(_newSource, volume * (soundOption.volume_BGM / 100)));
+                return;
+            }
+            
+            _audioSource.volume = 0;
             _audioSource.pitch = pitch;
             _audioSource.clip = audioClip;
             _audioSource.Play();
+                
+            StartCoroutine(FadeAudio(_audioSource, volume * (soundOption.volume_BGM / 100)));
         }
         else
         {
@@ -175,5 +181,24 @@ public class SoundManager : MonoBehaviour
     {
         print("SoundManager's Event Cleared!");
         onSoundValueChangeEvent = null;
+    }
+    
+    IEnumerator FadeAudio (AudioSource channel, float targetVolume)
+    {
+        float _time = 0;
+        float _start = channel.volume;
+
+        while (_time < audioFadeTime)
+        {
+            _time += Time.deltaTime;
+            channel.volume = Mathf.Lerp(_start, targetVolume, _time / audioFadeTime);
+            yield return null;
+        }
+        
+        channel.volume = targetVolume;
+        if (targetVolume == 0)
+        {
+            Destroy(channel);
+        }
     }
 }

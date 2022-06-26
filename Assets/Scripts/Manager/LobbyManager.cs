@@ -18,13 +18,22 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public LobbyPanel           lobbyPanel;
     public InRoomPanel          inRoomPanel;
     public InfoPanel            infoPanel;
+
+    [Header("Audios")]
+    public AudioClip onConnectBGM;
+    public AudioClip onClickButtonSfx;
+    public AudioClip onHoverButtonSfx;
+    public AudioClip onPlayerReadySfx;
     
     private void Awake() {
         instance = this;
     }
 
-    private void Start() {
+    private void Start()
+    {
         PhotonNetwork.AutomaticallySyncScene = true;
+        
+        SoundManager.Instance.Play(onConnectBGM, SoundType.Bgm);
     }
 
     public enum PANEL {Login, Connect, Lobby, Room, CreateRoom}
@@ -118,6 +127,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         inRoomPanel.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+
+        if (changedProps.TryGetValue(GameData.PLAYER_READY, out var _isPlayerReady))
+        {
+            if ((bool) _isPlayerReady)
+            {
+                OnPlayerReadyClicked();
+            }
+        }
     }
 
     public void LocalPlayerPropertiesUpdated()
@@ -125,5 +142,22 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         inRoomPanel.LocalPlayerPropertiesUpdated();
     }
 
-    #endregion PHOTON CALLBACKS 
+    #endregion PHOTON CALLBACKS
+
+    #region AUDIOS
+    public void PlayFxOnButtonClicked()
+    {
+        SoundManager.Instance.Play(onClickButtonSfx);
+    }
+    
+    public void PlayFxOnButtonHover()
+    {
+        SoundManager.Instance.Play(onHoverButtonSfx);
+    }
+
+    public void OnPlayerReadyClicked()
+    {
+        SoundManager.Instance.Play(onPlayerReadySfx);
+    }
+    #endregion AUDIOS
 }

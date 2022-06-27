@@ -413,6 +413,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 3501073356645556381}
+  - {fileID: 6582516465984104689}
   - {fileID: 6723470722917336879}
   - {fileID: 8250444155084424625}
   - {fileID: 3538522971434287947}
@@ -740,26 +741,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 190212659544855481}
     m_Modifications:
-    - target: {fileID: 2199095134178302354, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 5133093734281830671, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 5133093734281830671, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5133093734281830671, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: m_TagString
-      value: Item
-      objectReference: {fileID: 0}
     - target: {fileID: 5362025121097832189, guid: 13b16a9a96fbdd349b316fac56d95529,
         type: 3}
       propertyPath: m_Name
@@ -819,11 +800,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9200564530825171364, guid: 13b16a9a96fbdd349b316fac56d95529,
-        type: 3}
-      propertyPath: m_Layer
-      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13b16a9a96fbdd349b316fac56d95529, type: 3}

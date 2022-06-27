@@ -891,7 +891,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 0}
+    m_ConstrainedObject: {fileID: 5181471257037344393}
     m_SourceObjects:
       m_Length: 1
       m_Item0:
@@ -1127,7 +1127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 0}
+    m_ConstrainedObject: {fileID: 6762405932141601354}
     m_SourceObjects:
       m_Length: 1
       m_Item0:
@@ -5101,6 +5101,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3162730143435170338}
     m_Modifications:
+    - target: {fileID: 3071013508148735729, guid: 75d41eac103dbbc41b563bf81e525d04,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 3773723097962408746, guid: 75d41eac103dbbc41b563bf81e525d04,
         type: 3}
       propertyPath: m_RootOrder
@@ -5171,10 +5176,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5455081178589161159, guid: 75d41eac103dbbc41b563bf81e525d04,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 8297537420459218540, guid: 75d41eac103dbbc41b563bf81e525d04,
         type: 3}
       propertyPath: m_Name
       value: SniperGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 8297537420459218540, guid: 75d41eac103dbbc41b563bf81e525d04,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 8297537420459218540, guid: 75d41eac103dbbc41b563bf81e525d04,
         type: 3}

@@ -30,6 +30,9 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     [Header("Animation Rigging")]
     public Transform riggingTarget;
 
+    private Vector3 m_screenCenterPos = new Vector3(Screen.width / 2f, Screen.height / 2f);
+    private Camera m_pCamera;
+    
     [SerializeField] private Image aimImage;
     [SerializeField] private Image zoomImage;
     [SerializeField] private LayerMask attackTargetLayer;
@@ -72,40 +75,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
             m_Hp = value;
         }
     }
-    
-    public void TakeDamage(int damage, string attackerName, int attackerNumber)
-    {
-        if (m_isDead) return;
-        
-        m_Hp -= damage;
-        print("Hit!!");
-
-        if (m_Hp <= 0)
-        {
-            if (photonView.IsMine)
-            {
-                Chat.instance.KillLog($"/c log {PhotonNetwork.LocalPlayer.NickName} 님이 {attackerName} 님에 의해 죽음");
-            }
-            else
-            {
-                Chat.instance.KillLog($"/c log {photonView.Owner.NickName} 님이 {attackerName} 님에 의해 죽음");
-            }
-
-            //Die();
-            photonView.RPC(nameof(Die), RpcTarget.All, attackerNumber);
-        }
-    }
-
-    [PunRPC]
-    public void Die(int killerNumber)
-    {
-        m_ragdollChanger.ChangeRagdoll();
-        
-        m_isDead = true;
-        enabled = false;
-        onDeadEvent?.Invoke();
-        onScoreEvent?.Invoke(killerNumber);
-    }
 
     private void Awake()
     {
@@ -121,17 +90,21 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         m_col = GetComponent<Collider>();
         m_ragdollChanger = GetComponent<RagdollChanger>();
         m_cameraMovement = GetComponent<CameraMovement>();
-
+        
+        // 카메라 캐싱 하여 사용
+        m_pCamera = Camera.main;
     }
 
     private void Update()
     {
         if(!photonView.IsMine) return;
+        
+        Ray _ray = m_pCamera.ScreenPointToRay(m_screenCenterPos);
+        Vector3 _rayStartPos = _ray.origin + m_pCamera.transform.forward * 2.1f;
 
-        Vector3 _screenCenterPos = new Vector3(Screen.width / 2f, Screen.height / 2f);
-        Ray _ray = Camera.main.ScreenPointToRay(_screenCenterPos);
-
-        if (Physics.Raycast(_ray, out RaycastHit _hit, attackTargetLayer))
+        Debug.DrawRay(_rayStartPos, _ray.direction * float.MaxValue, Color.red);
+        
+        if (Physics.Raycast(_rayStartPos, _ray.direction, out var _hit, float.MaxValue, attackTargetLayer))
         {
             riggingTarget.position = _hit.point;
 
@@ -203,10 +176,10 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         if (!m_currentItem) return;
         
         m_attackCommand.Execute(targetPos);
-        aimImage.gameObject.SetActive(false);
+        //aimImage.gameObject.SetActive(false);
 
-        m_currentItem = null;
-        m_animator.SetBool("HasGun", false);
+        //m_currentItem = null;
+        //m_animator.SetBool("HasGun", false);
     }
     
     private void Zoom()
@@ -238,6 +211,40 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
                 m_cameraMovement.rotYCamAxisSpeed += 100;
             }
         }   
+    }
+    
+    public void TakeDamage(int damage, string attackerName, int attackerNumber)
+    {
+        if (m_isDead) return;
+        
+        m_Hp -= damage;
+        print("Hit!!");
+
+        if (m_Hp <= 0)
+        {
+            if (photonView.IsMine)
+            {
+                Chat.instance.KillLog($"/c log {PhotonNetwork.LocalPlayer.NickName} 님이 {attackerName} 님에 의해 죽음");
+            }
+            else
+            {
+                Chat.instance.KillLog($"/c log {photonView.Owner.NickName} 님이 {attackerName} 님에 의해 죽음");
+            }
+
+            //Die();
+            photonView.RPC(nameof(Die), RpcTarget.All, attackerNumber);
+        }
+    }
+
+    [PunRPC]
+    public void Die(int killerNumber)
+    {
+        m_ragdollChanger.ChangeRagdoll();
+        
+        m_isDead = true;
+        enabled = false;
+        onDeadEvent?.Invoke();
+        onScoreEvent?.Invoke(killerNumber);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

@@ -17,6 +17,7 @@ public enum EMapType
 {
     Crossline,
     HarborCity,
+    School,
 
     Count
 }

@@ -51,9 +51,12 @@ namespace Managers
                 _obj.transform.SetParent(scorePanel.transform);
                 _obj.transform.localScale = Vector3.one;
                 _obj.ownerNumber = _player.GetPlayerNumber();
+                _obj.ownerName = _player.NickName;
 
                 managedScoreList.Add(_obj);
+                Debug.LogError($"PlayerNumber : {_player.GetPlayerNumber()}");
             }
+            Debug.LogError($"Mine : {PhotonNetwork.LocalPlayer.GetPlayerNumber()}");
 
             myScore = GetMyScore();
         }
@@ -201,7 +204,11 @@ namespace Managers
                     break;
             }
 
+            player.onDeadEvent -= StartRespawn;
             player.onDeadEvent += StartRespawn;
+
+            player.onScoreEvent -= OnScored;
+            player.onScoreEvent += OnScored;
         }
 
         private bool CheckAllPlayersLoadLevel()
@@ -233,8 +240,6 @@ namespace Managers
             Debug.Log("GameComplete");
             isGameCompleted = true;
 
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
             onGameComplete?.Invoke();
 
             gameTimer.gameObject.SetActive(false);
@@ -258,6 +263,9 @@ namespace Managers
 
             StopAllCoroutines();
             deadTextInfo.gameObject.SetActive(false);
+
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
 
         private void PrintInfo(string info)
@@ -307,6 +315,33 @@ namespace Managers
             
             PhotonNetwork.CurrentRoom.IsOpen = true;
             PhotonNetwork.CurrentRoom.IsVisible = true;
+        }
+
+        private void OnScored(int playerNumber)
+        {
+            int _killerScore = 0;
+            Debug.Log($"Attacker : {playerNumber}");
+            foreach (Score _score in managedScoreList)
+            {
+                if (playerNumber == _score.ownerNumber)
+                {
+                    Debug.Log($"ScoreOwner : {_score.ownerNumber}");
+                    _score.UpdateScore(50);
+                    _killerScore = _score.score;
+                    break;
+                }
+            }
+
+            foreach (Player _player in PhotonNetwork.PlayerList)
+            {
+                if (playerNumber == _player.GetPlayerNumber())
+                {
+                    // Score 동기화
+                    Hashtable _prop = new Hashtable() { { GameData.PLAYER_SCORE, _killerScore } };
+                    _player.SetCustomProperties(_prop);
+                    break;
+                }
+            }
         }
     }
 }

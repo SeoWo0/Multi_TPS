@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Photon.Pun.UtilityScripts;
+using Photon.Pun;
 
 public class PlayerSniperAttackCommand : Command
 {

@@ -6,6 +6,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Events;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Photon.Pun.UtilityScripts;
 
 public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 {
@@ -37,6 +38,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     public bool IsDead => m_isDead;
 
     public UnityAction onDeadEvent;
+    public UnityAction<int> onScoreEvent;
 
     //FallAnimation
     //private bool isFall = false;
@@ -84,18 +86,19 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
             {
                 Chat.instance.KillLog($"/c log {photonView.Owner.NickName} 님이 {attackerName} 님에 의해 죽음");
             }
-            
+
             //Die();
-            photonView.RPC(nameof(Die), RpcTarget.All, attackerName, attackerNumber);
+            photonView.RPC(nameof(Die), RpcTarget.All, attackerNumber);
         }
     }
 
     [PunRPC]
-    public void Die(string killerName, int killerNumber)
+    public void Die(int killerNumber)
     {
         m_isDead = true;
         enabled = false;
         onDeadEvent?.Invoke();
+        onScoreEvent?.Invoke(killerNumber);
     }
 
     private void Awake()

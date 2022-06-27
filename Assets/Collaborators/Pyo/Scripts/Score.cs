@@ -23,6 +23,7 @@ public class Score : MonoBehaviour
     [Header("Score Info")]
     public int score;
     public int ownerNumber;
+    public string ownerName;
     //private WaitForSeconds m_waitSeconds;
 
     private void Start()
@@ -41,6 +42,9 @@ public class Score : MonoBehaviour
         
         //StartCoroutine(UpdateScore(0));
         UpdateScore(0);
+
+        Hashtable _prop = new Hashtable() { { GameData.PLAYER_SCORE, score } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
     }
 
     public void UpdateScore(int earnedScore)
@@ -50,9 +54,6 @@ public class Score : MonoBehaviour
         if (GameManager.Instance.isGameCompleted) return;
         
         SetScore(score);
-        // Score 동기화
-        Hashtable _prop = new Hashtable() { { GameData.PLAYER_SCORE, score } };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
     }
 
     public void SetScore(int score)

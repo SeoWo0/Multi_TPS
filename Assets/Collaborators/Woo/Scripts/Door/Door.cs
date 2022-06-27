@@ -4,26 +4,32 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class Door : MonoBehaviourPun
+public class Door : MonoBehaviour
 {
+    private Animator m_anim;
+
+    private void Awake()
+    {
+        m_anim = gameObject.GetComponent<Animator>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
-            transform.Translate(Vector3.back * Time.deltaTime);
+            m_anim.SetBool("IsOpen", true);
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
-            transform.Translate(Vector3.back * Time.deltaTime);
-            
+            m_anim.SetBool("IsOpen", true);
+
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
-            transform.Translate(Vector3.forward * Time.deltaTime);
-        
+            m_anim.SetBool("IsOpen", false);
     }
 }
     

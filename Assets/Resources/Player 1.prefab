@@ -285,7 +285,6 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 2768902482797901093}
-  - {fileID: 5594203363866099017}
   - {fileID: 5455478215362925207}
   - {fileID: 7242956669694349321}
   - {fileID: 1231305024617891510}
@@ -375,10 +374,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: MisakiPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 5362025121097832189, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5362025121098124061, guid: 13b16a9a96fbdd349b316fac56d95529,
         type: 3}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362025121098124061, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362025121098124061, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362025121098124061, guid: 13b16a9a96fbdd349b316fac56d95529,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5362025121098124061, guid: 13b16a9a96fbdd349b316fac56d95529,
         type: 3}

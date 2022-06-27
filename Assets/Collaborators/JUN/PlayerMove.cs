@@ -4,44 +4,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using UnityEngine.Animations.Rigging;
 
 public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 {
-    Rigidbody rigid;
-    Animator animator;
-    PlayerInput m_input;
-    GroundChecker groundChecker;
-    Collider col;
+    private Rigidbody rigid;
+    private Animator animator;
+    private PlayerInput m_input;
+    private GroundChecker groundChecker;
+    private Collider col;
+    private Command m_attackCommand;
+    private RagdollChanger ragdollChanger;
+    private Item m_currentItem;
+    private float jumpPower = 7f;
+    private float m_extraGravity = -15f;
+    private bool m_isDead;
+    public UnityAction onDeadEvent;
+    public bool IsDead => m_isDead; 
 
-    //rigging animation target
+    [Header("Animation Rigging")]
     public Transform riggingTarget;
 
-    private Command m_attackCommand;
+    [SerializeField] private Image aimImage;
     [SerializeField] private LayerMask attackTargetLayer;
-    RagdollChanger ragdollChanger;
 
-    private Item m_currentItem;
-
-    [SerializeField]
-    private float moveSpeed = 4f;
-    private float jumpPower = 7f;
+    [Header("Player Info Setting")]
+    [SerializeField] private float moveSpeed = 4f;
+    [SerializeField] private int m_Hp = 1;
 
     [Header("Weapon Info")] public Gun[] guns;
     [SerializeField] private Transform weaponHolder;
-
-    private float m_extraGravity = -15f;
     
-    [SerializeField]
-    private int m_Hp = 1;
-
-    private bool m_isDead;
-    public bool IsDead => m_isDead;
-
-    public UnityAction onDeadEvent;
-
-    //FallAnimation
-    //private bool isFall = false;
 
     public float MoveSpeed
     {
@@ -121,35 +116,27 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         if (Physics.Raycast(_ray, out RaycastHit _hit, attackTargetLayer))
         {
             riggingTarget.position = _hit.point;
+
+            if (_hit.collider.tag == "Player")
+            {
+                aimImage.color = Color.red;
+            }
+            else
+            {
+                aimImage.color = Color.yellow;
+            }
+            
             if (m_input.MouseLeft)
             {
                 photonView.RPC(nameof(Attack), RpcTarget.All, _hit.point);
             }
         }
-
-
-        //Fall Animation
-        //if(groundChecker.IsGrounded() == true)
-        //{
-        //    isFall = false;
-        //}
         
         animator.SetBool("IsGround", groundChecker.IsGrounded());
         if (m_input.JumpInput && groundChecker.IsGrounded())
             Jump();
-
-
-        //Fall Animation
-        //if (rigid.velocity.y < -0.1f && !groundChecker.IsGrounded())
-        //{
-        //    if(isFall == false)
-        //    {
-        //        animator.SetTrigger("Fall");
-        //        isFall = true;
-        //    }
-
-        //}
     }
+    
     private void FixedUpdate()
     {
         if (!photonView.IsMine)
@@ -193,7 +180,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         if (!m_currentItem) return;
         
         m_attackCommand.Execute(targetPos);
-
+        aimImage.gameObject.SetActive(false);
         //animator.SetBool("HasGun", false);
     }
     
@@ -265,6 +252,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
             m_currentItem = _gun;
             _gun.gameObject.SetActive(true);
+            aimImage.gameObject.SetActive(true);
             break;
         }
         

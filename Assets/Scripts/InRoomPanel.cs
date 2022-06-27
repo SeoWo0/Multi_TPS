@@ -93,7 +93,8 @@ public class InRoomPanel : MonoBehaviour
         PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.CurrentRoom.IsVisible = false;
 
-        PhotonNetwork.LoadLevel("HarborCity");
+        // PhotonNetwork.LoadLevel("HarborCity");
+        PhotonNetwork.LoadLevel(roomSettingPanel.mapSelectText.text);
     }
 
     private bool CheckPlayersReady()

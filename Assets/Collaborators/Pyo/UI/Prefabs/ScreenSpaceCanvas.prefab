@@ -244,7 +244,7 @@ PrefabInstance:
     - target: {fileID: 1090334667045287952, guid: dfd90f359aa50dd4ca9dcd74092406a0,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnReturnToRoom
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1090334667045287952, guid: dfd90f359aa50dd4ca9dcd74092406a0,
         type: 3}

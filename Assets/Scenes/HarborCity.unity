@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 905082700}
-  m_IndirectSpecularColor: {r: 0.6339384, g: 0.7140164, b: 0.740649, a: 1}
+  m_IndirectSpecularColor: {r: 0.63390476, g: 0.7139712, b: 0.74054754, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4568,6 +4568,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: edc33a6d63da4dc4ba28baac0eb3ccbd, type: 3}
+--- !u!114 &462498309 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2776781866945954931, guid: edc33a6d63da4dc4ba28baac0eb3ccbd,
+    type: 3}
+  m_PrefabInstance: {fileID: 462498308}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f3cebd03229bc45b61fd135a42def4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &465205779
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9994,6 +10006,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScreenSpaceCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 3348711838903113236, guid: ac7cd36b3b6bcf8488f2d533bb2b7476,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 462498309}
+    - target: {fileID: 3348711838903113236, guid: ac7cd36b3b6bcf8488f2d533bb2b7476,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnReturnToRoom
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac7cd36b3b6bcf8488f2d533bb2b7476, type: 3}
 --- !u!224 &1003442563 stripped
@@ -12803,11 +12825,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1845533530}
     m_Modifications:
-    - target: {fileID: 5610528412572330693, guid: abb26cd9b4f6c614085c002f1e76982f,
-        type: 3}
-      propertyPath: m_FontData.m_FontSize
-      value: 28
-      objectReference: {fileID: 0}
     - target: {fileID: 5610528414249845092, guid: abb26cd9b4f6c614085c002f1e76982f,
         type: 3}
       propertyPath: m_SizeDelta.y

@@ -16,6 +16,7 @@ namespace Managers
     {
         [Header("Start Info")] public TextMeshProUGUI infoText;
         //public Transform[] spawnPos;
+        [Header("Dead Spawn Text Info")] public TextMeshProUGUI deadTextInfo;
 
         public Camera mapCamera;
         public Transform[] spawnPos;
@@ -32,8 +33,6 @@ namespace Managers
         public PlayerResultPanel playerResultPrefab;
         public List<PlayerResultPanel> managedResultList;
         public bool isGameCompleted;
-
-        public GameObject crossHair;
         
         // Events
         public UnityAction onGameComplete;
@@ -132,7 +131,6 @@ namespace Managers
 
         private IEnumerator StartCountdown()
         {
-            crossHair.gameObject.SetActive(false);
             scorePanel.gameObject.SetActive(false);
 
             PrintInfo("All Player Loaded!\nStart Count Down");
@@ -165,14 +163,24 @@ namespace Managers
 
         IEnumerator PlayerSpawn()
         {
-            yield return new WaitForSeconds(5f);
+            deadTextInfo.gameObject.SetActive(true);
+
+            for (int i = GameData.SPAWNCOUNTDOWN; i > 0; --i)
+            {
+                PrintInfo($"당신은 죽었습니다.\n <color=red>{i}</color> 초 후 부활합니다!");
+                yield return new WaitForSeconds(1f);
+            }
+
+            yield return new WaitForSeconds(0.2f);
+            deadTextInfo.gameObject.SetActive(false);
+
+            yield return new WaitForSeconds(0.3f);
             PhotonNetwork.Destroy(player.gameObject);
             PlayerSet();
         }
 
         private void PlayerSet()
         {
-            crossHair.gameObject.SetActive(true);
             scorePanel.gameObject.SetActive(true);
 
             int _playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
@@ -231,7 +239,6 @@ namespace Managers
 
             gameTimer.gameObject.SetActive(false);
             scorePanel.gameObject.SetActive(false);
-            crossHair.gameObject.SetActive(false);
             gameResultPanel.parent.gameObject.SetActive(true);
 
             foreach (Player _player in PhotonNetwork.PlayerList)
@@ -248,12 +255,16 @@ namespace Managers
 
             Hashtable _prop = new Hashtable() {{GameData.GAME_IS_COMPLETE, isGameCompleted}};
             PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+
+            StopAllCoroutines();
+            deadTextInfo.gameObject.SetActive(false);
         }
 
         private void PrintInfo(string info)
         {
             Debug.Log(info);
             infoText.text = info;
+            deadTextInfo.text = info;
         }
 
         private Score GetMyScore()

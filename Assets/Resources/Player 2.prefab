@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 8250444155084424625}
   - component: {fileID: 4548049774634316010}
   m_Layer: 11
-  m_Name: NewPlayer
+  m_Name: Player 2
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -259,17 +259,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e45a1ba42c035b44598c9e9490f83d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimImage: {fileID: 1085383642}
   riggingTarget: {fileID: 8832547434747430385}
-  rigBuilder: {fileID: 7960876613291433883}
+  aimImage: {fileID: 1085383642}
   attackTargetLayer:
     serializedVersion: 2
     m_Bits: 6401
   moveSpeed: 5
+  m_Hp: 1
   guns:
   - {fileID: 7521887043696048711}
   weaponHolder: {fileID: 897520554041188116}
-  m_Hp: 1
 --- !u!114 &6582516465984104689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,7 +373,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charObj: {fileID: 3848369533181295965}
-  ragdollObj: {fileID: 2113894150020285657}
+  ragdollObj: {fileID: 4534479998758347222, guid: b6c1a2ee0ab112749bbb12f1470e1d55,
+    type: 3}
 --- !u!1 &4313029297677759487
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,7 +401,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4313029297677759487}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.4, y: 0, z: -1.2}
+  m_LocalPosition: {x: 0.3, y: 0, z: -1.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6224210538700094339}
@@ -603,7 +603,7 @@ PrefabInstance:
     - target: {fileID: 4534479998758347222, guid: b6c1a2ee0ab112749bbb12f1470e1d55,
         type: 3}
       propertyPath: m_Name
-      value: NewRagdollUnityChan
+      value: Player2Rag
       objectReference: {fileID: 0}
     - target: {fileID: 4534479998758347222, guid: b6c1a2ee0ab112749bbb12f1470e1d55,
         type: 3}
@@ -667,12 +667,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6c1a2ee0ab112749bbb12f1470e1d55, type: 3}
---- !u!1 &2113894150020285657 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4534479998758347222, guid: b6c1a2ee0ab112749bbb12f1470e1d55,
-    type: 3}
-  m_PrefabInstance: {fileID: 2574856186359096591}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2113894150020258105 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4534479998758517814, guid: b6c1a2ee0ab112749bbb12f1470e1d55,
@@ -685,7 +679,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 2574856186359096591}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2113894150020285657}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
@@ -773,6 +767,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 5131495029723735684, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_CullingMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5131495029730920724, guid: 48df848726e113e4b8c63e14f57b11d3,
         type: 3}
       propertyPath: m_RootOrder
@@ -852,6 +851,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6095642466646983492, guid: 48df848726e113e4b8c63e14f57b11d3,
+        type: 3}
+      propertyPath: m_Name
+      value: FeetPos
       objectReference: {fileID: 0}
     - target: {fileID: 6095642466646983492, guid: 48df848726e113e4b8c63e14f57b11d3,
         type: 3}
@@ -936,18 +940,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8241196139990755753}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7960876613291433883 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2027793149393073714, guid: 48df848726e113e4b8c63e14f57b11d3,
-    type: 3}
-  m_PrefabInstance: {fileID: 8241196139990755753}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3848369533181295965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fff0960ef4ea6e04eac66b4a7fd2189d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &765861443850073773 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,

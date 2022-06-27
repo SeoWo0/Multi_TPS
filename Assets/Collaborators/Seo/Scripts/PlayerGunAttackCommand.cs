@@ -21,8 +21,7 @@ public class PlayerGunAttackCommand : Command
         var _position = gun.muzzlePos.position;
             
         Vector3 _aimDir = (targetPos - _position).normalized;
-
-        //Vector3 _shotPos = (Vector2)m_shotgun.muzzlePos.position - Random.insideUnitCircle;
+    
         Object.Instantiate(gun.bullet, _position, Quaternion.LookRotation(_aimDir, Vector3.up));
     }
 }

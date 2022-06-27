@@ -145,10 +145,8 @@ public class PlayerInput : MonoBehaviour,IPunObservable
 
         m_mouseLeft = Input.GetKeyDown(m_command.playerShoot);
         
-        if(Input.GetKeyDown(m_command.playerZoom)) 
-        {
-            m_mouseRight = !m_mouseRight;
-        }
+        m_mouseRight = Input.GetKeyDown(m_command.playerZoom);
+       
         
         
         

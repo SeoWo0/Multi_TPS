@@ -10,17 +10,19 @@ using UnityEngine.Animations.Rigging;
 
 public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 {
-    private Rigidbody rigid;
-    private Animator animator;
+    private Rigidbody m_rigid;
+    private Animator m_animator;
     private PlayerInput m_input;
-    private GroundChecker groundChecker;
-    private Collider col;
+    private GroundChecker m_groundChecker;
+    private Collider m_col;
     private Command m_attackCommand;
-    private RagdollChanger ragdollChanger;
+    private RagdollChanger m_ragdollChanger;
     private Item m_currentItem;
-    private float jumpPower = 7f;
+    private CameraMovement m_cameraMovement;
+    private float m_jumpPower = 7f;
     private float m_extraGravity = -15f;
     private bool m_isDead;
+    private bool m_isZoom;
     public UnityAction onDeadEvent;
     public bool IsDead => m_isDead; 
 
@@ -28,6 +30,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     public Transform riggingTarget;
 
     [SerializeField] private Image aimImage;
+    [SerializeField] private Image zoomImage;
     [SerializeField] private LayerMask attackTargetLayer;
 
     [Header("Player Info Setting")]
@@ -79,7 +82,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     [PunRPC]
     public void Die()
     {
-        ragdollChanger.ChangeRagdoll();
+        m_ragdollChanger.ChangeRagdoll();
         
         m_isDead = true;
         enabled = false;
@@ -98,12 +101,13 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
     private void Awake()
     {
-        rigid = GetComponent<Rigidbody>();
-        animator = GetComponentInChildren<Animator>();
-        groundChecker = GetComponent<SphereGroundChecker>();
+        m_rigid = GetComponent<Rigidbody>();
+        m_animator = GetComponentInChildren<Animator>();
+        m_groundChecker = GetComponent<SphereGroundChecker>();
         m_input = GetComponent<PlayerInput>();
-        col = GetComponent<Collider>();
-        ragdollChanger = GetComponent<RagdollChanger>();
+        m_col = GetComponent<Collider>();
+        m_ragdollChanger = GetComponent<RagdollChanger>();
+        m_cameraMovement = GetComponent<CameraMovement>();
     }
 
     private void Update()
@@ -131,12 +135,17 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
                 photonView.RPC(nameof(Attack), RpcTarget.All, _hit.point);
             }
         }
-        
-        animator.SetBool("IsGround", groundChecker.IsGrounded());
-        if (m_input.JumpInput && groundChecker.IsGrounded())
+
+        if(m_input.MouseRight)
+        {
+            Zoom();
+        }
+
+        m_animator.SetBool("IsGround", m_groundChecker.IsGrounded());
+        if (m_input.JumpInput && m_groundChecker.IsGrounded())
             Jump();
     }
-    
+
     private void FixedUpdate()
     {
         if (!photonView.IsMine)
@@ -159,19 +168,19 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
         //animator setting
         if (Mathf.Approximately(_dir.x, 0) && Mathf.Approximately(_dir.z, 0))
-            animator.SetBool("Walk", false);
+            m_animator.SetBool("Walk", false);
         else
-            animator.SetBool("Walk", groundChecker.IsGrounded());
+            m_animator.SetBool("Walk", m_groundChecker.IsGrounded());
         
-        animator.SetFloat("xDir", m_input.HInput);
-        animator.SetFloat("yDir", m_input.VInput);
+        m_animator.SetFloat("xDir", m_input.HInput);
+        m_animator.SetFloat("yDir", m_input.VInput);
     }
     
     // [PunRPC]
     private void Jump()
     {
-        rigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-        animator.SetTrigger("jumping");
+        m_rigid.AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
+        m_animator.SetTrigger("jumping");
     }
 
     [PunRPC]
@@ -184,6 +193,37 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         //animator.SetBool("HasGun", false);
     }
     
+    private void Zoom()
+    {
+        if (m_currentItem.gunType == Item.EGunType.Sniper)
+        {
+
+            if(!m_isZoom)
+            {
+                zoomImage.gameObject.SetActive(true);
+                Camera.main.GetComponent<Camera>().fieldOfView = 15;
+                m_isZoom = true;
+
+                if(m_cameraMovement.rotXCamAxisSpeed < 100 || m_cameraMovement.rotYCamAxisSpeed < 100)
+                    return;
+                m_cameraMovement.rotXCamAxisSpeed -= 100;
+                m_cameraMovement.rotYCamAxisSpeed -= 100;
+            }
+
+            else
+            {
+                zoomImage.gameObject.SetActive(false);
+                Camera.main.GetComponent<Camera>().fieldOfView = 60;
+                m_isZoom = false;
+
+                if(m_cameraMovement.rotXCamAxisSpeed < 100 || m_cameraMovement.rotYCamAxisSpeed < 100)
+                    return;
+                m_cameraMovement.rotXCamAxisSpeed += 100;
+                m_cameraMovement.rotYCamAxisSpeed += 100;
+            }
+        }   
+    }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -232,7 +272,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
                 //currentItem.transform.SetParent(weaponHolder);
                 //currentItem.transform.SetPositionAndRotation(weaponHolder.transform.position, weaponHolder.transform.rotation);
-                animator.SetBool("HasGun", true);
+                m_animator.SetBool("HasGun", true);
             }
         }
 
@@ -253,6 +293,12 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
             m_currentItem = _gun;
             _gun.gameObject.SetActive(true);
             aimImage.gameObject.SetActive(true);
+
+            if(m_currentItem.gunType == Item.EGunType.Sniper)
+            {
+                aimImage.gameObject.SetActive(false);
+            }
+            
             break;
         }
         

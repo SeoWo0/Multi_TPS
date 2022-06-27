@@ -2459,7 +2459,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4534479998758517814}
   - component: {fileID: 4534479998765732774}
-  - component: {fileID: 82596237860661798}
   m_Layer: 11
   m_Name: Player 1Rag
   m_TagString: Untagged
@@ -2504,28 +2503,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &82596237860661798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4534479998758347222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters: []
-  m_SynchronizeLayers:
-  - SynchronizeType: 0
-    LayerIndex: 0
-  - SynchronizeType: 0
-    LayerIndex: 1
-  - SynchronizeType: 0
-    LayerIndex: 2
 --- !u!1 &4551400112206409158
 GameObject:
   m_ObjectHideFlags: 0

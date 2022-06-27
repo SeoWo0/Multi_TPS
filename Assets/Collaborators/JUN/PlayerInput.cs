@@ -14,7 +14,7 @@ public struct tPlayerCommand
     public KeyCode playerZoom;
 }
 
-public class PlayerInput : MonoBehaviour
+public class PlayerInput : MonoBehaviour, IPunObservable
 {
     //public static PlayerInput instance
     //{
@@ -152,9 +152,9 @@ public class PlayerInput : MonoBehaviour
         m_mouseLeft = Input.GetKeyDown(m_command.playerShoot);
         
         m_mouseRight = Input.GetKeyDown(m_command.playerZoom);
-       
-        
-        
-        
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
     }
 }

@@ -25,7 +25,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     private float m_extraGravity = -15f;
     private bool m_isDead;
     private bool m_isZoom;
-    public UnityAction onDeadEvent;
     public bool IsDead => m_isDead; 
 
     [Header("Animation Rigging")]
@@ -41,12 +40,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
     [Header("Weapon Info")] public Gun[] guns;
     [SerializeField] private Transform weaponHolder;
-    
-    [SerializeField]
-    private int m_Hp = 1;
-
-    private bool m_isDead;
-    public bool IsDead => m_isDead;
 
     public UnityAction onDeadEvent;
     public UnityAction<int> onScoreEvent;
@@ -121,7 +114,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         m_groundChecker = GetComponent<SphereGroundChecker>();
         m_input = GetComponent<PlayerInput>();
 
-        col = GetComponent<Collider>();
+        m_col = GetComponent<Collider>();
 
         GameManager.Instance.onGameComplete += OnGameComplete;
 
@@ -211,7 +204,9 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         
         m_attackCommand.Execute(targetPos);
         aimImage.gameObject.SetActive(false);
-        //animator.SetBool("HasGun", false);
+
+        m_currentItem = null;
+        m_animator.SetBool("HasGun", false);
     }
     
     private void Zoom()
@@ -282,6 +277,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
             if (m_currentItem.useType == Item.EUseType.Immediately)
             {
                 m_currentItem.Use();
+                m_currentItem = null;
             }
 
             else
@@ -290,9 +286,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
                 string _gunName = Enum.GetName(typeof(Item.EGunType), m_currentItem.gunType);
                 photonView.RPC(nameof(ActivateGun), RpcTarget.All, _gunName);
-
-                //currentItem.transform.SetParent(weaponHolder);
-                //currentItem.transform.SetPositionAndRotation(weaponHolder.transform.position, weaponHolder.transform.rotation);
+                
                 m_animator.SetBool("HasGun", true);
             }
         }

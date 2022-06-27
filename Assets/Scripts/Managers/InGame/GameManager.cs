@@ -54,9 +54,7 @@ namespace Managers
                 _obj.ownerName = _player.NickName;
 
                 managedScoreList.Add(_obj);
-                Debug.LogError($"PlayerNumber : {_player.GetPlayerNumber()}");
             }
-            Debug.LogError($"Mine : {PhotonNetwork.LocalPlayer.GetPlayerNumber()}");
 
             myScore = GetMyScore();
         }
@@ -199,7 +197,7 @@ namespace Managers
 
                     break;
                 case 1:
-                    GameObject _playerModel2 =PhotonNetwork.Instantiate("Player", spawnPos[_playerNumber].position, spawnPos[_playerNumber].rotation, 0);
+                    GameObject _playerModel2 =PhotonNetwork.Instantiate("Player 2", spawnPos[_playerNumber].position, spawnPos[_playerNumber].rotation, 0);
                     player = _playerModel2.GetComponent<PlayerMove>();
                     break;
             }

@@ -2191,7 +2191,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4534479998758517814}
   - component: {fileID: 4534479998765732774}
-  - component: {fileID: 82596237860661798}
   m_Layer: 11
   m_Name: Player 2Rag
   m_TagString: Untagged
@@ -2227,7 +2226,7 @@ Animator:
   m_GameObject: {fileID: 4534479998758347222}
   m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: dd4802cc7972ecb4699ed0b29916793f, type: 3}
-  m_Controller: {fileID: 9100000, guid: 0d64c286960145a458c1bb7e7e5e028a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7dedc68dba410f84eb276933ddfdf58d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2236,52 +2235,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &82596237860661798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4534479998758347222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 4
-    SynchronizeType: 0
-    Name: Walk
-  - Type: 4
-    SynchronizeType: 0
-    Name: Jump
-  - Type: 1
-    SynchronizeType: 0
-    Name: xDir
-  - Type: 1
-    SynchronizeType: 0
-    Name: yDir
-  - Type: 9
-    SynchronizeType: 0
-    Name: jumping
-  - Type: 9
-    SynchronizeType: 0
-    Name: Fall
-  - Type: 4
-    SynchronizeType: 0
-    Name: IsGround
-  - Type: 4
-    SynchronizeType: 0
-    Name: HasGun
-  m_SynchronizeLayers:
-  - SynchronizeType: 0
-    LayerIndex: 0
-  - SynchronizeType: 0
-    LayerIndex: 1
-  - SynchronizeType: 0
-    LayerIndex: 2
 --- !u!1 &4551400112206409158
 GameObject:
   m_ObjectHideFlags: 0

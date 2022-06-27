@@ -15,7 +15,7 @@ public class PlayerGunAttackCommand : Command
 
     public void ShotGunFire(Vector3 targetPos)                 // 플레이어 기본 총 공격 함수
     {
-        //gun.Use();
+        gun.Use();
 
         var _position = gun.muzzlePos.position;
             

@@ -10,6 +10,6 @@ public class SniperGun : Gun
         print("Fire!!!");
         bullet.damage = damage;
         GenerateSound(audioClipFire);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

@@ -95,7 +95,7 @@ public class InRoomPanel : MonoBehaviour
         
         //PhotonNetwork.LoadLevel("HarborCity");
         PhotonNetwork.LoadLevel(roomSettingPanel.mapSelectText.text);
-
+        
         Hashtable _prop = new Hashtable() { { GameData.PLAYER_START, true } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
     }

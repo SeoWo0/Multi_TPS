@@ -15,7 +15,7 @@ public class PlayerSniperAttackCommand : Command
 
     public void SniperFire(Vector3 targetPos)
     {
-        //m_sniper.Use();
+        gun.Use();
 
         var _position = gun.muzzlePos.position;
             

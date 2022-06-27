@@ -5,31 +5,42 @@ using Managers;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Photon.Pun.UtilityScripts;
+using UnityEngine.Animations.Rigging;
 
 public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 {
-    Rigidbody rigid;
-    Animator animator;
-    PlayerInput m_input;
-    GroundChecker groundChecker;
-    Collider col;
-    
-    PlayerGunAttackCommand playerGunAttackCommand;
-    PlayerSniperAttackCommand sniperAttack;
+    private Rigidbody m_rigid;
+    private Animator m_animator;
+    private PlayerInput m_input;
+    private GroundChecker m_groundChecker;
+    private Collider m_col;
+    private Command m_attackCommand;
+    private RagdollChanger m_ragdollChanger;
+    private Item m_currentItem;
+    private CameraMovement m_cameraMovement;
+    private float m_jumpPower = 7f;
+    private float m_extraGravity = -15f;
+    private bool m_isDead;
+    private bool m_isZoom;
+    public UnityAction onDeadEvent;
+    public bool IsDead => m_isDead; 
+
+    [Header("Animation Rigging")]
+    public Transform riggingTarget;
+
+    [SerializeField] private Image aimImage;
+    [SerializeField] private Image zoomImage;
     [SerializeField] private LayerMask attackTargetLayer;
 
-    private Item m_currentItem;
-
-    [SerializeField]
-    private float moveSpeed = 4f;
-    private float jumpPower = 7f;
+    [Header("Player Info Setting")]
+    [SerializeField] private float moveSpeed = 4f;
+    [SerializeField] private int m_Hp = 1;
 
     [Header("Weapon Info")] public Gun[] guns;
     [SerializeField] private Transform weaponHolder;
-
-    private float m_extraGravity = -15f;
     
     [SerializeField]
     private int m_Hp = 1;
@@ -95,6 +106,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     [PunRPC]
     public void Die(int killerNumber)
     {
+        m_ragdollChanger.ChangeRagdoll();
+        
         m_isDead = true;
         enabled = false;
         onDeadEvent?.Invoke();
@@ -103,53 +116,57 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
     private void Awake()
     {
-        rigid = GetComponent<Rigidbody>();
-        animator = GetComponentInChildren<Animator>();
-        groundChecker = GetComponent<SphereGroundChecker>();
+        m_rigid = GetComponent<Rigidbody>();
+        m_animator = GetComponentInChildren<Animator>();
+        m_groundChecker = GetComponent<SphereGroundChecker>();
         m_input = GetComponent<PlayerInput>();
+
         col = GetComponent<Collider>();
 
         GameManager.Instance.onGameComplete += OnGameComplete;
+
+        m_col = GetComponent<Collider>();
+        m_ragdollChanger = GetComponent<RagdollChanger>();
+        m_cameraMovement = GetComponent<CameraMovement>();
+
     }
 
     private void Update()
     {
         if(!photonView.IsMine) return;
 
-        if (m_input.MouseLeft)
-        {
-            Vector3 _screenCenterPos = new Vector3(Screen.width / 2f, Screen.height / 2f);
-            Ray _ray = Camera.main.ScreenPointToRay(_screenCenterPos);
+        Vector3 _screenCenterPos = new Vector3(Screen.width / 2f, Screen.height / 2f);
+        Ray _ray = Camera.main.ScreenPointToRay(_screenCenterPos);
 
-            if (Physics.Raycast(_ray, out RaycastHit _hit, attackTargetLayer))
+        if (Physics.Raycast(_ray, out RaycastHit _hit, attackTargetLayer))
+        {
+            riggingTarget.position = _hit.point;
+
+            if (_hit.collider.tag == "Player")
+            {
+                aimImage.color = Color.red;
+            }
+            else
+            {
+                aimImage.color = Color.yellow;
+            }
+            
+            if (m_input.MouseLeft)
             {
                 photonView.RPC(nameof(Attack), RpcTarget.All, _hit.point);
             }
-            //Attack();
         }
 
-        //Fall Animation
-        //animator.SetBool("IsGround", groundChecker.IsGrounded());
-        //if(groundChecker.IsGrounded() == true)
-        //{
-        //    isFall = false;
-        //}
+        if(m_input.MouseRight)
+        {
+            Zoom();
+        }
 
-        if (m_input.JumpInput && groundChecker.IsGrounded())
+        m_animator.SetBool("IsGround", m_groundChecker.IsGrounded());
+        if (m_input.JumpInput && m_groundChecker.IsGrounded())
             Jump();
-
-
-        //Fall Animation
-        //if (rigid.velocity.y < -0.1f && !groundChecker.IsGrounded())
-        //{
-        //    if(isFall == false)
-        //    {
-        //        animator.SetTrigger("Fall");
-        //        isFall = true;
-        //    }
-
-        //}
     }
+
     private void FixedUpdate()
     {
         if (!photonView.IsMine)
@@ -172,39 +189,62 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
         //animator setting
         if (Mathf.Approximately(_dir.x, 0) && Mathf.Approximately(_dir.z, 0))
-            animator.SetBool("Walk", false);
+            m_animator.SetBool("Walk", false);
         else
-            animator.SetBool("Walk", groundChecker.IsGrounded());
+            m_animator.SetBool("Walk", m_groundChecker.IsGrounded());
         
-        animator.SetFloat("xDir", m_input.HInput);
-        animator.SetFloat("yDir", m_input.VInput);
+        m_animator.SetFloat("xDir", m_input.HInput);
+        m_animator.SetFloat("yDir", m_input.VInput);
     }
     
     // [PunRPC]
     private void Jump()
     {
-        rigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-        animator.SetTrigger("jumping");
+        m_rigid.AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
+        m_animator.SetTrigger("jumping");
     }
 
     [PunRPC]
     private void Attack(Vector3 targetPos)
     {
         if (!m_currentItem) return;
-
-        switch (m_currentItem.gunType)
-        {
-            case Item.EGunType.ShotGun:
-                playerGunAttackCommand.Execute(targetPos);
-                break;
-            case Item.EGunType.Sniper:
-                sniperAttack.Execute(targetPos);
-                break;
-        }
         
+        m_attackCommand.Execute(targetPos);
+        aimImage.gameObject.SetActive(false);
         //animator.SetBool("HasGun", false);
     }
     
+    private void Zoom()
+    {
+        if (m_currentItem.gunType == Item.EGunType.Sniper)
+        {
+
+            if(!m_isZoom)
+            {
+                zoomImage.gameObject.SetActive(true);
+                Camera.main.GetComponent<Camera>().fieldOfView = 15;
+                m_isZoom = true;
+
+                if(m_cameraMovement.rotXCamAxisSpeed < 100 || m_cameraMovement.rotYCamAxisSpeed < 100)
+                    return;
+                m_cameraMovement.rotXCamAxisSpeed -= 100;
+                m_cameraMovement.rotYCamAxisSpeed -= 100;
+            }
+
+            else
+            {
+                zoomImage.gameObject.SetActive(false);
+                Camera.main.GetComponent<Camera>().fieldOfView = 60;
+                m_isZoom = false;
+
+                if(m_cameraMovement.rotXCamAxisSpeed < 100 || m_cameraMovement.rotYCamAxisSpeed < 100)
+                    return;
+                m_cameraMovement.rotXCamAxisSpeed += 100;
+                m_cameraMovement.rotYCamAxisSpeed += 100;
+            }
+        }   
+    }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -253,7 +293,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
                 //currentItem.transform.SetParent(weaponHolder);
                 //currentItem.transform.SetPositionAndRotation(weaponHolder.transform.position, weaponHolder.transform.rotation);
-                animator.SetBool("HasGun", true);
+                m_animator.SetBool("HasGun", true);
             }
         }
 
@@ -273,17 +313,24 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
             m_currentItem = _gun;
             _gun.gameObject.SetActive(true);
+            aimImage.gameObject.SetActive(true);
+
+            if(m_currentItem.gunType == Item.EGunType.Sniper)
+            {
+                aimImage.gameObject.SetActive(false);
+            }
+            
             break;
         }
         
         switch (m_currentItem.gunType)
         {
             case Item.EGunType.ShotGun:
-                playerGunAttackCommand = new PlayerGunAttackCommand(this, m_currentItem as ShotGun);
+                m_attackCommand = new PlayerGunAttackCommand(this, m_currentItem as ShotGun);
                 break;
 
             case Item.EGunType.Sniper:
-                sniperAttack = new PlayerSniperAttackCommand(this, m_currentItem as SniperGun);
+                m_attackCommand = new PlayerSniperAttackCommand(this, m_currentItem as SniperGun);
                 break;
                     
             case Item.EGunType.None:

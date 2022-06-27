@@ -30,7 +30,7 @@ public class CreateRoomPanel : MonoBehaviour
         }
 
         byte maxPlayer = (byte)maxPlayerCount;
-        // For Room Chatting Channel
+        
         string _chattingChannel = "Channel " + Random.Range(0, 1000);
         RoomOptions options = new RoomOptions { MaxPlayers = maxPlayer, 
             CustomRoomProperties = new Hashtable { { GameData.ROOM_CHAT_CHANNEL, _chattingChannel } } };

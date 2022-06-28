@@ -334,7 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e45a1ba42c035b44598c9e9490f83d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  riggingTarget: {fileID: 4255121574523738657}
+  riggingTarget: {fileID: 0}
   aimImage: {fileID: 1085383642}
   zoomImage: {fileID: 386217671}
   attackTargetLayer:
@@ -450,8 +450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charObj: {fileID: 6191215734919844815}
-  ragdollObj: {fileID: 4534479998758347222, guid: d6adcc78870036046bbd4ed5750f44c4,
-    type: 3}
+  ragdollObj: {fileID: 4186154257924050062}
 --- !u!1 &4313029297677759487
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,6 +728,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6adcc78870036046bbd4ed5750f44c4, type: 3}
+--- !u!1 &4186154257924050062 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4534479998758347222, guid: d6adcc78870036046bbd4ed5750f44c4,
+    type: 3}
+  m_PrefabInstance: {fileID: 357333131232521560}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4186154257923887470 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4534479998758517814, guid: d6adcc78870036046bbd4ed5750f44c4,
@@ -741,7 +746,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 357333131232521560}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 4186154257924050062}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
@@ -841,6 +846,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13b16a9a96fbdd349b316fac56d95529, type: 3}
+--- !u!4 &3775818408175249168 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3162730143435170338, guid: 13b16a9a96fbdd349b316fac56d95529,
+    type: 3}
+  m_PrefabInstance: {fileID: 2270413002382837042}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3798343573237854488 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3113198739344323626, guid: 13b16a9a96fbdd349b316fac56d95529,
@@ -853,30 +864,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 245a39cf7250f0f4087bed20ca1c0a9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7315191670446579028 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8792971000291022950, guid: 13b16a9a96fbdd349b316fac56d95529,
-    type: 3}
-  m_PrefabInstance: {fileID: 2270413002382837042}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e25a13785bc3ee4ea5d6e57ea86a3de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &4255121574523738657 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2634353030465822483, guid: 13b16a9a96fbdd349b316fac56d95529,
-    type: 3}
-  m_PrefabInstance: {fileID: 2270413002382837042}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &3775818408175249168 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3162730143435170338, guid: 13b16a9a96fbdd349b316fac56d95529,
-    type: 3}
-  m_PrefabInstance: {fileID: 2270413002382837042}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5908642680851830630 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5655843481509663316, guid: 13b16a9a96fbdd349b316fac56d95529,
@@ -895,6 +882,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2270413002382837042}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7315191670446579028 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8792971000291022950, guid: 13b16a9a96fbdd349b316fac56d95529,
+    type: 3}
+  m_PrefabInstance: {fileID: 2270413002382837042}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e25a13785bc3ee4ea5d6e57ea86a3de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3538522971434287947 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3357850776961779321, guid: 13b16a9a96fbdd349b316fac56d95529,

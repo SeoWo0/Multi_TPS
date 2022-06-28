@@ -12,6 +12,9 @@ public class AnyButtonToStart : MonoBehaviour
         
         if(Input.anyKeyDown || Input.GetMouseButtonDown(0))
         {
+            if(Input.GetKeyDown(KeyCode.Escape))
+                return;
+                
             SceneManager.LoadScene(selectScene);
         }
     }

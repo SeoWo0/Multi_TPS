@@ -337,6 +337,7 @@ MonoBehaviour:
   riggingTarget: {fileID: 4255121574523738657}
   aimImage: {fileID: 1085383642}
   zoomImage: {fileID: 386217671}
+  shieldImage: {fileID: 0}
   attackTargetLayer:
     serializedVersion: 2
     m_Bits: 6401

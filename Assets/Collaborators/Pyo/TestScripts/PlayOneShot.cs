@@ -21,7 +21,7 @@ public class PlayOneShot : MonoBehaviourPun
     [PunRPC]
     public void OneShot()
     {
-        if (!m_source) return;
+        if (!m_source.clip) return;
         Destroy(gameObject, m_source.clip.length);
     }
 

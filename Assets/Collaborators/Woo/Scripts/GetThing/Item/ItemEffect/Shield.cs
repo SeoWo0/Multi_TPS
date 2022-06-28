@@ -15,8 +15,5 @@ public class Shield : Item
         {
             GameManager.Instance.player.Hp = 2;
         }
-
-        // PhotonNetwork.Destroy();
-        //photonView.RPC(nameof(OnGetItem), RpcTarget.MasterClient);
     }
 }

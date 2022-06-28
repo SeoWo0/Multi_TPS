@@ -18,7 +18,7 @@ public class ShotGun : Gun
     public void Fire()
     {
         GenerateSound(audioClipFire);
-
-        Destroy(gameObject);
+        
+        gameObject.SetActive(false);
     }
 }

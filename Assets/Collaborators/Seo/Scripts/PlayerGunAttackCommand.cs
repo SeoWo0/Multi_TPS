@@ -16,13 +16,12 @@ public class PlayerGunAttackCommand : Command
 
     public void ShotGunFire(Vector3 targetPos)                 // 플레이어 기본 총 공격 함수
     {
-        //m_shotgun.Use();
+        //gun.Use();
 
         var _position = gun.muzzlePos.position;
             
         Vector3 _aimDir = (targetPos - _position).normalized;
-
-        //Vector3 _shotPos = (Vector2)m_shotgun.muzzlePos.position - Random.insideUnitCircle;
+    
         Object.Instantiate(gun.bullet, _position, Quaternion.LookRotation(_aimDir, Vector3.up));
     }
 }

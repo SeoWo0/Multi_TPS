@@ -75,9 +75,21 @@ public class GameManager : Singleton<GameManager>
         PlayerSet();
         yield break;
     }
+
+    public void StartRespawn()
+    {
+        StartCoroutine(nameof(PlayerSpawn));
+    }
+
+    IEnumerator PlayerSpawn()
+    {
+        yield return new WaitForSeconds(5f);
+        PhotonNetwork.Destroy(player.gameObject);
+        PlayerSet();
+    }
+
     private void PlayerSet()
     {
-
         int playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
 
         object playerIndex;
@@ -91,11 +103,12 @@ public class GameManager : Singleton<GameManager>
 
                 break;
             case 1:
-                GameObject playerModel2 =PhotonNetwork.Instantiate("Player", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);
+                GameObject playerModel2 =PhotonNetwork.Instantiate("Player 2", spawnPos[playerNumber].position, spawnPos[playerNumber].rotation, 0);
                 player = playerModel2.GetComponent<PlayerMove>();
                 break;
-                
         }
+
+        player.onDeadEvent += StartRespawn;
     }
         private bool CheckAllPlayersLoadLevel()
     {

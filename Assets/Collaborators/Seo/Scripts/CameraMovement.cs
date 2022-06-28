@@ -31,10 +31,8 @@ public class CameraMovement : MonoBehaviourPun
     private float maxDistance = 3;          // 카메라 와 장애물 사이 인식 최대 거리
 
     [Header("Sensitivity")]
-    [SerializeField]
-    private float rotXCamAxisSpeed = 400;   // 카메라 x축 회전 속도
-    [SerializeField]
-    private float rotYCamAxisSpeed = 400;   // 카메라 y축 회전 속도
+    public float rotXCamAxisSpeed = 400;   // 카메라 x축 회전 속도
+    public float rotYCamAxisSpeed = 400;   // 카메라 y축 회전 속도
     private float limitMinX = -20;          // 카메라 x축 회전 최소범위
     private float limitMaxX = 30;           // 카메라 x축 회전 최대범위
     private float eulerAngleY;

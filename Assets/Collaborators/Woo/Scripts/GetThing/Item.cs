@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Events;
 
@@ -39,36 +42,26 @@ public abstract class Item : MonoBehaviourPun
     {
         if (!other.CompareTag("Player")) return;
 
-        if (useType == EUseType.Immediately)
-        {
-            photonView.RPC(nameof(GainItem), RpcTarget.MasterClient);
-        }
+        print("OnGetItem");
+        photonView.RPC(nameof(GainItem), RpcTarget.MasterClient);
     }
 
     [PunRPC]
     public void GainItem()
     {
-        gameObject.SetActive(false);
-        ItemSpawnManager.Instance.DestroyItemOnGain(gameObject);
-        WeaponSpawnManager.Instance.DestroyItemOnGain(gameObject);
-    }
-
-    //[PunRPC]
-    //public void OnGetItem()
-    //{
-    //    if (!PhotonNetwork.IsMasterClient) return;
+        PhotonNetwork.Destroy(gameObject);
         
-    //    PhotonNetwork.Destroy(gameObject);
-    //}
-
-    // private void OnTriggerEnter(Collider other)
-    // {
-    //     if (!other.CompareTag("Player")) return;
-    //
-    //     transform.GetComponent<Rotation>().enabled = false;
-    //
-    //     onGetItemEvent?.Invoke();
-    //
-    //     Destroy(gameObject);
-    // }
+        switch (itemType)
+        {
+            case EItemType.Weapon:
+                WeaponSpawnManager.Instance.CheckListRemove(index);
+                break;
+            case EItemType.Buff:
+                ItemSpawnManager.Instance.CheckListRemove(index);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        print("OnGetItem");
+    }
 }

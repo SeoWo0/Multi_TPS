@@ -18,7 +18,7 @@ public class PlayerEntry : MonoBehaviour
     public GameObject player2;
 
     //플레이어 번호
-    int playerIndex = 0;
+    int playerIndex = 1;
 
     private int ownerId;
     private bool isPlayerReady;

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public abstract class Gun : Item
 {
@@ -8,7 +9,6 @@ public abstract class Gun : Item
     public Transform muzzlePos;      // 발사 위치
     public float maxRange;
     public int damage;
-    public LayerMask hitLayer;
 
     [Header("Audio Clip")]
     [SerializeField]
@@ -26,12 +26,10 @@ public abstract class Gun : Item
 
     public void GenerateSound(AudioClip clip)
     {
-        //GameObject _soundObj = PhotonNetwork.Instantiate("@SoundEffect", transform.position, Quaternion.identity);
+        GameObject _soundObj = PhotonNetwork.Instantiate("@SoundEffect", transform.position, Quaternion.identity);
 
-        GameObject _soundObj = Instantiate(soundEffectPrefab, transform.position, Quaternion.identity);
+        //GameObject _soundObj = Instantiate(soundEffectPrefab, transform.position, Quaternion.identity);
         AudioSource _source = _soundObj.GetComponent<AudioSource>();
         SoundManager.Instance.PlayAt(clip, _source);
     }
-
-    private void OnTriggerEnter(Collider other) { }
 }

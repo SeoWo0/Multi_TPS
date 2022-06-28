@@ -6,27 +6,24 @@ using Photon.Pun;
 using Photon.Chat;
 using ExitGames.Client.Photon;
 
-public class Chat : MonoBehaviourPun, IChatClientListener
+public class Chat : MonoBehaviour, IChatClientListener
 {
     public static Chat instance { get; private set; }
 
     private void Awake()
     {
         instance = this;
+
+        inputField.enabled = false;
     }
 
     Queue<Text> chatQueue = new Queue<Text>();
-
+    
     private ChatClient chatClient;
     private string userName;
     private string currentChannelName;
 
-    public string UserName
-    {
-        get { return userName; }
-
-        set { }
-    }
+    public string UserName => userName;
     public Animator animator;
     public InputField inputField;
     public Text outputText;
@@ -43,13 +40,14 @@ public class Chat : MonoBehaviourPun, IChatClientListener
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(GameData.ROOM_CHAT_CHANNEL, out var _chatChannel))
         {
             currentChannelName = (string)_chatChannel;
+            //Debug.Log(currentChannelName);
         }
 
         chatClient = new ChatClient(this);
 
-        chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, "1.0", new AuthenticationValues(userName));
-
         userName = PhotonNetwork.LocalPlayer.NickName;
+    
+        chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, "1.0", new AuthenticationValues(userName));
 
         AddLine(string.Format("연결시도 중" , userName));
     }
@@ -67,7 +65,7 @@ public class Chat : MonoBehaviourPun, IChatClientListener
 
         if (!animator.GetBool("isActive"))
         {
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetButtonDown("Chat"))
             {
                 inputField.enabled = true;
                 inputField.ActivateInputField();
@@ -135,8 +133,7 @@ public class Chat : MonoBehaviourPun, IChatClientListener
     public void OnConnected()
     {
         AddLine("서버에 연결되었습니다.");
-
-        chatClient.Subscribe(new string[] { currentChannelName });
+        chatClient.Subscribe(new string[] { currentChannelName});
     }
 
     public void OnDisconnected()
@@ -185,16 +182,17 @@ public class Chat : MonoBehaviourPun, IChatClientListener
 
     public void OnUserSubscribed(string channel, string user)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public void OnUserUnsubscribed(string channel, string user)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public void OnLeftRoom()
     {
+        //Debug.Log(currentChannelName);
         chatClient.Unsubscribe(new string[] { currentChannelName });
     }
 

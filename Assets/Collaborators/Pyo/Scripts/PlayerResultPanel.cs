@@ -83,23 +83,27 @@ public class PlayerResultPanel : MonoBehaviour
         
         if (playerCharacters.Length > 0)
         {
-            Player _player = PhotonNetwork.LocalPlayer;
-            _player.CustomProperties.TryGetValue(GameData.PLAYER_CHAR, out var _playerIndex);
-
-            if (_playerIndex != null)
+            foreach (Player _player in PhotonNetwork.PlayerList)
             {
-                GameObject _character = playerCharacters[(int) _playerIndex - 1];
+                if (ownerNumber != _player.GetPlayerNumber()) continue;
                 
-                // string _name = _character.name;
-                // if (_name.Contains("(Clone)"))
-                // {
-                //     _name = _name.Replace(" (Clone)", string.Empty);
-                // }
-                
-                GameObject _myPlayer = Instantiate(_character, _character.transform.position, _character.transform.rotation);
-                _myPlayer.transform.SetParent(characterHolder);
-                _myPlayer.transform.SetPositionAndRotation(characterHolder.position, _character.transform.rotation);
-                _myPlayer.transform.localScale = _character.transform.localScale;
+                _player.CustomProperties.TryGetValue(GameData.PLAYER_CHAR, out var _playerIndex);
+
+                if (_playerIndex != null)
+                {
+                    GameObject _character = playerCharacters[(int)_playerIndex - 1];
+
+                    // string _name = _character.name;
+                    // if (_name.Contains("(Clone)"))
+                    // {
+                    //     _name = _name.Replace(" (Clone)", string.Empty);
+                    // }
+
+                    GameObject _myPlayer = Instantiate(_character, _character.transform.position, _character.transform.rotation);
+                    _myPlayer.transform.SetParent(characterHolder);
+                    _myPlayer.transform.SetPositionAndRotation(characterHolder.position, _character.transform.rotation);
+                    _myPlayer.transform.localScale = _character.transform.localScale;
+                }
             }
         }
 

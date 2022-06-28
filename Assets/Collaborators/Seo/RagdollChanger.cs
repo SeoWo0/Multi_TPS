@@ -13,5 +13,6 @@ public class RagdollChanger : MonoBehaviour
     {
         charObj.SetActive(false);
         ragdollObj.SetActive(true);
+        ragdollObj.transform.parent = null;
     }
 }

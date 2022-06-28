@@ -21,6 +21,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     private RagdollChanger m_ragdollChanger;
     private Item m_currentItem;
     private CameraMovement m_cameraMovement;
+    private ParticleSystem m_damageParticle;
     private float m_jumpPower = 7f;
     private float m_extraGravity = -15f;
     private bool m_isDead;
@@ -35,10 +36,11 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     
     [SerializeField] private Image aimImage;
     [SerializeField] private Image zoomImage;
+    [SerializeField] private Image shieldImage;
     [SerializeField] private LayerMask attackTargetLayer;
 
     [Header("Player Info Setting")]
-    [SerializeField] private float moveSpeed = 4f;
+    [SerializeField] private float moveSpeed = 8f;
     [SerializeField] private int m_Hp = 1;
 
     [Header("Weapon Info")] public Gun[] guns;
@@ -90,6 +92,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         m_col = GetComponent<Collider>();
         m_ragdollChanger = GetComponent<RagdollChanger>();
         m_cameraMovement = GetComponent<CameraMovement>();
+        m_damageParticle = GetComponent<ParticleSystem>();
         
         // 카메라 캐싱 하여 사용
         m_pCamera = Camera.main;
@@ -131,6 +134,17 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         m_animator.SetBool("IsGround", m_groundChecker.IsGrounded());
         if (m_input.JumpInput && m_groundChecker.IsGrounded())
             Jump();
+
+        if (m_Hp > 1)
+        {
+            shieldImage.gameObject.SetActive(true);
+        }
+
+    }
+
+    private void GetShieldDamage()
+    {
+        m_damageParticle.Play();
     }
 
     private void FixedUpdate()
@@ -219,6 +233,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         
         m_Hp -= damage;
         print("Hit!!");
+        shieldImage.gameObject.SetActive(false);
 
         if (m_Hp <= 0)
         {
@@ -234,6 +249,9 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
             //Die();
             photonView.RPC(nameof(Die), RpcTarget.All, attackerNumber);
         }
+
+        if (m_Hp > 1)
+            m_damageParticle.Play();
     }
 
     [PunRPC]

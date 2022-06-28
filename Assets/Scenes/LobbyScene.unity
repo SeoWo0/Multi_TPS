@@ -5224,6 +5224,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: PlayFxOnButtonClicked
       objectReference: {fileID: 0}
+    - target: {fileID: 2972455541093601353, guid: 7432480e47fef034fb99a80507c2c9cb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -250.00002
+      objectReference: {fileID: 0}
     - target: {fileID: 5534567760431475752, guid: 7432480e47fef034fb99a80507c2c9cb,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -5252,7 +5257,7 @@ PrefabInstance:
     - target: {fileID: 5534567760431475752, guid: 7432480e47fef034fb99a80507c2c9cb,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -140.78601
+      value: -140.78603
       objectReference: {fileID: 0}
     - target: {fileID: 5534567760629838882, guid: 7432480e47fef034fb99a80507c2c9cb,
         type: 3}

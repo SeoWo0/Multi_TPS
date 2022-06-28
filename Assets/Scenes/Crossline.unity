@@ -27776,11 +27776,6 @@ PrefabInstance:
       objectReference: {fileID: 1212237307}
     - target: {fileID: 2776781866945954931, guid: edc33a6d63da4dc4ba28baac0eb3ccbd,
         type: 3}
-      propertyPath: crossHair
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2776781866945954931, guid: edc33a6d63da4dc4ba28baac0eb3ccbd,
-        type: 3}
       propertyPath: gameTimer
       value: 
       objectReference: {fileID: 1501849356}
@@ -27789,11 +27784,6 @@ PrefabInstance:
       propertyPath: mapCamera
       value: 
       objectReference: {fileID: 960161919}
-    - target: {fileID: 2776781866945954931, guid: edc33a6d63da4dc4ba28baac0eb3ccbd,
-        type: 3}
-      propertyPath: shieldImg
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 2776781866945954931, guid: edc33a6d63da4dc4ba28baac0eb3ccbd,
         type: 3}
       propertyPath: scorePanel

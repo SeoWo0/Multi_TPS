@@ -238,11 +238,14 @@ namespace Managers
             Debug.Log("GameComplete");
             isGameCompleted = true;
 
+
             onGameComplete?.Invoke();
 
+            deadTextInfo.gameObject.SetActive(false);
             gameTimer.gameObject.SetActive(false);
             scorePanel.gameObject.SetActive(false);
             gameResultPanel.parent.gameObject.SetActive(true);
+            StopAllCoroutines();
 
             foreach (Player _player in PhotonNetwork.PlayerList)
             {
@@ -258,9 +261,6 @@ namespace Managers
 
             Hashtable _prop = new Hashtable() {{GameData.GAME_IS_COMPLETE, isGameCompleted}};
             PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
-
-            StopAllCoroutines();
-            deadTextInfo.gameObject.SetActive(false);
 
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;

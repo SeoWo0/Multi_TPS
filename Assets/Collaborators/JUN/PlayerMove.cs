@@ -21,7 +21,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     private RagdollChanger m_ragdollChanger;
     private Item m_currentItem;
     private CameraMovement m_cameraMovement;
-    private ParticleSystem m_damageParticle;
     private float m_jumpPower = 7f;
     private float m_extraGravity = -15f;
     private bool m_isDead;
@@ -30,6 +29,9 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
     [Header("Animation Rigging")]
     public Transform riggingTarget;
+
+    public ParticleSystem shieldParticle;
+    public ParticleSystem deadParticle;
 
     private Vector3 m_screenCenterPos = new Vector3(Screen.width / 2f, Screen.height / 2f);
     private Camera m_pCamera;
@@ -92,7 +94,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         m_col = GetComponent<Collider>();
         m_ragdollChanger = GetComponent<RagdollChanger>();
         m_cameraMovement = GetComponent<CameraMovement>();
-        m_damageParticle = GetComponent<ParticleSystem>();
         
         // 카메라 캐싱 하여 사용
         m_pCamera = Camera.main;
@@ -100,13 +101,30 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
     private void Update()
     {
-        if(!photonView.IsMine) return;
+        AimScreenShow();
+
+        m_animator.SetBool("IsGround", m_groundChecker.IsGrounded());
+        if (m_input.JumpInput && m_groundChecker.IsGrounded())
+            Jump();
+    }
+
+    private void FixedUpdate()
+    {
+        if (!photonView.IsMine)
+            return;
+
+        Move();
+    }
+
+    private void AimScreenShow()
+    {
+        if (!photonView.IsMine) return;
         
         Ray _ray = m_pCamera.ScreenPointToRay(m_screenCenterPos);
         Vector3 _rayStartPos = _ray.origin + m_pCamera.transform.forward * 2.1f;
 
         Debug.DrawRay(_rayStartPos, _ray.direction * float.MaxValue, Color.red);
-        
+
         if (Physics.Raycast(_rayStartPos, _ray.direction, out var _hit, float.MaxValue, attackTargetLayer))
         {
             riggingTarget.position = _hit.point;
@@ -119,40 +137,17 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
             {
                 aimImage.color = Color.yellow;
             }
-            
+
             if (m_input.MouseLeft)
             {
                 photonView.RPC(nameof(Attack), RpcTarget.All, _hit.point);
             }
         }
 
-        if(m_input.MouseRight)
+        if (m_input.MouseRight)
         {
             Zoom();
         }
-
-        m_animator.SetBool("IsGround", m_groundChecker.IsGrounded());
-        if (m_input.JumpInput && m_groundChecker.IsGrounded())
-            Jump();
-
-        if (m_Hp > 1)
-        {
-            shieldImage.gameObject.SetActive(true);
-        }
-
-    }
-
-    private void GetShieldDamage()
-    {
-        m_damageParticle.Play();
-    }
-
-    private void FixedUpdate()
-    {
-        if (!photonView.IsMine)
-            return;
-
-        Move();
     }
 
     private void Move()
@@ -233,7 +228,13 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         
         m_Hp -= damage;
         print("Hit!!");
-        shieldImage.gameObject.SetActive(false);
+
+        if (m_Hp == 1)
+        {
+            shieldImage.gameObject.SetActive(false);
+            photonView.RPC(nameof(ShieldActivate), RpcTarget.All);
+            // damageParticle.Play();
+        }
 
         if (m_Hp <= 0)
         {
@@ -248,10 +249,20 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
             //Die();
             photonView.RPC(nameof(Die), RpcTarget.All, attackerNumber);
+            photonView.RPC(nameof(DeadActivate), RpcTarget.All);
         }
+    }
 
-        if (m_Hp > 1)
-            m_damageParticle.Play();
+    [PunRPC]
+    public void ShieldActivate()
+    {
+        Instantiate(shieldParticle, transform.position, Quaternion.Euler(-90, 0, 0));
+    }
+
+    [PunRPC]
+    public void DeadActivate()
+    {
+        Instantiate(deadParticle, transform.position, Quaternion.Euler(-90, 0, 0));
     }
 
     [PunRPC]
@@ -294,6 +305,11 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
                 {
                     _item.Use();
                 }
+
+                if (m_Hp > 1)
+                {
+                    shieldImage.gameObject.SetActive(true);
+                }
                 return;
             }
 
@@ -303,6 +319,11 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
             {
                 m_currentItem.Use();
                 m_currentItem = null;
+
+                if (m_Hp > 1)
+                {
+                    shieldImage.gameObject.SetActive(true);
+                }
             }
 
             else

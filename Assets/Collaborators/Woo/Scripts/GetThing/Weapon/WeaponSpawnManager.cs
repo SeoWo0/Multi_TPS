@@ -32,7 +32,7 @@ public class WeaponSpawnManager : Singleton<WeaponSpawnManager>
 
         while (true)
         {
-            int randomWeapon = Random.Range(0, 1);
+            int randomWeapon = Random.Range(0, 2);
             weaponList.Add(randomWeapon);
             bool isTrue = true;
 

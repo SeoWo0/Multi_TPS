@@ -79,6 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon:
   - {fileID: 1956368986900801187, guid: ea60e27e9e6f26c41bed7d2cf1ba4a06, type: 3}
+  - {fileID: 8297537420459218540, guid: 83f421eed22b36440b77428eb08504b0, type: 3}
   weaponZone:
   - {fileID: 0}
   - {fileID: 0}
@@ -154,6 +155,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infoText: {fileID: 0}
+  deadTextInfo: {fileID: 0}
+  mapCamera: {fileID: 0}
   spawnPos:
   - {fileID: 0}
   - {fileID: 0}

@@ -51,7 +51,7 @@ public class SoundManager : MonoBehaviour
     //    SceneController.Instance.onSceneOutEvent -= ClearRegisteredEvents;
     //    SceneController.Instance.onSceneOutEvent += ClearRegisteredEvents;
     //}
-
+    
     public void Init()
     {
         GameObject _root = GameObject.FindGameObjectWithTag("AudioRoot");

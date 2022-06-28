@@ -18,6 +18,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public LobbyPanel           lobbyPanel;
     public InRoomPanel          inRoomPanel;
     public InfoPanel            infoPanel;
+
+    public AudioClip            audioClip;
     
     private void Awake() {
         instance = this;
@@ -25,6 +27,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private void Start() {
         PhotonNetwork.AutomaticallySyncScene = true;
+        SoundManager.Instance.Play(audioClip, SoundType.Bgm);
     }
 
     public enum PANEL {Login, Connect, Lobby, Room, CreateRoom}

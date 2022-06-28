@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2450,7 +2450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomContent: {fileID: 1983794513}
-  roomEntryPrefab: {fileID: 7596514663934387256, guid: a7880ae2400087a4ebfd8436283a84ec,
+  roomEntryPrefab: {fileID: 7596514663934387256, guid: c9c658a6619e2d542be7d100d41e8c0c,
     type: 3}
 --- !u!222 &764032885
 CanvasRenderer:
@@ -4378,7 +4378,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 332866139}
-        m_MethodName: MaxPlayerCountDownButtonClicked
+        m_MethodName: MaxPlayerCountUpButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

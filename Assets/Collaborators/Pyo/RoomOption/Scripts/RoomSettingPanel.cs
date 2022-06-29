@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using ExitGames.Client.Photon;
+using Photon.Realtime;
 
 public enum EGameMode
 {
@@ -70,15 +71,38 @@ public class RoomSettingPanel : MonoBehaviour
 
         m_timeLimitArray = new string[4] { "30", "60", "90", "120" };
         timeLimitText.text = m_timeLimitArray[0];
-
-        Hashtable _prop = new Hashtable() { { GameData.ROOM_SET_MAP, m_mapSelectIndex } };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
-
-        _prop = new Hashtable() { { GameData.ROOM_SET_MODE, m_gameModeIndex } };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
-
-        _prop = new Hashtable() { { GameData.ROOM_SET_TIME_LIMIT, m_timeLimitIndex } };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+        
+        foreach (Player _player in PhotonNetwork.PlayerList)
+        {
+            if (!_player.IsMasterClient) continue;
+            
+            object _setting;
+            if (_player.CustomProperties.TryGetValue(GameData.ROOM_SET_MAP, out _setting))
+            {
+                int _index = (int) _setting;
+                Hashtable _props = new Hashtable() {{GameData.ROOM_SET_MAP, _index}};
+                PhotonNetwork.LocalPlayer.SetCustomProperties(_props);
+                SetMapType(_index);
+            }
+                
+            if (_player.CustomProperties.TryGetValue(GameData.ROOM_SET_MODE, out _setting))
+            {
+                int _index = (int) _setting;
+                Hashtable _props = new Hashtable() {{GameData.ROOM_SET_MODE, _index}};
+                PhotonNetwork.LocalPlayer.SetCustomProperties(_props);
+                SetGameMode(_index);
+            }
+                
+            if (_player.CustomProperties.TryGetValue(GameData.ROOM_SET_TIME_LIMIT, out _setting))
+            {
+                int _index = (int) _setting;
+                Hashtable _props = new Hashtable() {{GameData.ROOM_SET_TIME_LIMIT, _index}};
+                PhotonNetwork.LocalPlayer.SetCustomProperties(_props);
+                SetTimeLimit(_index);
+            }
+                
+            break;
+        }
     }
 
     public void CheckMasterClient()

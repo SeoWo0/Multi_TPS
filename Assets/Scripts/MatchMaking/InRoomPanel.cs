@@ -45,21 +45,6 @@ public class InRoomPanel : MonoBehaviour
                 entry.GetComponent<PlayerEntry>().ChangeModel((int)playerindex - 1);
             }
             playerListEntries.Add(p.ActorNumber, entry);
-
-            // RoomSettingPanel
-            if (PhotonNetwork.InRoom) continue;
-            if (p.CustomProperties.TryGetValue(GameData.ROOM_SET_MAP, out var _isPassedToNext))
-            {
-                roomSettingPanel.SetMapType((int)_isPassedToNext);
-            }
-            if (p.CustomProperties.TryGetValue(GameData.ROOM_SET_MODE, out _isPassedToNext))
-            {
-                roomSettingPanel.SetGameMode((int)_isPassedToNext);
-            }
-            if (p.CustomProperties.TryGetValue(GameData.ROOM_SET_TIME_LIMIT, out _isPassedToNext))
-            {
-                roomSettingPanel.SetTimeLimit((int)_isPassedToNext);
-            }
         }
 
         startGameButton.gameObject.SetActive(CheckPlayersReady());
@@ -131,6 +116,19 @@ public class InRoomPanel : MonoBehaviour
         startGameButton.gameObject.SetActive(CheckPlayersReady());
     }
 
+    public void OnLeftRoom()
+    {
+        // RoomSettingPanel
+        Hashtable _prop = new Hashtable() { { GameData.ROOM_SET_MAP, 0 } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+        
+        _prop = new Hashtable() { { GameData.ROOM_SET_MODE, 0 } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+        
+        _prop = new Hashtable() { { GameData.ROOM_SET_TIME_LIMIT, 0 } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+    }
+
     public void OnPlayerEnteredRoom(Player newPlayer)
     {
         GameObject entry = Instantiate(playerEntryPrefab);
@@ -140,22 +138,6 @@ public class InRoomPanel : MonoBehaviour
         entry.GetComponent<PlayerEntry>().Initialize(newPlayer.ActorNumber, newPlayer.NickName);
 
         playerListEntries.Add(newPlayer.ActorNumber, entry);
-
-        
-
-        // RoomSettingPanel
-        if (newPlayer.CustomProperties.TryGetValue(GameData.ROOM_SET_MAP, out var _isPassedToNext))
-        {
-            roomSettingPanel.SetMapType((int)_isPassedToNext);
-        }
-        if (newPlayer.CustomProperties.TryGetValue(GameData.ROOM_SET_MODE, out _isPassedToNext))
-        {
-            roomSettingPanel.SetGameMode((int)_isPassedToNext);
-        }
-        if (newPlayer.CustomProperties.TryGetValue(GameData.ROOM_SET_TIME_LIMIT, out _isPassedToNext))
-        {
-            roomSettingPanel.SetTimeLimit((int)_isPassedToNext);
-        }
 
         startGameButton.gameObject.SetActive(CheckPlayersReady());
     }

@@ -43,11 +43,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     
     public void SetActivePanel(PANEL panel)
     {
-        loginPanel?.gameObject.SetActive(panel == PANEL.Login);
-        inConnectPanel?.gameObject.SetActive(panel == PANEL.Connect);
-        lobbyPanel?.gameObject.SetActive(panel == PANEL.Lobby);
-        inRoomPanel?.gameObject.SetActive(panel == PANEL.Room);
-        createRoomPanel?.gameObject.SetActive(panel == PANEL.CreateRoom);
+        if (!loginPanel || !inConnectPanel || !lobbyPanel || !inRoomPanel || !createRoomPanel) return;
+        
+        loginPanel.gameObject.SetActive(panel == PANEL.Login);
+        inConnectPanel.gameObject.SetActive(panel == PANEL.Connect);
+        lobbyPanel.gameObject.SetActive(panel == PANEL.Lobby);
+        inRoomPanel.gameObject.SetActive(panel == PANEL.Room);
+        createRoomPanel.gameObject.SetActive(panel == PANEL.CreateRoom);
     }
 
     public void ShowError(string error)
@@ -110,6 +112,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         SetActivePanel(PANEL.Connect);
+        inRoomPanel.OnLeftRoom();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

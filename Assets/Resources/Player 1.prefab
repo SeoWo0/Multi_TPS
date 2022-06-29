@@ -59,7 +59,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 2
+  m_CollisionDetection: 1
 --- !u!136 &693898684935805321
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -104,7 +104,7 @@ MonoBehaviour:
   - {fileID: 7315191670446579028}
   weaponHolder: {fileID: 3775818408175249168}
   isInvincible: 0
-  invincibleTime: 0
+  invincibleTime: 1
 --- !u!114 &6582516465984104689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -656,12 +656,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: AimCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6729463513039325079, guid: b80b33edd80a5104d8bb257f4fb2b2aa,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6729463514254922376, guid: b80b33edd80a5104d8bb257f4fb2b2aa,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: a29eb3d4ae2c03e4e9aa34e3829a26f5,
         type: 3}
+    - target: {fileID: 6729463514254922378, guid: b80b33edd80a5104d8bb257f4fb2b2aa,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b80b33edd80a5104d8bb257f4fb2b2aa, type: 3}
 --- !u!224 &8861977094621652156 stripped

@@ -238,7 +238,6 @@ namespace Managers
             Debug.Log("GameComplete");
             isGameCompleted = true;
 
-
             onGameComplete?.Invoke();
 
             deadTextInfo.gameObject.SetActive(false);
@@ -318,12 +317,12 @@ namespace Managers
         private void OnScored(int playerNumber)
         {
             int _killerScore = 0;
-            Debug.Log($"Attacker : {playerNumber}");
+            //Debug.Log($"Attacker : {playerNumber}");
             foreach (Score _score in managedScoreList)
             {
                 if (playerNumber == _score.ownerNumber)
                 {
-                    Debug.Log($"ScoreOwner : {_score.ownerNumber}");
+                    //Debug.Log($"ScoreOwner : {_score.ownerNumber}");
                     _score.UpdateScore(50);
                     _killerScore = _score.score;
                     break;

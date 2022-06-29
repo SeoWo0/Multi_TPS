@@ -172,7 +172,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.09821831, y: 0.4014927, z: -0.00000014901161}
+  m_ConnectedAnchor: {x: -0.09821831, y: 0.3514927, z: -0.00000014901161}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -2835,28 +2835,28 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Walk
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Jump
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: xDir
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: yDir
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: jumping
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Fall
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsGround
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: HasGun
   m_SynchronizeLayers:
   - SynchronizeType: 1

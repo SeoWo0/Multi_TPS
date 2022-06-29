@@ -107,6 +107,9 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
     private void Update()
     {
+        if (!photonView.IsMine)
+            return;
+
         AimScreenShow();
 
         m_animator.SetBool("IsGround", m_groundChecker.IsGrounded());
@@ -124,8 +127,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
     private void AimScreenShow()
     {
-        if (!photonView.IsMine) return;
-        
         Ray _ray = m_pCamera.ScreenPointToRay(m_screenCenterPos);
         Vector3 _rayStartPos = _ray.origin + m_pCamera.transform.forward * 2.3f;
 
@@ -202,7 +203,11 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         if (!m_currentItem) return;
         
         m_attackCommand.Execute(targetPos);
-        aimImage.gameObject.SetActive(false);
+        
+        if (photonView.IsMine)
+        {
+            aimImage.gameObject.SetActive(false);
+        }
 
         m_currentItem = null;
         m_animator.SetBool("HasGun", false);
@@ -243,13 +248,13 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     {
         if (m_isDead) return;
         if (isInvincible) return;
-            
+
         m_Hp -= damage;
         print("Hit!!");
 
         if (m_Hp == 1)
         {
-            StartCoroutine(DoInvincible());
+            photonView.RPC(nameof(DoInvincible), RpcTarget.All);
             shieldImage.gameObject.SetActive(false);
             photonView.RPC(nameof(ShieldActivate), RpcTarget.All);
             return;
@@ -257,21 +262,33 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
         if (m_Hp <= 0)
         {
+            if (m_isDead) return;
+
             if (photonView.IsMine)
             {
-                Chat.instance.KillLog($"/c log {PhotonNetwork.LocalPlayer.NickName} 님이 {attackerName} 님에 의해 죽음");
+                Chat.instance.KillLog($"/c log {attackerName} => {PhotonNetwork.LocalPlayer.NickName}");
             }
             else
             {
-                Chat.instance.KillLog($"/c log {photonView.Owner.NickName} 님이 {attackerName} 님에 의해 죽음");
+                Chat.instance.KillLog($"/c log {attackerName} => {photonView.Owner.NickName}");
             }
+
+            aimImage.gameObject.SetActive(false);
+            zoomImage.gameObject.SetActive(false);
+            shieldImage.gameObject.SetActive(false);
 
             photonView.RPC(nameof(Die), RpcTarget.All, attackerNumber);
             photonView.RPC(nameof(DeadActivate), RpcTarget.All);
         }
     }
 
-    private IEnumerator DoInvincible()
+    [PunRPC]
+    private void DoInvincible()
+    {
+        StartCoroutine(InvincibleRoutine());
+    }
+
+    private IEnumerator InvincibleRoutine()
     {
         isInvincible = true;
 
@@ -299,6 +316,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         
         m_isDead = true;
         enabled = false;
+
         onDeadEvent?.Invoke();
         onScoreEvent?.Invoke(killerNumber);
     }
@@ -359,7 +377,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
                 string _gunName = Enum.GetName(typeof(Item.EGunType), m_currentItem.gunType);
                 photonView.RPC(nameof(ActivateGun), RpcTarget.All, _gunName);
-                
+                aimImage.gameObject.SetActive(true);
+
                 m_animator.SetBool("HasGun", true);
             }
         }
@@ -380,7 +399,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
             m_currentItem = _gun;
             _gun.gameObject.SetActive(true);
-            aimImage.gameObject.SetActive(true);
 
             if(m_currentItem.gunType == Item.EGunType.Sniper)
             {
@@ -411,5 +429,11 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     private void OnGameComplete()
     {
         m_input.playerControllerInputBlocked = true;
+
+        if (zoomImage && aimImage)
+        {
+            aimImage.gameObject.SetActive(false);
+            zoomImage.gameObject.SetActive(false);
+        }
     }
 }

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2573078280099678713}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ShotPos (4)
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -39,7 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7535477546405199155}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ShotPos (1)
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -69,7 +69,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2430952612295575358}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ShotPos (6)
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -100,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2748491072798074699}
   - component: {fileID: 7435412114486927254}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ShotGun
   m_TagString: Item
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7540001460232721886}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ShotPos (3)
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -196,7 +196,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7786467788924219362}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ShotPos
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -226,7 +226,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5245266469833555819}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ShotPos (7)
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -256,7 +256,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6424519603170429733}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MuzzlePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,7 +295,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4890908662644105229}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ShotPos (5)
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -325,7 +325,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3656451702202195626}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ShotPos (8)
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -355,7 +355,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1036233564206124920}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ShotPos (2)
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -387,6 +387,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: shotgun_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1824798276992903475, guid: 01d77fd69396c614ea4a371d26316452,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1824798276992903475, guid: 01d77fd69396c614ea4a371d26316452,
         type: 3}

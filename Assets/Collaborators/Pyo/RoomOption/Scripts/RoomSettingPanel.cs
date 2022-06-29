@@ -69,7 +69,7 @@ public class RoomSettingPanel : MonoBehaviour
         }
         gameModeText.text = m_gameModeArray[0];
 
-        m_timeLimitArray = new string[4] { "30", "60", "90", "120" };
+        m_timeLimitArray = new string[4] { "120", "180", "240", "300" };
         timeLimitText.text = m_timeLimitArray[0];
         
         foreach (Player _player in PhotonNetwork.PlayerList)

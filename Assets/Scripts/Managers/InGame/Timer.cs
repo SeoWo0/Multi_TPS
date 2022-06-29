@@ -50,7 +50,7 @@ public class Timer : MonoBehaviour, IPunObservable
 
         if (PhotonNetwork.MasterClient.CustomProperties.TryGetValue(GameData.ROOM_SET_TIME_LIMIT, out object _timeLimitIndex))
         {
-            seconds = ((int)_timeLimitIndex + 1) * 30;
+            seconds = ((int)_timeLimitIndex + 2) * 60;
         }
 
         minutes += (byte)(seconds / 60);

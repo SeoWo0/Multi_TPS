@@ -63,6 +63,7 @@ MonoBehaviour:
   useType: 0
   itemType: 1
   gunType: 0
+  itemGetSfx: {fileID: 8300000, guid: 99c446aacddc06d44af8550a2df3c3ab, type: 3}
 --- !u!114 &754602129440871551
 MonoBehaviour:
   m_ObjectHideFlags: 0

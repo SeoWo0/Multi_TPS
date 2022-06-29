@@ -34,9 +34,15 @@ public abstract class Item : MonoBehaviourPun
     public EItemType itemType;
     public EGunType gunType;
 
+    public AudioClip itemGetSfx;
+
     public UnityAction onGetItemEvent;
 
     public abstract void Use();
+    public void PlayGetItemSfx(float volume = 1f)
+    {
+        GenerateSound(itemGetSfx);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -44,6 +50,7 @@ public abstract class Item : MonoBehaviourPun
 
         print("OnGetItem");
         photonView.RPC(nameof(GainItem), RpcTarget.MasterClient);
+        PlayGetItemSfx();
     }
 
     [PunRPC]
@@ -63,5 +70,16 @@ public abstract class Item : MonoBehaviourPun
                 throw new ArgumentOutOfRangeException();
         }
         print("OnGetItem");
+
+    }
+
+    public void GenerateSound(AudioClip clip, float volume = 1f)
+    {
+        GameObject _soundObj = PhotonNetwork.Instantiate("@SoundEffect", transform.position, Quaternion.identity);
+
+        AudioSource _source = _soundObj.GetComponent<AudioSource>();
+        SoundSynchronizer _soundSync = _soundObj.AddComponent<SoundSynchronizer>();
+        _soundSync.type = SoundType.Effect;
+        SoundManager.Instance.PlayAt(clip, _source);
     }
 }

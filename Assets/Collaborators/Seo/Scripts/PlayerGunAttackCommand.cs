@@ -21,8 +21,11 @@ public class PlayerGunAttackCommand : Command
             
         Vector3 _aimDir = (targetPos - _position).normalized;
 
-        //Vector3 _shotPos = (Vector2)m_shotgun.muzzlePos.position - Random.insideUnitCircle;
-        var _projectile = Object.Instantiate(gun.bullet, _position, Quaternion.LookRotation(_aimDir, Vector3.up));
-        _projectile.SetShooterInfo(player.photonView.Owner.NickName, player.photonView.Owner.GetPlayerNumber(), gun.damage);
+        for (int i = 0; i < gun.shotPos.Length; ++i)
+        {
+            //Quaternion.LookRotation(_aimDir, Vector3.up)
+            var _projectile = Object.Instantiate(gun.bullet, gun.shotPos[i].position, gun.muzzlePos.rotation);
+            _projectile.SetShooterInfo(player.photonView.Owner.NickName, player.photonView.Owner.GetPlayerNumber(), gun.damage);
+        }
     }
 }

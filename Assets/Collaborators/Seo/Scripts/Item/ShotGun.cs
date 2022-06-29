@@ -5,11 +5,6 @@ using Photon.Pun;
 
 public class ShotGun : Gun
 {
-    public void GetGun() 
-    {
-        GenerateSound(audioClipTake);
-    }
-
     public override void Use()
     {
         Fire();

@@ -83,16 +83,15 @@ MonoBehaviour:
   useType: 1
   itemType: 0
   gunType: 2
+  itemGetSfx: {fileID: 8300000, guid: d5f810ea721ed624a9d85c79fa6fb09c, type: 3}
   muzzlePos: {fileID: 3249168208386504008}
-  maxRange: 30
+  maxRange: 0
   damage: 10
-  audioClipFire: {fileID: 8300000, guid: 1ac313793b8d7ef47b219daa39bca823, type: 3}
-  audioClipTake: {fileID: 0}
+  shotPos: []
+  audioClipFire: {fileID: 8300000, guid: c32aae93e63847144b55f29d9ed61420, type: 3}
   soundEffectPrefab: {fileID: 4575907500896311598, guid: 6656dfb2caca4a4468d7dc82da762135,
     type: 3}
-  bullet: {fileID: 4431423850929259936, guid: f32519dcf58417d42baabdf6e4f2c04e, type: 3}
-  fireFlameFx: {fileID: 0}
-  hitFx: {fileID: 0}
+  bullet: {fileID: 6182205376072953295, guid: aae43871147267944b2036ef33e7ae33, type: 3}
 --- !u!114 &115054998552857250
 MonoBehaviour:
   m_ObjectHideFlags: 0

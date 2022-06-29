@@ -103,6 +103,8 @@ MonoBehaviour:
   - {fileID: 3798343573237854488}
   - {fileID: 7315191670446579028}
   weaponHolder: {fileID: 3775818408175249168}
+  isInvincible: 0
+  invincibleTime: 0
 --- !u!114 &6582516465984104689
 MonoBehaviour:
   m_ObjectHideFlags: 0

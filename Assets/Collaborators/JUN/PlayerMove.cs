@@ -22,7 +22,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     private Item m_currentItem;
     private CameraMovement m_cameraMovement;
     private float m_jumpPower = 7f;
-    private float m_extraGravity = -15f;
+
     private bool m_isDead;
     private bool m_isZoom;
     public bool IsDead => m_isDead; 
@@ -47,6 +47,10 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
     [Header("Weapon Info")] public Gun[] guns;
     [SerializeField] private Transform weaponHolder;
+
+    public bool isInvincible;
+    public float invincibleTime;
+    private WaitForSeconds m_invincibleWaitTime;
 
     public UnityAction onDeadEvent;
     public UnityAction<int> onScoreEvent;
@@ -97,6 +101,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         
         // 카메라 캐싱 하여 사용
         m_pCamera = Camera.main;
+
+        m_invincibleWaitTime = new WaitForSeconds(invincibleTime);
     }
 
     private void Update()
@@ -121,7 +127,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         if (!photonView.IsMine) return;
         
         Ray _ray = m_pCamera.ScreenPointToRay(m_screenCenterPos);
-        Vector3 _rayStartPos = _ray.origin + m_pCamera.transform.forward * 2.1f;
+        Vector3 _rayStartPos = _ray.origin + m_pCamera.transform.forward * 2.3f;
 
         Debug.DrawRay(_rayStartPos, _ray.direction * float.MaxValue, Color.red);
 
@@ -142,6 +148,18 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
             {
                 photonView.RPC(nameof(Attack), RpcTarget.All, _hit.point);
             }
+        }
+
+        if (!m_currentItem)
+        {
+            if (m_isZoom)
+            {
+                zoomImage.gameObject.SetActive(false);
+                m_pCamera.fieldOfView = 60;
+                m_isZoom = false;
+            }
+
+            return;
         }
 
         if (m_input.MouseRight)
@@ -172,7 +190,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         m_animator.SetFloat("yDir", m_input.VInput);
     }
     
-    // [PunRPC]
     private void Jump()
     {
         m_rigid.AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
@@ -185,10 +202,10 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         if (!m_currentItem) return;
         
         m_attackCommand.Execute(targetPos);
-        //aimImage.gameObject.SetActive(false);
+        aimImage.gameObject.SetActive(false);
 
-        //m_currentItem = null;
-        //m_animator.SetBool("HasGun", false);
+        m_currentItem = null;
+        m_animator.SetBool("HasGun", false);
     }
     
     private void Zoom()
@@ -199,25 +216,25 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
             if(!m_isZoom)
             {
                 zoomImage.gameObject.SetActive(true);
-                Camera.main.GetComponent<Camera>().fieldOfView = 15;
+                m_pCamera.fieldOfView = 15;
                 m_isZoom = true;
 
-                if(m_cameraMovement.rotXCamAxisSpeed < 100 || m_cameraMovement.rotYCamAxisSpeed < 100)
-                    return;
-                m_cameraMovement.rotXCamAxisSpeed -= 100;
-                m_cameraMovement.rotYCamAxisSpeed -= 100;
+                //if(m_cameraMovement.rotXCamAxisSpeed < 100 || m_cameraMovement.rotYCamAxisSpeed < 100)
+                //    return;
+                //m_cameraMovement.rotXCamAxisSpeed -= 100;
+                //m_cameraMovement.rotYCamAxisSpeed -= 100;
             }
 
             else
             {
                 zoomImage.gameObject.SetActive(false);
-                Camera.main.GetComponent<Camera>().fieldOfView = 60;
+                m_pCamera.fieldOfView = 60;
                 m_isZoom = false;
 
-                if(m_cameraMovement.rotXCamAxisSpeed < 100 || m_cameraMovement.rotYCamAxisSpeed < 100)
-                    return;
-                m_cameraMovement.rotXCamAxisSpeed += 100;
-                m_cameraMovement.rotYCamAxisSpeed += 100;
+                //if(m_cameraMovement.rotXCamAxisSpeed < 100 || m_cameraMovement.rotYCamAxisSpeed < 100)
+                //    return;
+                //m_cameraMovement.rotXCamAxisSpeed += 100;
+                //m_cameraMovement.rotYCamAxisSpeed += 100;
             }
         }   
     }
@@ -225,15 +242,17 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     public void TakeDamage(int damage, string attackerName, int attackerNumber)
     {
         if (m_isDead) return;
-        
+        if (isInvincible) return;
+            
         m_Hp -= damage;
         print("Hit!!");
 
         if (m_Hp == 1)
         {
+            StartCoroutine(DoInvincible());
             shieldImage.gameObject.SetActive(false);
             photonView.RPC(nameof(ShieldActivate), RpcTarget.All);
-            // damageParticle.Play();
+            return;
         }
 
         if (m_Hp <= 0)
@@ -247,10 +266,18 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
                 Chat.instance.KillLog($"/c log {photonView.Owner.NickName} 님이 {attackerName} 님에 의해 죽음");
             }
 
-            //Die();
             photonView.RPC(nameof(Die), RpcTarget.All, attackerNumber);
             photonView.RPC(nameof(DeadActivate), RpcTarget.All);
         }
+    }
+
+    private IEnumerator DoInvincible()
+    {
+        isInvincible = true;
+
+        yield return m_invincibleWaitTime;
+
+        isInvincible = false;
     }
 
     [PunRPC]

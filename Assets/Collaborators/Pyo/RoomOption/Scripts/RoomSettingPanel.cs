@@ -131,6 +131,8 @@ public class RoomSettingPanel : MonoBehaviour
 
         Hashtable _prop = new Hashtable() { { GameData.ROOM_SET_MAP, m_mapSelectIndex } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+
+        OnRoomSettingChanged(GameData.ROOM_SET_MAP, m_mapSelectIndex);
     }
 
     public void OnSelectGameMode(bool isNext)
@@ -139,6 +141,8 @@ public class RoomSettingPanel : MonoBehaviour
 
         Hashtable _prop = new Hashtable() { { GameData.ROOM_SET_MODE, m_gameModeIndex } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+        
+        OnRoomSettingChanged(GameData.ROOM_SET_MODE, m_gameModeIndex);
     }
 
     public void OnSelectTimeLimit(bool isNext)
@@ -147,6 +151,8 @@ public class RoomSettingPanel : MonoBehaviour
 
         Hashtable _prop = new Hashtable() { { GameData.ROOM_SET_TIME_LIMIT, m_timeLimitIndex } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+        
+        OnRoomSettingChanged(GameData.ROOM_SET_TIME_LIMIT, m_timeLimitIndex);
     }
 
     /// <summary>
@@ -209,5 +215,16 @@ public class RoomSettingPanel : MonoBehaviour
         if (m_timeLimitArray.Length == 0) return;
         timeLimitText.text = m_timeLimitArray[index];
         m_timeLimitIndex = index;
+    }
+    
+    private void OnRoomSettingChanged(string key, int value)
+    {
+        foreach (Player _player in PhotonNetwork.PlayerList)
+        {
+            if (_player.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber) continue;
+            
+            Hashtable _prop = new Hashtable() {{key, value}};
+            _player.SetCustomProperties(_prop);
+        }
     }
 }

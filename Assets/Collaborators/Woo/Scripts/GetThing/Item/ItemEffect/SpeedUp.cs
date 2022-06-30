@@ -20,6 +20,8 @@ public class SpeedUp : Item
 
     public void RestoreBuff()
     {
+        // speedUp 아이템 습득 후 죽을 시 MoveSpeed가 내려가는 것을 방지
+        if (GameManager.Instance.player.MoveSpeed < 5) return;
         GameManager.Instance.player.MoveSpeed -= 3;
 
         photonView.RPC(nameof(GainItem), RpcTarget.MasterClient);

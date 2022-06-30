@@ -14,21 +14,20 @@ public class PlayOneShot : MonoBehaviourPun
     
     private void Start()
     {
-        //OneShot();
-        photonView.RPC(nameof(OneShot), RpcTarget.All);
+        OneShot();
     }
-
-    [PunRPC]
+    
     public void OneShot()
     {
         if (!m_source.clip) return;
-        Destroy(gameObject, m_source.clip.length);
+        StartCoroutine(WaitForLateClip());
     }
 
     private IEnumerator WaitForLateClip()
     {
         yield return new WaitUntil(() => m_source.clip);
+        yield return new WaitForSeconds(m_source.clip.length);
         
-        Destroy(gameObject, m_source.clip.length);
+        PhotonNetwork.Destroy(gameObject);
     }
 }

@@ -6,9 +6,6 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
-using Photon.Pun.UtilityScripts;
-using UnityEngine.Animations.Rigging;
 
 public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 {
@@ -25,7 +22,9 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
     private bool m_isDead;
     private bool m_isZoom;
-    public bool IsDead => m_isDead; 
+    private bool m_isOnShield;
+    public bool IsDead => m_isDead;
+    public bool OnShield => m_isOnShield;
 
     [Header("Animation Rigging")]
     public Transform riggingTarget;
@@ -48,12 +47,9 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     [Header("Weapon Info")] public Gun[] guns;
     [SerializeField] private Transform weaponHolder;
 
-    public bool isInvincible;
-    public float invincibleTime;
-    private WaitForSeconds m_invincibleWaitTime;
-
     public UnityAction onDeadEvent;
     public UnityAction<int> onScoreEvent;
+    public UnityAction onShieldEvent;
 
     //FallAnimation
     //private bool isFall = false;
@@ -101,8 +97,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         
         // 카메라 캐싱 하여 사용
         m_pCamera = Camera.main;
-
-        m_invincibleWaitTime = new WaitForSeconds(invincibleTime);
     }
 
     private void Update()
@@ -247,18 +241,10 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     public void TakeDamage(int damage, string attackerName, int attackerNumber)
     {
         if (m_isDead) return;
-        if (isInvincible) return;
+        if (m_isOnShield) return;
 
         m_Hp -= damage;
         print("Hit!!");
-
-        if (m_Hp == 1)
-        {
-            photonView.RPC(nameof(DoInvincible), RpcTarget.All);
-            shieldImage.gameObject.SetActive(false);
-            photonView.RPC(nameof(ShieldActivate), RpcTarget.All);
-            return;
-        }
 
         if (m_Hp <= 0)
         {
@@ -276,31 +262,11 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
             aimImage.gameObject.SetActive(false);
             zoomImage.gameObject.SetActive(false);
             shieldImage.gameObject.SetActive(false);
+            print("I'm Died");
 
             photonView.RPC(nameof(Die), RpcTarget.All, attackerNumber);
             photonView.RPC(nameof(DeadActivate), RpcTarget.All);
         }
-    }
-
-    [PunRPC]
-    private void DoInvincible()
-    {
-        StartCoroutine(InvincibleRoutine());
-    }
-
-    private IEnumerator InvincibleRoutine()
-    {
-        isInvincible = true;
-
-        yield return m_invincibleWaitTime;
-
-        isInvincible = false;
-    }
-
-    [PunRPC]
-    public void ShieldActivate()
-    {
-        Instantiate(shieldParticle, transform.position, Quaternion.Euler(-90, 0, 0));
     }
 
     [PunRPC]
@@ -350,11 +316,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
                 {
                     _item.Use();
                 }
-
-                if (m_Hp > 1)
-                {
-                    shieldImage.gameObject.SetActive(true);
-                }
                 return;
             }
 
@@ -364,20 +325,20 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
             {
                 m_currentItem.Use();
                 m_currentItem = null;
-
-                if (m_Hp > 1)
-                {
-                    shieldImage.gameObject.SetActive(true);
-                }
             }
 
             else
             {
                 if (m_currentItem.itemType != Item.EItemType.Weapon) return;
 
+                aimImage.gameObject.SetActive(true);
                 string _gunName = Enum.GetName(typeof(Item.EGunType), m_currentItem.gunType);
                 photonView.RPC(nameof(ActivateGun), RpcTarget.All, _gunName);
-                aimImage.gameObject.SetActive(true);
+                
+                if(m_currentItem.gunType == Item.EGunType.Sniper)
+                {
+                    aimImage.gameObject.SetActive(false);
+                }
 
                 m_animator.SetBool("HasGun", true);
             }
@@ -399,12 +360,6 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
             m_currentItem = _gun;
             _gun.gameObject.SetActive(true);
-
-            if(m_currentItem.gunType == Item.EGunType.Sniper)
-            {
-                aimImage.gameObject.SetActive(false);
-            }
-            
             break;
         }
         
@@ -435,5 +390,25 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
             aimImage.gameObject.SetActive(false);
             zoomImage.gameObject.SetActive(false);
         }
+    }
+    
+    public void ToggleShield(bool isOnShield)
+    {
+        print("ToggleShield");
+        shieldImage.gameObject.SetActive(isOnShield);
+        
+        photonView.RPC(nameof(OnGetShield), RpcTarget.All, isOnShield);
+    }
+
+    [PunRPC]
+    public void OnGetShield(bool isOnShield)
+    {
+        m_isOnShield = isOnShield;
+
+        if (!m_isOnShield) return;
+        ParticleSystem _obj = Instantiate(shieldParticle, transform.position, Quaternion.identity);
+
+        _obj.gameObject.transform.SetParent(transform);
+        _obj.gameObject.transform.position += new Vector3(0f, 0.5f, 0f);
     }
 }

@@ -98,17 +98,6 @@ public class SoundManager : Singleton<SoundManager>
             if (_audioSource.isPlaying)
             {
                 StartCoroutine(FadeAudio(_audioSource, 0));
-                
-                AudioSource _newSource = _audioSource.gameObject.AddComponent<AudioSource>();
-                m_audioSources[(int) SoundType.Bgm] = _newSource;
-
-                _newSource.volume = 0;
-                _newSource.pitch = pitch;
-                _newSource.clip = audioClip;
-                _newSource.Play();
-                
-                StartCoroutine(FadeAudio(_newSource, volume * (soundOption.volume_BGM / 100)));
-                return;
             }
             
             _audioSource.volume = 0;
@@ -198,9 +187,5 @@ public class SoundManager : Singleton<SoundManager>
         }
         
         channel.volume = targetVolume;
-        if (targetVolume == 0)
-        {
-            Destroy(channel);
-        }
     }
 }

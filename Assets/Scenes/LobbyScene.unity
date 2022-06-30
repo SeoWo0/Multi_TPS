@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3302,10 +3302,30 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8190527087559879844, guid: 6fe69ba7aa7cbeb4482ab9b82ce27d67,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 594225307}
+    - target: {fileID: 8190527087559879844, guid: 6fe69ba7aa7cbeb4482ab9b82ce27d67,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: OnSoundValueChange
+      objectReference: {fileID: 0}
     - target: {fileID: 8190527087686235022, guid: 6fe69ba7aa7cbeb4482ab9b82ce27d67,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8190527087711313200, guid: 6fe69ba7aa7cbeb4482ab9b82ce27d67,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 594225307}
+    - target: {fileID: 8190527087711313200, guid: 6fe69ba7aa7cbeb4482ab9b82ce27d67,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: OnSoundValueChange
       objectReference: {fileID: 0}
     - target: {fileID: 8190527087746456047, guid: 6fe69ba7aa7cbeb4482ab9b82ce27d67,
         type: 3}

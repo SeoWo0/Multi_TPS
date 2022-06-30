@@ -24,7 +24,7 @@ public class PlayerGunAttackCommand : Command
         for (int i = 0; i < gun.shotPos.Length; ++i)
         {
             //Quaternion.LookRotation(_aimDir, Vector3.up)
-            var _projectile = Object.Instantiate(gun.bullet, gun.shotPos[i].position, gun.muzzlePos.rotation);
+            var _projectile = Object.Instantiate(gun.bullet, gun.shotPos[i].position, gun.shotPos[i].rotation);
             _projectile.SetShooterInfo(player.photonView.Owner.NickName, player.photonView.Owner.GetPlayerNumber(), gun.damage);
         }
     }

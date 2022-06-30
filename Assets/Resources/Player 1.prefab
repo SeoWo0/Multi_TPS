@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   riggingTarget: {fileID: 4255121574523738657}
-  shieldParticle: {fileID: 2441173400784405477, guid: 745424117b9f9304fad7e19cd39aff9b,
+  shieldParticle: {fileID: 198251483725685006, guid: a6fe79036cc3ae940a9d8482267c7da5,
     type: 3}
   deadParticle: {fileID: 198112793686261236, guid: 3845c058642164c4aa72204c65011e98,
     type: 3}
@@ -103,8 +103,6 @@ MonoBehaviour:
   - {fileID: 3798343573237854488}
   - {fileID: 7315191670446579028}
   weaponHolder: {fileID: 3775818408175249168}
-  isInvincible: 0
-  invincibleTime: 1
 --- !u!114 &6582516465984104689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -659,7 +657,7 @@ PrefabInstance:
     - target: {fileID: 6729463513039325079, guid: b80b33edd80a5104d8bb257f4fb2b2aa,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6729463514254922376, guid: b80b33edd80a5104d8bb257f4fb2b2aa,
         type: 3}

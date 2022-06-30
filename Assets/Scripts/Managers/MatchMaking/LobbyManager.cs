@@ -36,7 +36,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             // return 했는데 만약 룸이 시작해버렸을 경우 Connect Panel로 이동
             if (!PhotonNetwork.CurrentRoom.IsOpen)
             {
-                PhotonNetwork.LeaveRoom();
+                PhotonNetwork.LeaveRoom(false);
                 SetActivePanel(PANEL.Connect);
                 return;
             }

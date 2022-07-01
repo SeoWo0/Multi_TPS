@@ -52,6 +52,9 @@ namespace Managers
                 _obj.transform.localScale = Vector3.one;
                 _obj.ownerNumber = _player.GetPlayerNumber();
                 _obj.ownerName = _player.NickName;
+                
+                Hashtable _prop = new Hashtable() { { GameData.PLAYER_SCORE, 0 } };
+                _player.SetCustomProperties(_prop);
 
                 managedScoreList.Add(_obj);
             }
@@ -197,7 +200,7 @@ namespace Managers
 
                     break;
                 case 1:
-                    GameObject _playerModel2 =PhotonNetwork.Instantiate("Player 2", spawnPos[_playerNumber].position, spawnPos[_playerNumber].rotation, 0);
+                    GameObject _playerModel2 = PhotonNetwork.Instantiate("Player 2", spawnPos[_playerNumber].position, spawnPos[_playerNumber].rotation, 0);
                     player = _playerModel2.GetComponent<PlayerMove>();
                     break;
             }
@@ -317,12 +320,12 @@ namespace Managers
         private void OnScored(int playerNumber)
         {
             int _killerScore = 0;
-            //Debug.Log($"Attacker : {playerNumber}");
+            Debug.LogError($"Attacker : {playerNumber}");
             foreach (Score _score in managedScoreList)
             {
                 if (playerNumber == _score.ownerNumber)
                 {
-                    //Debug.Log($"ScoreOwner : {_score.ownerNumber}");
+                    Debug.LogError($"ScoreOwner : {_score.ownerNumber}");
                     _score.UpdateScore(50);
                     _killerScore = _score.score;
                     break;
@@ -333,6 +336,7 @@ namespace Managers
             {
                 if (playerNumber == _player.GetPlayerNumber())
                 {
+                    Debug.LogError($"{_player.NickName} : {_killerScore}");
                     // Score 동기화
                     Hashtable _prop = new Hashtable() { { GameData.PLAYER_SCORE, _killerScore } };
                     _player.SetCustomProperties(_prop);

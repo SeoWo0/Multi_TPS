@@ -64,7 +64,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 9999
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c9f0ab9a170fa4c3596972aa1db04a9a, type: 2}
   m_sharedMaterial: {fileID: 2081446301306759604, guid: c9f0ab9a170fa4c3596972aa1db04a9a,
@@ -427,6 +427,7 @@ MonoBehaviour:
   ownerIconColor: {r: 1, g: 0.5613208, b: 0.5613208, a: 1}
   score: 0
   ownerNumber: 0
+  ownerName: 
 --- !u!1 &1945702409920895350
 GameObject:
   m_ObjectHideFlags: 0

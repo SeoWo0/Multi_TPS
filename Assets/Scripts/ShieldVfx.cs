@@ -20,7 +20,7 @@ public class ShieldVfx : MonoBehaviour
         Destroy(gameObject, retentionTime);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         PlayerMove _player = transform.root.gameObject.GetComponent<PlayerMove>();
 

@@ -77,12 +77,19 @@ public class InRoomPanel : MonoBehaviour
     {
         PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.CurrentRoom.IsVisible = false;
-        
-        //PhotonNetwork.LoadLevel("HarborCity");
-        PhotonNetwork.LoadLevel(roomSettingPanel.mapSelectText.text);
-        
+
         Hashtable _prop = new Hashtable() { { GameData.PLAYER_START, true } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
+
+        // 게임 시작 시 모든 플레이어의 ready custom property를 false로 돌려주기
+        // -> 게임이 끝나고 룸으로 돌아왔을 때 모두가 다 room에 복귀해서 다시 ready를 눌러주기 위함
+        _prop = new Hashtable() {{GameData.PLAYER_READY, false}};
+        foreach (Player _player in PhotonNetwork.PlayerList)
+        {
+            _player.SetCustomProperties(_prop);
+        }
+        
+        PhotonNetwork.LoadLevel(roomSettingPanel.mapSelectText.text);
     }
 
     private bool CheckPlayersReady()

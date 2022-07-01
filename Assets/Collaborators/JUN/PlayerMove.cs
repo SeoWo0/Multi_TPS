@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Managers;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -238,13 +239,16 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         }   
     }
     
-    public void TakeDamage(int damage, string attackerName, int attackerNumber)
+    public void TakeDamage(int damage, string attackerName, PhotonView attacker)
     {
-        if (m_isDead) return;
+        if (!attacker.IsMine) return;
+        
+        // 이미 hp가 0이하가 되어있을 경우 반환
+        if (m_Hp <= 0) return;
         if (m_isOnShield) return;
 
         m_Hp -= damage;
-        print("Hit!!");
+        Debug.LogError($"Damaged Hp : {m_Hp}");
 
         if (m_Hp <= 0)
         {
@@ -252,19 +256,20 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
             if (photonView.IsMine)
             {
+                //Debug.LogError($"{PhotonNetwork.LocalPlayer.NickName} : {m_Hp}");
                 Chat.instance.KillLog($"/c log {attackerName} => {PhotonNetwork.LocalPlayer.NickName}");
             }
             else
             {
+                //Debug.LogError($"{photonView.Owner.NickName} : {m_Hp}");
                 Chat.instance.KillLog($"/c log {attackerName} => {photonView.Owner.NickName}");
             }
 
             aimImage.gameObject.SetActive(false);
             zoomImage.gameObject.SetActive(false);
             shieldImage.gameObject.SetActive(false);
-            print("I'm Died");
 
-            photonView.RPC(nameof(Die), RpcTarget.All, attackerNumber);
+            photonView.RPC(nameof(Die), RpcTarget.All, attacker.Owner.GetPlayerNumber());
             photonView.RPC(nameof(DeadActivate), RpcTarget.All);
         }
     }
@@ -278,6 +283,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     [PunRPC]
     public void Die(int killerNumber)
     {
+        if (m_isDead) return;
+        
         m_ragdollChanger.ChangeRagdoll();
         
         m_isDead = true;
@@ -346,7 +353,7 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
 
         if (other.CompareTag("DeadZone"))
         {
-            TakeDamage(100, "DEADZONE", -1);
+            TakeDamage(100, "DEADZONE", photonView);
             print("바닥충돌!");
         }
     }

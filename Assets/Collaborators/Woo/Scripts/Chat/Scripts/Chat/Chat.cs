@@ -35,7 +35,7 @@ public class Chat : MonoBehaviour, IChatClientListener
     public InputField inputField;
     public Text outputText;
     public GameObject showText;
-
+    
     private bool m_buttonDown;
 
     private void OnEnable()
@@ -235,6 +235,13 @@ public class Chat : MonoBehaviour, IChatClientListener
         {
             Text _text = chatQueue.Dequeue();
             Destroy(_text.gameObject);
+        }
+
+        if (chatClient == null) return;
+        // Unsubscribe가 완료되지 않았을 경우 구독 해제해줌
+        if (chatClient.TryGetChannel(currentChannelName, out var _channel))
+        {
+            chatClient.Unsubscribe(new string[] {_channel.Name});
         }
     }
 

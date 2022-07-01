@@ -42,9 +42,6 @@ public class Score : MonoBehaviour
         
         //StartCoroutine(UpdateScore(0));
         UpdateScore(0);
-
-        Hashtable _prop = new Hashtable() { { GameData.PLAYER_SCORE, score } };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(_prop);
     }
 
     public void UpdateScore(int earnedScore)
@@ -58,6 +55,11 @@ public class Score : MonoBehaviour
 
     public void SetScore(int score)
     {
+        // 점수 패널은 각각의 client마다 플레이어 수 및 PlayerNumber에 맞게 생성해주기 때문에
+        // (ex. ClientCount == 4 -> MasterClient : 4 score panel, Client 1 : 4 score panel, ...)
+        // OnPlayerPropertiesUpdate에서 property가 update된 플레이어의
+        // 해당 score 또한 Update 시켜주어야 UpdateScore가 제대로 동작함
+        this.score = score;
         scoreText.text = score.ToString();
     }
     

@@ -685,11 +685,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 190212659544855481}
     m_Modifications:
-    - target: {fileID: 1799237099896036029, guid: 48df848726e113e4b8c63e14f57b11d3,
-        type: 3}
-      propertyPath: m_ConnectedAnchor.y
-      value: 0.4014927
-      objectReference: {fileID: 0}
     - target: {fileID: 5131495029730920724, guid: 48df848726e113e4b8c63e14f57b11d3,
         type: 3}
       propertyPath: m_RootOrder
@@ -749,46 +744,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UnityChanPlayer
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
-        type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[0].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
-        type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[1].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
-        type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[2].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
-        type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[3].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
-        type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[4].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
-        type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[5].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
-        type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[6].SynchronizeType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718545382661021444, guid: 48df848726e113e4b8c63e14f57b11d3,
-        type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[7].SynchronizeType
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48df848726e113e4b8c63e14f57b11d3, type: 3}

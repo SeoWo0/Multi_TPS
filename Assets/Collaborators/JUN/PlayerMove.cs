@@ -247,9 +247,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         if (m_Hp <= 0) return;
         if (m_isOnShield) return;
 
-        m_Hp -= damage;
-        Debug.LogError($"Damaged Hp : {m_Hp}");
-
+        photonView.RPC(nameof(ReduceHp), RpcTarget.All, damage);
+        
         if (m_Hp <= 0)
         {
             if (m_isDead) return;
@@ -265,13 +264,15 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
                 Chat.instance.KillLog($"/c log {attackerName} => {photonView.Owner.NickName}");
             }
 
-            aimImage.gameObject.SetActive(false);
-            zoomImage.gameObject.SetActive(false);
-            shieldImage.gameObject.SetActive(false);
-
-            photonView.RPC(nameof(Die), RpcTarget.All, attacker.Owner.GetPlayerNumber());
+            photonView.RPC(nameof(Die), RpcTarget.All, attackerName, attacker.Owner.GetPlayerNumber());
             photonView.RPC(nameof(DeadActivate), RpcTarget.All);
         }
+    }
+
+    [PunRPC]
+    public void ReduceHp(int damage)
+    {
+        m_Hp -= damage;
     }
 
     [PunRPC]
@@ -281,9 +282,13 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
     }
 
     [PunRPC]
-    public void Die(int killerNumber)
+    public void Die(string killerName, int killerNumber)
     {
         if (m_isDead) return;
+        
+        aimImage.gameObject.SetActive(false);
+        zoomImage.gameObject.SetActive(false);
+        shieldImage.gameObject.SetActive(false);
         
         m_ragdollChanger.ChangeRagdoll();
         
@@ -291,6 +296,8 @@ public class PlayerMove : MonoBehaviourPun ,IDamagable, IPunObservable
         enabled = false;
 
         onDeadEvent?.Invoke();
+
+        if (killerName == "DEADZONE") return;
         onScoreEvent?.Invoke(killerNumber);
     }
 

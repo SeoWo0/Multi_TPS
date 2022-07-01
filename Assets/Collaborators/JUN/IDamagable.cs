@@ -8,5 +8,5 @@ public interface IDamagable
     //총을 맞았을때
     void TakeDamage(int damage, string attackerName, PhotonView attackerPv);
 
-    void Die(int killerNumber);
+    void Die(string killerName, int killerNumber);
 }

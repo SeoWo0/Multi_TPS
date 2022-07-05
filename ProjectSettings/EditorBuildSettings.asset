@@ -11,4 +11,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LobbyScene.unity
     guid: 983676a9c52f5f34984df382270079a0
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/Scenes/Crossline.unity
+    guid: 52aa743e8bac7d140b9225e9cfcfca83
+  - enabled: 1
+    path: Assets/Scenes/HarborCity.unity
+    guid: e21e59967b1933d43a5e84a46ab9afe8
+  - enabled: 1
+    path: Assets/Scenes/School.unity
+    guid: c206d02e77fbc3148a269062ea0e8069
+  - enabled: 0
+    path: Assets/Collaborators/Seo/Test.unity
+    guid: 85020007584cff8439153a67579f32f3
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 9eb07e2d669e9c94e9d7d3c782a916f7,
+      type: 2}

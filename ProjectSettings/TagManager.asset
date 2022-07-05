@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - CameraDirection
+  - Item
+  - AudioRoot
+  - DeadZone
+  - Bullet
+  - Shield
   layers:
   - Default
   - TransparentFX
@@ -13,12 +19,12 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Ground
+  - Gun
+  - Bullet
+  - Player
+  - Wall
+  - Friction
   - 
   - 
   - 

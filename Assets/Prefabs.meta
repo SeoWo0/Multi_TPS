@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Prefabs.meta
-guid: d4c42ba6056c74d4bb861b189e6eb6c1
+<<<<<<<< HEAD:Assets/Collaborators/Woo/Animations/Chat.meta
+guid: 7f04ad0b839056a4d9dbfa3b5d2ed249
 ========
-guid: feac64df1877a8847af412da6d663c37
->>>>>>>> origin/JUN:Assets/JUN.meta
+guid: 8206f05d75619c740a2fc6a903de9173
+>>>>>>>> origin/Player:Assets/Prefabs.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

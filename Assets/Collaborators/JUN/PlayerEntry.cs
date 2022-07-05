@@ -18,7 +18,7 @@ public class PlayerEntry : MonoBehaviour
     public GameObject player2;
 
     //플레이어 번호
-    int playerIndex = 0;
+    int playerIndex = 1;
 
     private int ownerId;
     private bool isPlayerReady;
@@ -44,8 +44,6 @@ public class PlayerEntry : MonoBehaviour
         //캐릭터 프로퍼티
         props = new Hashtable() { { GameData.PLAYER_CHAR, playerIndex } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-
-        Debug.Log(playerIndex);
 
         if (PhotonNetwork.IsMasterClient)
         {

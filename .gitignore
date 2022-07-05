@@ -94,5 +94,7 @@ crashlytics-build.properties
 Assets/Pyo/UI/Sprite/Icons/
 Assets/Plugins/
 
+Assets/@Sources/
+
 Assets/Collaborators/JUN/@Resources/
 Assets/Collaborators/Woo/@Resources/

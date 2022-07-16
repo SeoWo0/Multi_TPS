@@ -117,14 +117,12 @@ namespace Managers
             {
                 PlayerResultPanel _result =
                     managedResultList.Find(result => result.ownerNumber == targetPlayer.GetPlayerNumber());
-
-                print(targetPlayer.NickName);
+                
                 if (_result)
                 {
                     targetPlayer.CustomProperties.TryGetValue(GameData.PLAYER_SCORE, out _scoreProp);
                     if (_scoreProp != null)
                     {
-                        print((int) _scoreProp);
                         _result.ShowGameResult(targetPlayer.NickName, (int) _scoreProp);
                     }
                 }
@@ -301,9 +299,9 @@ namespace Managers
 
         public void OnEvent(EventData photonEvent)
         {
-            byte eventCode = photonEvent.Code;
+            byte _eventCode = photonEvent.Code;
 
-            if (eventCode == Timer.ON_TIMER_DONE_EVENT)
+            if (_eventCode == Timer.ON_TIMER_DONE_EVENT)
             {
                 CompleteGameRound();
             }

@@ -41,13 +41,9 @@ public class PlayerResultPanel : MonoBehaviour
         // 플레이어 이름 설정
         playerName = nickName;
 
-        // TODO : 로컬 플레이어의 캐릭터 오브젝트 받아야함
-        // playerCharacter = 
-
         // 플레이어 점수 설정
         playerScore = score;
-        Debug.Log(playerScore);
-        
+
         SetWinner();
         SetGameResult();
     }

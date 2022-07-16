@@ -172,7 +172,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.09821831, y: 0.4014927, z: -0.00000014901161}
+  m_ConnectedAnchor: {x: -0.09821831, y: 0.3514927, z: -0.00000014901161}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -431,7 +431,7 @@ Transform:
   - {fileID: 8431274872721185757}
   - {fileID: 634197351632776280}
   m_Father: {fileID: 5131495029730920724}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5815104587510869067
 MonoBehaviour:
@@ -2795,7 +2795,6 @@ Transform:
   - {fileID: 3134644003851042206}
   - {fileID: 5964982525262880301}
   - {fileID: 1096957557078687930}
-  - {fileID: 9091147008496154301}
   - {fileID: 2494423924179833260}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -2947,6 +2946,7 @@ Transform:
   - {fileID: 5846266191338478390}
   - {fileID: 679278109753647454}
   - {fileID: 4089981875496333493}
+  - {fileID: 9091147008496154301}
   m_Father: {fileID: 3339765913154378300}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4607,15 +4607,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8056877371014119261}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.082, y: 0.55, z: 0.179}
+  m_LocalRotation: {x: 0, y: 0, z: -0.9396926, w: 0.34202018}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6572715231321172787}
   - {fileID: 1778840874097216020}
-  m_Father: {fileID: 5131495029730920724}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Father: {fileID: 2339025232322707277}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -140}
 --- !u!1 &8082097294778323488
 GameObject:
   m_ObjectHideFlags: 0
